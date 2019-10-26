@@ -83,7 +83,7 @@ class CacheFactory
             $factories = [];
     
             foreach ($platforms as $key => $value) {
-                $value = str_replace($dir . '/', '', $value);
+                $value = str_replace($dir . DIRECTORY_SEPARATOR, '', $value);
                 $value = str_replace('.php', '', $value);
                 $className = __NAMESPACE__ . '\Components\\' . $value;
                 
