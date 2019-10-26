@@ -96,7 +96,7 @@ class Migrate
     /**
      * Execute the command.
      *
-     * @return void
+     * @return array
      */
     public function fire($limit = 20)
     {
