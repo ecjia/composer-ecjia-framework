@@ -52,7 +52,7 @@ use InvalidArgumentException;
 abstract class ComponentFactory
 {
     
-    protected static $factories;
+    protected $factories;
 
     /**
      * @var string 组件所在的命名空间
@@ -68,7 +68,7 @@ abstract class ComponentFactory
     {
         $this->component_namespace = $component_namespace;
 
-        self::$factories = $this->getFactories();
+        $this->factories = $this->getFactories();
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class ComponentFactory
     {
         $events = [];
     
-        foreach (self::$factories as $key => $value) {
+        foreach ($this->factories as $key => $value) {
             $inst = new $value;
             $events[$key] = $inst;
         }
@@ -131,11 +131,11 @@ abstract class ComponentFactory
     
     public function component($code)
     {
-        if (!array_key_exists($code, self::$factories)) {
+        if (!array_key_exists($code, $this->factories)) {
             throw new InvalidArgumentException("Component '$code' is not supported.");
         }
     
-        $className = self::$factories[$code];
+        $className = $this->factories[$code];
 
         return new $className();
     }
