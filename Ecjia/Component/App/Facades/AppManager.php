@@ -342,6 +342,9 @@ class AppManager extends Facade {
 //
 //            $handle = new $install_class();
 
+            //temp register
+            RC_App::registerApplication($app_dir);
+
             $bundle = RC_App::driver($app_dir);
             $handle = $bundle->getInstaller();
             if (is_ecjia_error($handle)) {
@@ -392,6 +395,8 @@ class AppManager extends Facade {
                 RC_Hook::do_action( 'activated_application', $app_id );
             }
 
+            RC_App::makeAppPackages();
+            
             if ( ob_get_length() > 0 ) {
                 $output = ob_get_clean();
                 return new ecjia_error('unexpected_output', __('The plugin generated unexpected output.'), $output);
@@ -487,6 +492,8 @@ class AppManager extends Facade {
         }
 
         ecjia_config::instance()->set_addon_config('active_applications', $current, true);
+
+        RC_App::makeAppPackages();
     }
 
 
