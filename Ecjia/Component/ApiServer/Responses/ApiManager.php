@@ -102,7 +102,7 @@ class ApiManager
             if (is_ecjia_error($handle)) {
                 $data = $handle;
             } else {
-                $data = $handle->handleRequest($request);
+                $data = $handle->handleRequest($this->request);
             }
 
             return new ApiResponse($data);
