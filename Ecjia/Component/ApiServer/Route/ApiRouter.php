@@ -95,8 +95,10 @@ class ApiRouter
 
     public function parseKey()
     {
-
         $this->apiParse = new ApiParseRoute($this->key, self::$apiRoutes[$this->key]);
+        $this->apiParse->addPaserHandler('Ecjia\Component\ApiServer\Route\ApiNamespaceParser');
+        $this->apiParse->addPaserHandler('Ecjia\Component\ApiServer\Route\ApiControllerParser');
+        $this->apiParse->addPaserHandler('Ecjia\Component\ApiServer\Route\ApiModuleParser');
 
         return $this;
     }
@@ -111,13 +113,18 @@ class ApiRouter
         return $this->apiParse->getFullClassName();
     }
 
-    public function getClassName()
+    /**
+     * 获取完整的文件名
+     * @return string
+     */
+    public function getFullFileName()
     {
-        return $this->apiParse->getClassName();
+        return $this->apiParse->getFullFileName();
     }
 
-    public function getClassPath()
+    public function getApihandler()
     {
-        return $this->apiParse->getClassPath();
+        return $this->apiParse->getApihandler();
     }
+
 }
