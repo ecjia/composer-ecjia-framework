@@ -71,7 +71,6 @@ class ApiManager
         $this->request = $request;
     }
 
-
     public function handler()
     {
         $url = $this->request->query('url');
@@ -87,29 +86,14 @@ class ApiManager
 
         $router->parseKey();
 
-        if ($router->getApp() == 'system') {
-            $handle = $this->handlerSystemHttpApi($router);
-        } else {
-            $handle = $this->handlerAppHttpApi($router);
-        }
+        $handle = $router->getApihandler();
 
         if (empty($handle)) {
             return new ecjia_error('api_not_handle', 'Api Error: ' . $url . ' does not exist.');
         }
 
-        if (is_a($handle, $router->getFullClassName())) {
-
-        }
-        elseif (is_a($handle, $router->getClassName())) {
-
-        }
-        else {
-            return new ecjia_error('api_not_instanceof', 'Api Error: ' . $router->getFullClassName() . ' does not exist.');
-        }
-
         return $handle;
     }
-
 
     public function handleRequest()
     {
@@ -118,7 +102,6 @@ class ApiManager
             if (is_ecjia_error($handle)) {
                 $data = $handle;
             } else {
-                $request = $this->compatibleHttpKernelRequest($this->request);
                 $data = $handle->handleRequest($request);
             }
 
@@ -127,50 +110,6 @@ class ApiManager
         catch (\Exception $e) {
             return new ApiResponse(new ecjia_error('ecjia_api_handle_request_error', $e->getMessage(), $e));
         }
-    }
-
-    /**
-     * @param ApiRouter $router
-     */
-    protected function handlerSystemHttpApi(ApiRouter $router)
-    {
-        $handle = RC_Loader::load_module($router->getClassPath().'.'.$router->getClassName(), false);
-
-        $fullClassName = $router->getFullClassName();
-        if (class_exists($fullClassName)) {
-            return new $fullClassName;
-        }
-
-        $className = $router->getClassName();
-        return new $className;
-    }
-
-    /**
-     * @param ApiRouter $router
-     * @param $app
-     */
-    protected function handlerAppHttpApi(ApiRouter $router)
-    {
-        RC_Loader::load_app_module($router->getClassPath().'.'.$router->getClassName(), $router->getApp(), false);
-
-        $fullClassName = $router->getFullClassName();
-        if (class_exists($fullClassName)) {
-            return new $fullClassName;
-        }
-
-        $className = $router->getClassName();
-        return new $className;
-    }
-
-    /**
-     * 原Http组件转换为HttpKernel组件
-     * @param $request
-     */
-    protected function compatibleHttpKernelRequest()
-    {
-        //原Http组件转换为HttpKernel组件
-        $request = \Royalcms\Component\HttpKernel\Request::createMyFromBase($this->request);
-        return $request;
     }
 
 }
