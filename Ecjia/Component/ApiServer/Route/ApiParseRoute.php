@@ -4,6 +4,8 @@
 namespace Ecjia\Component\ApiServer\Route;
 
 
+use Ecjia\Component\ApiServer\Contracts\ApiParserInterface;
+
 class ApiParseRoute
 {
     /**
@@ -14,25 +16,13 @@ class ApiParseRoute
     /**
      * @var string
      */
-    protected $handler;
+    protected $router;
 
     /**
-     * API具体类
-     * @var string
+     * API解析类
+     * @var ApiParserInterface
      */
-    protected $className;
-
-    /**
-     * API类所在的路径
-     * @var string
-     */
-    protected $classPath;
-
-    /**
-     * API类所在的位置文件名
-     * @var string
-     */
-    protected $fileName;
+    protected $parser;
 
     /**
      * API所在的APP
@@ -40,42 +30,73 @@ class ApiParseRoute
      */
     protected $appModule;
 
+    protected $apiPath;
+
+    /**
+     * 解析Handler
+     * @var array
+     */
+    protected $paserHandlers = [];
+
     /**
      * ApiParse constructor.
      * @param $api
-     * @param $handler
+     * @param $router
      */
-    public function __construct($api, $handler)
+    public function __construct($api, $router)
     {
         $this->api = $api;
-        $this->handler = $handler;
+        $this->router = $router;
 
-        $this->parseKey();
+        $this->parseRouter();
     }
 
-
-    protected function parseKey()
+    /**
+     * @param string $paserHandler
+     */
+    public function addPaserHandler($paserHandler)
     {
-        $handler = explode('::', $this->handler);
+        $this->paserHandlers[] = $paserHandler;
+    }
+
+    /**
+     * 路由解析
+     */
+    protected function parseRouter()
+    {
+        $handler = explode('::', $this->router);
 
         $this->appModule = $handler[0];
 
-        $path = dirname($handler[1]);
-        $name = basename($handler[1]);
-
-        if ($path == '.') {
-            $controller = null;
-        } else {
-            $controller = $path;
-        }
-
-        $this->classPath = $controller;
-
-        $this->className = $name . '_module';
-
-        $this->fileName = $name;
+        $this->apiPath = $handler[1];
     }
 
+    /**
+     * @return ecjia_error|mixed
+     */
+    public function getApihandler()
+    {
+        $handler = null;
+
+        collect($this->paserHandlers)->each(function ($paserClass) use (& $handler) {
+            if (class_exists($paserClass)) {
+                $parser = new $paserClass($this->appModule, $this->apiPath);
+
+                $handler = $parser->getApihandler();
+
+                if (! is_ecjia_error($handler)) {
+                    $this->parser = $parser;
+                    return false;
+                }
+            }
+        });
+
+        return $handler;
+    }
+
+    /**
+     * @return string
+     */
     public function getApi()
     {
         return $this->api;
@@ -90,31 +111,12 @@ class ApiParseRoute
         return $this->appModule;
     }
 
-    public function getFullClassName()
+    /**
+     * @return ApiParserInterface
+     */
+    public function getParser()
     {
-        $class = $this->classPath . '/' . $this->className;
-        $className = str_replace('/', '_', $class);
-        return $className;
-    }
-
-    public function getClassName()
-    {
-        return $this->className;
-    }
-
-    public function getClassPath()
-    {
-        return $this->classPath;
-    }
-
-    public function getFileName()
-    {
-        return $this->fileName;
-    }
-
-    public function getFullFileName()
-    {
-        return $this->fileName . '.class.php';
+        return $this->parser;
     }
 
 }
