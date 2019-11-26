@@ -53,12 +53,7 @@ namespace Ecjia\Component\ApiServer\Contracts;
  */
 interface ApiHandler
 {
-    /**
-     * API接口响应方法
-     * @param \Royalcms\Component\Http\Request $request
-     */
-    public function handleRequest($request);
-    
+
 }
 
 // end
