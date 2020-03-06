@@ -51,12 +51,14 @@ namespace Ecjia\Component\Framework;
 use ArrayObject;
 use ecjia_admin;
 use ecjia_config;
+use Illuminate\Support\Traits\Macroable;
 use RC_Hook;
 use RC_Plugin;
 use Royalcms\Component\Container\Container;
 
 class Ecjia extends Container
 {
+    use Macroable;
 
     const VERSION = '1.53';
 
@@ -129,25 +131,25 @@ class Ecjia extends Container
     const DM_DISPLAY_SQL = 0x10000;
 
 
-    /**
-     * 调用站点配置文件
-     * @param string $name
-     * @return ArrayObject|string
-     */
-    public static function config($name = null, $what = self::CONFIG_READ)
-    {
-        if (is_null($name)) {
-            return ecjia_config::instance()->load_config();
-        }
-
-        if ($what === \ecjia::CONFIG_READ) {
-            return ecjia_config::instance()->read_config($name);
-        } elseif ($what === ecjia::CONFIG_CHECK) {
-            return ecjia_config::instance()->check_config($name);
-        } elseif ($what === ecjia::CONFIG_EXISTS) {
-            return ecjia_config::instance()->check_exists($name);
-        }
-    }
+//    /**
+//     * 调用站点配置文件
+//     * @param string $name
+//     * @return ArrayObject|string
+//     */
+//    public static function config($name = null, $what = self::CONFIG_READ)
+//    {
+//        if (is_null($name)) {
+//            return ecjia_config::instance()->load_config();
+//        }
+//
+//        if ($what === \ecjia::CONFIG_READ) {
+//            return ecjia_config::instance()->read_config($name);
+//        } elseif ($what === ecjia::CONFIG_CHECK) {
+//            return ecjia_config::instance()->check_config($name);
+//        } elseif ($what === ecjia::CONFIG_EXISTS) {
+//            return ecjia_config::instance()->check_exists($name);
+//        }
+//    }
 
     public static function current_platform()
     {
