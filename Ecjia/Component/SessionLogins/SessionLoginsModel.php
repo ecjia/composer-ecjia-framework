@@ -55,7 +55,14 @@ class SessionLoginsModel extends Model
 	protected $table = 'session_logins';
 	
 	protected $primaryKey = 'id';
-	
+
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'varchar';
+
 	/**
 	 * 可以被批量赋值的属性。
 	 *
