@@ -1,4 +1,5 @@
-## ECJIA-MENU
+ecjia-menu With Ecjia Component
+==============
 
 ecjia-menu组件是用来生产菜单的管理对象，用于全站菜单对象的生成，支持可配置参数，对象化管理，方便数据调用。
 
