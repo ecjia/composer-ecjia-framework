@@ -16,6 +16,23 @@ class AbstractMenuGroup
     protected $service_name;
 
     /**
+     * @var array
+     */
+    protected $apps;
+
+    /**
+     * @var array 
+     */
+    protected $menus;
+
+    public function __construct(array $apps)
+    {
+        $this->apps = $apps;
+
+        $this->menus = $this->loadAppMenus($this->apps);
+    }
+
+    /**
      * @return mixed
      */
     public function getGroup()
@@ -67,6 +84,15 @@ class AbstractMenuGroup
     {
         $this->service_name = $service_name;
         return $this;
+    }
+
+    /**
+     * 获取菜单数据
+     * @return array
+     */
+    public function getMenus()
+    {
+        return $this->menus;
     }
 
     /**

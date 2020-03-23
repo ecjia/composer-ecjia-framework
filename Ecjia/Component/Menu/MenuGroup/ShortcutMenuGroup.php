@@ -17,8 +17,10 @@ class ShortcutMenuGroup extends AbstractMenuGroup
 
     protected $service_name = 'shortcut_menu';
 
-    public function __construct()
+    public function __construct(array $apps)
     {
+        parent::__construct($apps);
+        
         $this->label = __('快捷导航');
     }
 

@@ -17,8 +17,10 @@ class SettingMenuGroup extends AbstractMenuGroup
 
     protected $service_name = 'setting_menu';
 
-    public function __construct()
+    public function __construct(array $apps)
     {
+        parent::__construct($apps);
+        
         $this->label = __('设置');
     }
 

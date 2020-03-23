@@ -17,8 +17,10 @@ class ToolsMenuGroup extends AbstractMenuGroup
 
     protected $service_name = 'tool_menu';
 
-    public function __construct()
+    public function __construct(array $apps)
     {
+        parent::__construct($apps);
+        
         $this->label = __('工具');
     }
 
