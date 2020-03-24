@@ -4,6 +4,10 @@ ECJia System Component Framework是ECJia产品的基石，对常用功能的封�
 
 
 
+[类别名定义](docs/Alias.md)
+
+
+
 ## [ecjia-menu](Ecjia/Component/Menu/README.md) 
 
 后台各种菜单的创建与管理。
