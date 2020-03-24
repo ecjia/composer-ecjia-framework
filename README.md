@@ -8,6 +8,8 @@ ECJia System Component Framework是ECJia产品的基石，对常用功能的封�
 
 后台各种菜单的创建与管理。
 
+`Ecjia\Component\Menu`
+
 
 
 ## ecjia-admin-log
