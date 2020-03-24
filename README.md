@@ -1,4 +1,6 @@
-# composer-ecjia-framework
+# ecjia-framework
+
+ECJia System Component Framework是ECJia产品的基石，对常用功能的封装，做到处处复用。
 
 
 
