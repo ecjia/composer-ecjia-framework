@@ -84,13 +84,30 @@ class SystemAppCache extends CacheComponentAbstract
      */
     public function handle()
     {
+        $cache = \RC_Cache::app();
+
+        $config = $cache->getConfig();
+
+        if ($config['driver'] == 'file') {
+            $this->fileCacheHandle($config);
+        }
+        elseif ($config['driver'] == 'redis') {
+            $this->redisCacheHandle($config);
+        }
+
+    }
+
+    /**
+     * 文件缓存处理
+     * @return bool|\ecjia_error
+     */
+    protected function fileCacheHandle($config)
+    {
         $files = royalcms('files');
 
         try {
-            if ($files->isDirectory(SITE_CACHE_PATH . 'cache'))
-            {
-                $files->deleteDirectory(SITE_CACHE_PATH . 'cache');
-
+            if ($files->isDirectory($config['path'])) {
+                $files->deleteDirectory($config['path']);
                 return true;
             }
         }
@@ -98,6 +115,16 @@ class SystemAppCache extends CacheComponentAbstract
             ecjia_log_notice($e->getMessage());
             return new \ecjia_error($e->getCode(), $e->getMessage(), $e);
         }
+    }
+
+    /**
+     * Redis缓存处理
+     */
+    protected function redisCacheHandle($config)
+    {
+        $redis = royalcms('redis')->connection($config['connection']);
+        //flushdb 清空当前库
+        $redis->flushdb();
     }
 
 }
