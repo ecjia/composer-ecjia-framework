@@ -48,7 +48,15 @@ namespace Ecjia\Component\Password\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
-class Password extends Facade {
+/**
+ * Class Password
+ *
+ * @method static \Ecjia\Component\Password\PasswordInterface autoCompatibleDriver($password)
+ * @method static \Ecjia\Component\Password\PasswordInterface driver($name = null)
+ * @method static bool isHashPassword($password)
+ */
+class Password extends Facade
+{
 
     protected static function getFacadeAccessor()
     {

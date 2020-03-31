@@ -7,19 +7,46 @@ namespace Ecjia\Component\Password;
 class PasswordManager
 {
 
-    protected $driver = 'md5'; // hash
+    protected $driver = []; // hash
 
     public function driver($name = null)
     {
-        if (empty($name)) {
-            $name = $this->getDefaultDriver();
-        }
+        $name = $name ?: $this->getDefaultDriver();
 
-        if ($name == 'md5') {
-            return $this->getMd5Password();
-        }
-        elseif ($name == 'hash') {
-            return $this->getHashPassword();
+        return $this->driver[$name] = $this->get($name);
+    }
+
+    /**
+     * Attempt to get the store from the local cache.
+     *
+     * @param  string  $name
+     * @return \Illuminate\Contracts\Cache\Repository
+     */
+    protected function get($name)
+    {
+        return $this->driver[$name] ?? $this->resolve($name);
+    }
+
+    /**
+     * Resolve the given store.
+     *
+     * @param  string  $name
+     * @return \Illuminate\Contracts\Cache\Repository
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function resolve($name)
+    {
+        if (isset($this->customCreators[$name])) {
+            return $this->callCustomCreator();
+        } else {
+            $driverMethod = 'create'.ucfirst($name).'PasswordDriver';
+
+            if (method_exists($this, $driverMethod)) {
+                return $this->{$driverMethod}();
+            } else {
+                throw new InvalidArgumentException("Driver [{$name}] is not supported.");
+            }
         }
     }
 
@@ -27,7 +54,7 @@ class PasswordManager
      * 获取MD5的密码管理器
      * @return PasswordMd5
      */
-    public function getMd5Password()
+    public function createMd5PasswordDriver()
     {
         return new PasswordMd5();
     }
@@ -36,7 +63,7 @@ class PasswordManager
      * 获取Hash格式的密码管理器
      * @return PasswordHash
      */
-    public function getHashPassword()
+    public function createHashPasswordDriver()
     {
         return new PasswordHash();
     }
@@ -63,6 +90,16 @@ class PasswordManager
         }
 
         return $this->driver('hash');
+    }
+
+    /**
+     * 判断这个密码器是不是Hash密码
+     * @param $password
+     * @return bool
+     */
+    public function isHashPassword($password)
+    {
+        return $password instanceof PasswordHash;
     }
 
     /**
