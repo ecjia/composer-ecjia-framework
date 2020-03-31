@@ -55,9 +55,9 @@ class PasswordHash implements PasswordInterface, ResetPasswordInterface
      */
     public function verifyResetPasswordHash($hash, $user_id, $password, $hash_code = null)
     {
-        $generate_hash = $this->generateResetPasswordHash($user_id, $password, $hash_code);
+        $password = $user_id . $password;
 
-        return $hash === $generate_hash;
+        return Hash::check($password, $hash);
     }
 
 }
