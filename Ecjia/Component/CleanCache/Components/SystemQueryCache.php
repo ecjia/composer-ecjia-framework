@@ -55,6 +55,7 @@ namespace Ecjia\Component\CleanCache\Components;
 
 
 use Ecjia\Component\CleanCache\CacheComponentAbstract;
+use Ecjia\Component\CleanCache\RedisManager;
 
 class SystemQueryCache extends CacheComponentAbstract
 {
@@ -118,9 +119,7 @@ class SystemQueryCache extends CacheComponentAbstract
      */
     protected function redisCacheHandle($config)
     {
-        $redis = royalcms('redis')->connection($config['connection']);
-        //flushdb 清空当前库
-        $redis->flushdb();
+        (new RedisManager())->connection($config['connection'])->flushdb();
     }
 
 }
