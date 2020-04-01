@@ -22,10 +22,10 @@ class PasswordHash implements PasswordInterface, ResetPasswordInterface
     /**
      * 验证加盐密码
      * @param $password
+     * @param null $password
      * @param null $salt
-     * @param null $hash_code
      */
-    public function verifySaltPassword($password, $salt = null, $hash_code = null)
+    public function verifySaltPassword($hash, $password, $salt = null)
     {
         return Hash::check($password, $hash);
     }
