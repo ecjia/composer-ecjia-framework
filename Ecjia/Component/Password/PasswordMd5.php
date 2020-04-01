@@ -15,7 +15,7 @@ class PasswordMd5 implements PasswordInterface, ResetPasswordInterface
      */
     public function createSaltPassword($password, $salt = null)
     {
-        if (is_null($salt)) {
+        if (empty($salt)) {
             return md5($password);
         }
 
@@ -25,13 +25,14 @@ class PasswordMd5 implements PasswordInterface, ResetPasswordInterface
     /**
      * 验证加盐密码
      * @param $password
+     * @param null $password
      * @param null $salt
      */
-    public function verifySaltPassword($password, $salt = null, $hash_code = null)
+    public function verifySaltPassword($hash, $password, $salt = null)
     {
         $password = $this->createSaltPassword($password, $salt);
 
-        return ($password === $hash_code);
+        return ($password === $hash);
     }
 
     /**
