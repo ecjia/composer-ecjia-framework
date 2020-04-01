@@ -306,27 +306,4 @@ class ThemeFramework
         return $instance;
     }
 
-    public function createShortcodeManagerInstance($options = array())
-    {
-        if (empty($options)) {
-            $options = config('app-theme::shortcode');
-        }
-
-        $instance = ShortcodeManager::instance($options);
-        $instance->setFramework($this);
-        return $instance;
-    }
-
-    public function createTaxonomyInstance($options = array())
-    {
-
-        if (empty($options)) {
-            $options = config('app-theme::taxonomy');
-        }
-
-        $instance = Taxonomy::instance($options);
-        $instance->setFramework($this);
-        return $instance;
-    }
-
 }
