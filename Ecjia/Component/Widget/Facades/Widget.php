@@ -66,19 +66,14 @@ class Widget
      *
      * @since 1.0.0
      */
-    public static function widgets_init() {
-
-        RC_Loader::load_sys_class('widgets.widget_nav_menu', false);
-        RC_Loader::load_sys_class('widgets.widget_cat_articles', false);
-        RC_Loader::load_sys_class('widgets.widget_cat_goods', false);
-        RC_Loader::load_sys_class('widgets.widget_brand_goods', false);
-        RC_Loader::load_sys_class('widgets.widget_ad_position', false);
+    public static function widgets_init()
+    {
         
-        RC_Widget::registerWidget('widget_nav_menu');
-        RC_Widget::registerWidget('widget_cat_articles');
-        RC_Widget::registerWidget('widget_cat_goods');
-        RC_Widget::registerWidget('widget_brand_goods');
-        RC_Widget::registerWidget('widget_ad_position');
+        RC_Widget::registerWidget('Ecjia\Component\Widget\Widget\NavMenuWidget');
+        RC_Widget::registerWidget('Ecjia\Component\Widget\Widget\CatArticlesWidget');
+        RC_Widget::registerWidget('Ecjia\Component\Widget\Widget\CatGoodsWidget');
+        RC_Widget::registerWidget('Ecjia\Component\Widget\Widget\BrandGoodsWidget');
+        RC_Widget::registerWidget('Ecjia\Component\Widget\Widget\AdPositionWidget');
 
 
         /**
