@@ -4,6 +4,9 @@
 namespace Ecjia\Component\Framework;
 
 
+use Ecjia\Component\ThemeFramework\ThemeFramework;
+use Ecjia\Component\ThemeOption\ThemeSetting;
+use Ecjia\Component\Transient\Transient;
 use Royalcms\Component\Support\ServiceProvider;
 
 class EcjiaServiceProvider extends ServiceProvider
@@ -14,7 +17,68 @@ class EcjiaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->registerThemeOption();
+
+        $this->registerThemeSetting();
+
+        $this->registerThemeTransient();
+
+        $this->registerThemeFramework();
+
+        $this->loadAlias();
+    }
+
+    /**
+     * Register the theme option
+     */
+    public function registerThemeOption()
+    {
+        $this->royalcms->bindShared('ecjia.theme.option', function($royalcms){
+            return new ThemeOption();
+        });
+    }
+
+    /**
+     * Register the theme setting
+     */
+    public function registerThemeSetting()
+    {
+        $this->royalcms->bindShared('ecjia.theme.setting', function($royalcms){
+            return new ThemeSetting();
+        });
+    }
+
+    /**
+     * Register the theme transient
+     */
+    public function registerThemeTransient()
+    {
+        $this->royalcms->bindShared('ecjia.transient', function($royalcms){
+            return new Transient();
+        });
+    }
+
+    /**
+     * Register the theme framework
+     */
+    public function registerThemeFramework()
+    {
+        $this->royalcms->bindShared('ecjia.theme.framework', function($royalcms){
+            return new ThemeFramework();
+        });
+    }
+
+
+    /**
+     * Load the alias = One less install step for the user
+     */
+    protected function loadAlias()
+    {
+        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+        $loader->alias('ecjia_theme_option', 'Ecjia\Component\Facades\EcjiaThemeOption');
+        $loader->alias('ecjia_theme_setting', 'Ecjia\Component\Facades\EcjiaThemeSetting');
+        $loader->alias('ecjia_theme_framework', 'Ecjia\Component\Facades\EcjiaThemeFramework');
+        $loader->alias('ecjia_transient', 'Ecjia\Component\Facades\EcjiaTransient');
     }
 
     /**
