@@ -33,7 +33,7 @@ class EcjiaServiceProvider extends ServiceProvider
      */
     public function registerThemeOption()
     {
-        $this->royalcms->bindShared('ecjia.theme.option', function($royalcms){
+        $this->royalcms->singleton('ecjia.theme.option', function($royalcms){
             return new ThemeOption();
         });
     }
@@ -43,7 +43,7 @@ class EcjiaServiceProvider extends ServiceProvider
      */
     public function registerThemeSetting()
     {
-        $this->royalcms->bindShared('ecjia.theme.setting', function($royalcms){
+        $this->royalcms->singleton('ecjia.theme.setting', function($royalcms){
             return new ThemeSetting();
         });
     }
@@ -53,7 +53,7 @@ class EcjiaServiceProvider extends ServiceProvider
      */
     public function registerThemeTransient()
     {
-        $this->royalcms->bindShared('ecjia.transient', function($royalcms){
+        $this->royalcms->singleton('ecjia.transient', function($royalcms){
             return new Transient();
         });
     }
@@ -63,7 +63,7 @@ class EcjiaServiceProvider extends ServiceProvider
      */
     public function registerThemeFramework()
     {
-        $this->royalcms->bindShared('ecjia.theme.framework', function($royalcms){
+        $this->royalcms->singleton('ecjia.theme.framework', function($royalcms){
             return new ThemeFramework();
         });
     }
