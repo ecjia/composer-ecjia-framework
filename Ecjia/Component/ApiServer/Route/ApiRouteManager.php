@@ -31,7 +31,8 @@ class ApiRouteManager
     protected function parseApiList()
     {
         $this->apis = $this->apis->map(function ($item, $api) {
-            return new ApiParseRoute($api, $item);
+            $parse = new ApiParseRoute($api, $item);
+            return $parse;
         });
     }
 
@@ -55,7 +56,7 @@ class ApiRouteManager
         })->map(function ($item) {
             $item = $item->sortBy(function ($item) {
                 return $item->getApi();
-            });
+            })->values();
             return $item;
         })->toArray();
 
