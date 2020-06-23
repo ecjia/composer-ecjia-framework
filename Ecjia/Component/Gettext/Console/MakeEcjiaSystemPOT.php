@@ -8,9 +8,9 @@
 
 namespace Ecjia\Component\Gettext\Console;
 
+use Ecjia\Component\Framework\Ecjia;
 use Ecjia\Component\Gettext\Smarty\SmartyGettextCompiler;
 use Ecjia\Component\Gettext\Smarty\CompileDirectory;
-use ecjia;
 
 class MakeEcjiaSystemPOT extends MakeEcjiaGenericPOT
 {
@@ -24,7 +24,7 @@ class MakeEcjiaSystemPOT extends MakeEcjiaGenericPOT
 
     protected function getVersion()
     {
-        return ecjia::VERSION;
+        return Ecjia::VERSION;
     }
 
     public function make($dir, $output)
