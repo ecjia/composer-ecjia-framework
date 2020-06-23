@@ -92,7 +92,8 @@ msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
     public function beautifyFilePath($file)
     {
-        return str_replace(SITE_ROOT, '', $file);
+        $root = realpath(SITE_ROOT);
+        return str_replace($root, '', $file);
     }
 
     public function msgMerge($data)
