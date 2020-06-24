@@ -24,10 +24,10 @@ class MakeEcjiaAppPOT extends MakeEcjiaGenericPOT
     );
 
 
-    protected function getVersion()
-    {
-        return config('app-'.$this->app.'::package.version');
-    }
+//    protected function getVersion()
+//    {
+//        return config('app-'.$this->app.'::package.version');
+//    }
 
 
     protected function getPHPPotPath($dir, $realpath = false)
@@ -67,7 +67,7 @@ class MakeEcjiaAppPOT extends MakeEcjiaGenericPOT
         $includes = array();
 
         $result = $this->generic($dir, array(
-            'project'        => 'ecjia-system',
+            'project'        => 'ecjia-app',
             'output'         => $output,
             'includes'       => $includes,
             'excludes'       => $excludes,
