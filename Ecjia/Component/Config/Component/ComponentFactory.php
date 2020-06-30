@@ -117,9 +117,9 @@ class ComponentFactory
     public function component($code)
     {
         if (!array_key_exists($code, self::$factories)) {
-            throw new InvalidArgumentException("Component '$code' is not supported.");
+            throw new InvalidArgumentException(sprintf(__('Component %s is not supported.', 'ecjia'), $code));
         }
-    
+
         $className = self::$factories[$code];
 
         return new $className();
