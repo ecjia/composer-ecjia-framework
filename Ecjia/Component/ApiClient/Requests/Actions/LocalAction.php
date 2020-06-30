@@ -73,7 +73,7 @@ class LocalAction extends BaseAction implements RequestAction
 
         }
         catch(\Exception $e){
-            ecjia_log_error('api call error:' . $request->query('url'), $e);
+            ecjia_log_error(sprintf(__('api call error:%s', 'ecjia'), $request->query('url')), $e);
         }
         finally {
 
