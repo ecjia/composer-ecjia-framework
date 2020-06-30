@@ -108,7 +108,7 @@ class PluginManager extends Manager
             return \RC_Plugin::load_files($this->plugins[$driver]);
         }
     
-        throw new \InvalidArgumentException("Driver [$driver] not found class file.");
+        throw new \InvalidArgumentException(sprintf(__('Driver [%s] not found class file.', 'ecjia'), $driver));
     }
     
     
@@ -125,8 +125,8 @@ class PluginManager extends Manager
         {
             return $driver;
         }
-    
-        throw new \InvalidArgumentException("Driver [$driver] not extended AbstractPlugin class.");
+
+        throw new \InvalidArgumentException(sprintf(__('Driver [%s] not extended AbstractPlugin class.', 'ecjia'), $driver));
     }
     
     /**

@@ -73,13 +73,13 @@ class PluginManager extends Facade {
      */
     public static function validate_plugin($plugin) {
         if ( RC_File::validate_file($plugin) )
-            return new ecjia_error('plugin_invalid', __('Invalid plugin path.'));
+            return new ecjia_error('plugin_invalid', __('Invalid plugin path.', 'ecjia'));
         if ( ! file_exists(SITE_PLUGIN_PATH . '/' . $plugin) && ! file_exists(RC_PLUGIN_PATH . '/' . $plugin) )
-            return new ecjia_error('plugin_not_found', __('Plugin file does not exist.'));
+            return new ecjia_error('plugin_not_found', __('Plugin file does not exist.', 'ecjia'));
 
         $installed_plugins = RC_Plugin::get_plugins();
         if ( ! isset($installed_plugins[$plugin]) )
-            return new ecjia_error('no_plugin_header', __('The plugin does not have a valid header.'));
+            return new ecjia_error('no_plugin_header', __('The plugin does not have a valid header.', 'ecjia'));
         return 0;
     }
 
@@ -194,7 +194,7 @@ class PluginManager extends Facade {
 
             if ( ob_get_length() > 0 ) {
                 $output = ob_get_clean();
-                return new ecjia_error('unexpected_output', __('The plugin generated unexpected output.'), $output);
+                return new ecjia_error('unexpected_output', __('The plugin generated unexpected output.', 'ecjia'), $output);
             }
             ob_end_clean();
         }
