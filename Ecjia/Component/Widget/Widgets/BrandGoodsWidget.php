@@ -56,8 +56,8 @@ class BrandGoodsWidget extends Widget
 {
 
     public function __construct() {
-        $widget_ops = array( 'description' => __('添加品牌商品') );
-        parent::__construct( 'brand_goods', __('品牌的商品'), $widget_ops );
+        $widget_ops = array( 'description' => __('添加品牌商品', 'ecjia') );
+        parent::__construct( 'brand_goods', __('品牌的商品', 'ecjia'), $widget_ops );
     }
 
     public function widget($args, $instance) {

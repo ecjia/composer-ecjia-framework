@@ -295,7 +295,7 @@ class Widget
     	if ( isset($control['callback']) )
     		$has_form = call_user_func_array( $control['callback'], $control['params'] );
     	else
-    		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n"; ?>
+    		echo "\t\t<p>" . __('There are no options for this widget.', 'ecjia') . "</p>\n"; ?>
     	</div>
     	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo RC_Format::esc_attr($id_format); ?>" />
     	<input type="hidden" name="id_base" class="id_base" value="<?php echo RC_Format::esc_attr($id_base); ?>" />
@@ -307,8 +307,8 @@ class Widget
     
     	<div class="widget-control-actions">
     		<div class="alignleft">
-    		<a class="widget-control-remove" href="#remove"><?php _e('Delete'); ?></a> |
-    		<a class="widget-control-close" href="#close"><?php _e('Close'); ?></a>
+    		<a class="widget-control-remove" href="#remove"><?php _e('Delete', 'ecjia'); ?></a> |
+    		<a class="widget-control-close" href="#close"><?php _e('Close', 'ecjia'); ?></a>
     		</div>
     		<div class="alignright<?php if ( 'noform' === $has_form ) echo ' widget-control-noform'; ?>">
     			<?php ecjia_form::submit_button( __( 'Save' ), 'button-primary widget-control-save right', 'savewidget', false, array( 'id' => 'widget-' . RC_Format::esc_attr( $id_format ) . '-savewidget' ) ); ?>

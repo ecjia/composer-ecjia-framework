@@ -56,8 +56,8 @@ class CatGoodsWidget extends Widget
 {
 
     public function __construct() {
-        $widget_ops = array( 'description' => __('添加分类商品') );
-        parent::__construct( 'cat_goods', __('分类下的商品'), $widget_ops );
+        $widget_ops = array( 'description' => __('添加分类商品', 'ecjia') );
+        parent::__construct( 'cat_goods', __('分类下的商品', 'ecjia'), $widget_ops );
     }
 
     public function widget($args, $instance) {

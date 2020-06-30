@@ -56,8 +56,8 @@ class AdPositionWidget extends Widget
 {
 
     public function __construct() {
-        $widget_ops = array( 'description' => __('添加广告位') );
-        parent::__construct( 'ad_position', __('广告位'), $widget_ops );
+        $widget_ops = array( 'description' => __('添加广告位', 'ecjia') );
+        parent::__construct( 'ad_position', __('广告位', 'ecjia'), $widget_ops );
     }
 
     public function widget($args, $instance) {

@@ -56,8 +56,8 @@ class NavMenuWidget extends Widget
 {
 
     public function __construct() {
-        $widget_ops = array( 'description' => __('添加自定义菜单') );
-        parent::__construct( 'nav_menu', __('自定义菜单'), $widget_ops );
+        $widget_ops = array( 'description' => __('添加自定义菜单', 'ecjia') );
+        parent::__construct( 'nav_menu', __('自定义菜单', 'ecjia'), $widget_ops );
     }
 
     public function widget($args, $instance) {

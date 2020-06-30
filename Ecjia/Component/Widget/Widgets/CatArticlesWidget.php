@@ -56,8 +56,8 @@ class CatArticlesWidget extends Widget
 {
 
     public function __construct() {
-        $widget_ops = array( 'description' => __('添加分类文章') );
-        parent::__construct( 'cat_articles', __('文章列表'), $widget_ops );
+        $widget_ops = array( 'description' => __('添加分类文章', 'ecjia') );
+        parent::__construct( 'cat_articles', __('文章列表', 'ecjia'), $widget_ops );
     }
 
     public function widget($args, $instance) {
