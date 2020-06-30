@@ -21,7 +21,7 @@ class ServiceMenuGroup extends AbstractMenuGroup
     {
         parent::__construct($apps);
         
-        $this->label = __('服务');
+        $this->label = __('服务', 'ecjia');
     }
 
 }

@@ -21,7 +21,7 @@ class ToolsMenuGroup extends AbstractMenuGroup
     {
         parent::__construct($apps);
         
-        $this->label = __('工具');
+        $this->label = __('工具', 'ecjia');
     }
 
 }

@@ -21,7 +21,7 @@ class SettingMenuGroup extends AbstractMenuGroup
     {
         parent::__construct($apps);
         
-        $this->label = __('设置');
+        $this->label = __('设置', 'ecjia');
     }
 
 }

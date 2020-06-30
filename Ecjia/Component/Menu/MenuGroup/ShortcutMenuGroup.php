@@ -21,7 +21,7 @@ class ShortcutMenuGroup extends AbstractMenuGroup
     {
         parent::__construct($apps);
         
-        $this->label = __('快捷导航');
+        $this->label = __('快捷导航', 'ecjia');
     }
 
 }

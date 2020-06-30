@@ -21,7 +21,7 @@ class AppsMenuGroup extends AbstractMenuGroup
     {
         parent::__construct($apps);
 
-        $this->label = __('应用');
+        $this->label = __('应用', 'ecjia');
     }
 
 }

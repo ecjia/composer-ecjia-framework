@@ -21,7 +21,7 @@ class SystemMenuGroup extends AbstractMenuGroup
     {
         parent::__construct($apps);
         
-        $this->label = __('控制面板');
+        $this->label = __('控制面板', 'ecjia');
     }
 
 }

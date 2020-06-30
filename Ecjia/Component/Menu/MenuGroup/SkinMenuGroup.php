@@ -21,7 +21,7 @@ class SkinMenuGroup extends AbstractMenuGroup
     {
         parent::__construct($apps);
         
-        $this->label = __('外观');
+        $this->label = __('外观', 'ecjia');
     }
 
 }
