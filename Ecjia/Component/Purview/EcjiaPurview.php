@@ -100,7 +100,7 @@ class EcjiaPurview extends RC_Object
         }
     
         $app_priv_group = array(
-            'group_name' => __('系统'),
+            'group_name' => __('系统', 'ecjia'),
             'group_code' => 'system',
             'group_purview' => $res
         );
