@@ -78,8 +78,8 @@ class FrontTemplateCache extends CacheComponentAbstract
 
     public function __construct()
     {
-        $this->name = __('前台模板缓存');
-        $this->description = __('模板缓存是前台模板文件的缓存文件。若前台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。');
+        $this->name = __('前台模板缓存', 'ecjia');
+        $this->description = __('模板缓存是前台模板文件的缓存文件。若前台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。', 'ecjia');
     }
 
     public function handle()

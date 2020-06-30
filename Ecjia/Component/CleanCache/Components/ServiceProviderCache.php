@@ -25,8 +25,8 @@ class ServiceProviderCache extends CacheComponentAbstract
 
     public function __construct()
     {
-        $this->name = __('框架组件缓存');
-        $this->description = __('框架组件加载缓存是查找框架内使用的ServiceProvider缓存后分析出来的结果，若更新了Composer.json，则需要更新框架组件缓存重新加载才可以查看最新效果。');
+        $this->name = __('框架组件缓存', 'ecjia');
+        $this->description = __('框架组件加载缓存是查找框架内使用的ServiceProvider缓存后分析出来的结果，若更新了Composer.json，则需要更新框架组件缓存重新加载才可以查看最新效果。', 'ecjia');
     }
 
     public function handle()

@@ -76,8 +76,8 @@ class SystemTableStructCache extends CacheComponentAbstract
 
     public function __construct()
     {
-        $this->name = __('数据表结构缓存');
-        $this->description = __('数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据库表结构缓存才可以查看最新数据。');
+        $this->name = __('数据表结构缓存', 'ecjia');
+        $this->description = __('数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据库表结构缓存才可以查看最新数据。', 'ecjia');
     }
 
     public function handle()

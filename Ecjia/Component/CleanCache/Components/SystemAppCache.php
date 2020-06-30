@@ -76,8 +76,8 @@ class SystemAppCache extends CacheComponentAbstract
 
     public function __construct()
     {
-        $this->name = __('应用数据缓存');
-        $this->description = __('应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，则需要更新应用数据缓存后才可以查看最新效果。');
+        $this->name = __('应用数据缓存', 'ecjia');
+        $this->description = __('应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，则需要更新应用数据缓存后才可以查看最新效果。', 'ecjia');
     }
 
     /**

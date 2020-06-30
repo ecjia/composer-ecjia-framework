@@ -75,8 +75,8 @@ class SystemUserDataCache extends CacheComponentAbstract
 
     public function __construct()
     {
-        $this->name = __('用户数据缓存');
-        $this->description = __('用户数据缓存是用户登录后的一些相关数据缓存。若要在更新文件及功能后立即看到变化，则需要更新用户数据缓存后才可以查看最新效果。');
+        $this->name = __('用户数据缓存', 'ecjia');
+        $this->description = __('用户数据缓存是用户登录后的一些相关数据缓存。若要在更新文件及功能后立即看到变化，则需要更新用户数据缓存后才可以查看最新效果。', 'ecjia');
     }
 
     public function handle()

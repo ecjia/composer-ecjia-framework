@@ -76,8 +76,8 @@ class SystemQueryCache extends CacheComponentAbstract
 
     public function __construct()
     {
-        $this->name = __('查询缓存');
-        $this->description = __('查询缓存是数据库查询结构的缓存文件。若数据库内容有变动，则需要更新查询缓存才可以看到最新效果。');
+        $this->name = __('查询缓存', 'ecjia');
+        $this->description = __('查询缓存是数据库查询结构的缓存文件。若数据库内容有变动，则需要更新查询缓存才可以看到最新效果。', 'ecjia');
     }
 
     public function handle()
