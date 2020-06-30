@@ -256,7 +256,7 @@ class EcjiaCloud extends RC_Object
         $data = json_decode($data, true);
         if (!is_array($data) || !array_has($data, 'status') ) {
             $this->status = self::STATUS_ERROR;
-            $this->addError('unknown_error', __('服务器返回信息错误！'));
+            $this->addError('unknown_error', __('服务器返回信息错误！', 'ecjia'));
             return $this;
         }
         
