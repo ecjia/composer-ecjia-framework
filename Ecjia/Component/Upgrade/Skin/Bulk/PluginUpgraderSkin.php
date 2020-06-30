@@ -16,7 +16,7 @@ class PluginUpgraderSkin extends BulkUpgraderSkin
     public function add_strings()
     {
         parent::add_strings();
-        $this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)');
+        $this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)', 'ecjia');
     }
     
     public function before($title = '')
@@ -35,8 +35,8 @@ class PluginUpgraderSkin extends BulkUpgraderSkin
         parent::bulk_footer();
 
         $update_actions =  array(
-            'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>',
-            'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
+            'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page', 'ecjia') . '</a>',
+            'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates', 'ecjia') . '</a>'
         );
         if ( ! current_user_can( 'activate_plugins' ) )
             unset( $update_actions['plugins_page'] );

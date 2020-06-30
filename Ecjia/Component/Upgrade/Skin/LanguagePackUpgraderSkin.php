@@ -19,7 +19,7 @@ class LanguagePackUpgraderSkin extends UpgraderSkin
     
     public function __construct( $args = array() )
     {
-        $defaults = array( 'url' => '', 'nonce' => '', 'title' => __( 'Update Translations' ), 'skip_header_footer' => false );
+        $defaults = array( 'url' => '', 'nonce' => '', 'title' => __( 'Update Translations', 'ecjia'), 'skip_header_footer' => false );
         $args = rc_parse_args( $args, $defaults );
         if ( $args['skip_header_footer'] ) {
             $this->done_header = true;
@@ -34,7 +34,7 @@ class LanguagePackUpgraderSkin extends UpgraderSkin
     
         echo '<div class="update-messages lp-show-latest">';
     
-        printf( '<h4>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h4>', $name, $this->language_update->language );
+        printf( '<h4>' . __( 'Updating translations for %1$s (%2$s)&#8230;', 'ecjia') . '</h4>', $name, $this->language_update->language );
     }
     
     public function error( $error )
@@ -53,7 +53,7 @@ class LanguagePackUpgraderSkin extends UpgraderSkin
     {
         $this->decrement_update_count( 'translation' );
         $update_actions = array();
-        $update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" title="' . esc_attr__( 'Go to WordPress Updates page' ) . '" target="_parent">' . __( 'Return to WordPress Updates' ) . '</a>';
+        $update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" title="' . esc_attr__( 'Go to WordPress Updates page', 'ecjia') . '" target="_parent">' . __( 'Return to WordPress Updates', 'ecjia') . '</a>';
     
         /**
          * Filter the list of action links available following a translations update.

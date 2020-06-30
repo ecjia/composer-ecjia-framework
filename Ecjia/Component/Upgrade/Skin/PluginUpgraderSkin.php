@@ -24,7 +24,7 @@ class PluginUpgraderSkin extends UpgraderSkin
             'url' => '',
             'plugin' => '',
             'nonce' => '',
-            'title' => __('Update Plugin')
+            'title' => __('Update Plugin', 'ecjia')
         );
         $args = rc_parse_args($args, $defaults);
     
@@ -46,8 +46,8 @@ class PluginUpgraderSkin extends UpgraderSkin
         $this->decrement_update_count( 'plugin' );
     
         $update_actions =  array(
-            'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
-            'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'
+            'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin', 'ecjia') . '</a>',
+            'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page', 'ecjia') . '</a>'
         );
         if ( $this->plugin_active || ! $this->result || is_ecjia_error( $this->result ) || ! current_user_can( 'activate_plugins' ) )
             unset( $update_actions['activate_plugin'] );

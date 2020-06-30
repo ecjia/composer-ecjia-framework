@@ -19,25 +19,25 @@ class PluginUpgrader extends Upgrader
     
     public function upgrade_strings()
     {
-        $this->strings['up_to_date'] = __('The plugin is at the latest version.');
-        $this->strings['no_package'] = __('Update package not available.');
-        $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
-        $this->strings['unpack_package'] = __('Unpacking the update&#8230;');
-        $this->strings['remove_old'] = __('Removing the old version of the plugin&#8230;');
-        $this->strings['remove_old_failed'] = __('Could not remove the old plugin.');
-        $this->strings['process_failed'] = __('Plugin update failed.');
-        $this->strings['process_success'] = __('Plugin updated successfully.');
+        $this->strings['up_to_date'] = __('The plugin is at the latest version.', 'ecjia');
+        $this->strings['no_package'] = __('Update package not available.', 'ecjia');
+        $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;', 'ecjia');
+        $this->strings['unpack_package'] = __('Unpacking the update&#8230;', 'ecjia');
+        $this->strings['remove_old'] = __('Removing the old version of the plugin&#8230;', 'ecjia');
+        $this->strings['remove_old_failed'] = __('Could not remove the old plugin.', 'ecjia');
+        $this->strings['process_failed'] = __('Plugin update failed.', 'ecjia');
+        $this->strings['process_success'] = __('Plugin updated successfully.', 'ecjia');
     }
     
     public function install_strings()
     {
-        $this->strings['no_package'] = __('Install package not available.');
-        $this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
-        $this->strings['unpack_package'] = __('Unpacking the package&#8230;');
-        $this->strings['installing_package'] = __('Installing the plugin&#8230;');
-        $this->strings['no_files'] = __('The plugin contains no files.');
-        $this->strings['process_failed'] = __('Plugin install failed.');
-        $this->strings['process_success'] = __('Plugin installed successfully.');
+        $this->strings['no_package'] = __('Install package not available.', 'ecjia');
+        $this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;', 'ecjia');
+        $this->strings['unpack_package'] = __('Unpacking the package&#8230;', 'ecjia');
+        $this->strings['installing_package'] = __('Installing the plugin&#8230;', 'ecjia');
+        $this->strings['no_files'] = __('The plugin contains no files.', 'ecjia');
+        $this->strings['process_failed'] = __('Plugin install failed.', 'ecjia');
+        $this->strings['process_success'] = __('Plugin installed successfully.', 'ecjia');
     }
     
     public function install( $package, $args = array() )
@@ -265,7 +265,7 @@ class PluginUpgrader extends Upgrader
         }
     
         if ( ! $plugins_found ) {
-            return new ecjia_error( 'incompatible_archive_no_plugins', $this->strings['incompatible_archive'], __( 'No valid plugins were found.' ) );
+            return new ecjia_error( 'incompatible_archive_no_plugins', $this->strings['incompatible_archive'], __( 'No valid plugins were found.', 'ecjia') );
         }
         
         return $source;

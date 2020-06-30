@@ -18,7 +18,7 @@ class FileUploadUpgrader
     {
     
         if ( empty($_FILES[$form]['name']) && empty($_GET[$urlholder]) )
-            rc_die(__('Please select a file'));
+            rc_die(__('Please select a file', 'ecjia'));
     
         //Handle a newly uploaded file, Else assume it's already been uploaded
         if ( ! empty($_FILES) ) {
@@ -52,7 +52,7 @@ class FileUploadUpgrader
             $this->id = (int) $_GET[$urlholder];
             $attachment = get_post( $this->id );
             if ( empty($attachment) )
-                rc_die(__('Please select a file'));
+                rc_die(__('Please select a file', 'ecjia'));
     
             $this->filename = $attachment->post_title;
             $this->package = get_attached_file( $attachment->ID );

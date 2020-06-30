@@ -16,7 +16,7 @@ class ThemeUpgraderSkin extends BulkUpgraderSkin
     public function add_strings()
     {
         parent::add_strings();
-        $this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
+        $this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)', 'ecjia');
     }
     
     public function before($title = '')
@@ -35,8 +35,8 @@ class ThemeUpgraderSkin extends BulkUpgraderSkin
     {
         parent::bulk_footer();
         $update_actions =  array(
-            'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
-            'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
+            'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page', 'ecjia') . '</a>',
+            'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates', 'ecjia') . '</a>'
         );
         if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) )
             unset( $update_actions['themes_page'] );

@@ -21,14 +21,14 @@ class ThemeUpgrader extends Upgrader
      */
     public function upgrade_strings()
     {
-        $this->strings['up_to_date'] = __('The theme is at the latest version.');
-        $this->strings['no_package'] = __('Update package not available.');
-        $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
-        $this->strings['unpack_package'] = __('Unpacking the update&#8230;');
-        $this->strings['remove_old'] = __('Removing the old version of the theme&#8230;');
-        $this->strings['remove_old_failed'] = __('Could not remove the old theme.');
-        $this->strings['process_failed'] = __('Theme update failed.');
-        $this->strings['process_success'] = __('Theme updated successfully.');
+        $this->strings['up_to_date'] = __('The theme is at the latest version.', 'ecjia');
+        $this->strings['no_package'] = __('Update package not available.', 'ecjia');
+        $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;', 'ecjia');
+        $this->strings['unpack_package'] = __('Unpacking the update&#8230;', 'ecjia');
+        $this->strings['remove_old'] = __('Removing the old version of the theme&#8230;', 'ecjia');
+        $this->strings['remove_old_failed'] = __('Could not remove the old theme.', 'ecjia');
+        $this->strings['process_failed'] = __('Theme update failed.', 'ecjia');
+        $this->strings['process_success'] = __('Theme updated successfully.', 'ecjia');
     }
 
     /**
@@ -36,23 +36,23 @@ class ThemeUpgrader extends Upgrader
      */
     public function install_strings()
     {
-        $this->strings['no_package'] = __('Install package not available.');
-        $this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
-        $this->strings['unpack_package'] = __('Unpacking the package&#8230;');
-        $this->strings['installing_package'] = __('Installing the theme&#8230;');
-        $this->strings['no_files'] = __('The theme contains no files.');
-        $this->strings['process_failed'] = __('Theme install failed.');
-        $this->strings['process_success'] = __('Theme installed successfully.');
+        $this->strings['no_package'] = __('Install package not available.', 'ecjia');
+        $this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;', 'ecjia');
+        $this->strings['unpack_package'] = __('Unpacking the package&#8230;', 'ecjia');
+        $this->strings['installing_package'] = __('Installing the theme&#8230;', 'ecjia');
+        $this->strings['no_files'] = __('The theme contains no files.', 'ecjia');
+        $this->strings['process_failed'] = __('Theme install failed.', 'ecjia');
+        $this->strings['process_success'] = __('Theme installed successfully.', 'ecjia');
         /* translators: 1: theme name, 2: version */
-        $this->strings['process_success_specific'] = __('Successfully installed the theme <strong>%1$s %2$s</strong>.');
-        $this->strings['parent_theme_search'] = __('This theme requires a parent theme. Checking if it is installed&#8230;');
+        $this->strings['process_success_specific'] = __('Successfully installed the theme <strong>%1$s %2$s</strong>.', 'ecjia');
+        $this->strings['parent_theme_search'] = __('This theme requires a parent theme. Checking if it is installed&#8230;', 'ecjia');
         /* translators: 1: theme name, 2: version */
-        $this->strings['parent_theme_prepare_install'] = __('Preparing to install <strong>%1$s %2$s</strong>&#8230;');
+        $this->strings['parent_theme_prepare_install'] = __('Preparing to install <strong>%1$s %2$s</strong>&#8230;', 'ecjia');
         /* translators: 1: theme name, 2: version */
-        $this->strings['parent_theme_currently_installed'] = __('The parent theme, <strong>%1$s %2$s</strong>, is currently installed.');
+        $this->strings['parent_theme_currently_installed'] = __('The parent theme, <strong>%1$s %2$s</strong>, is currently installed.', 'ecjia');
         /* translators: 1: theme name, 2: version */
-        $this->strings['parent_theme_install_success'] = __('Successfully installed the parent theme, <strong>%1$s %2$s</strong>.');
-        $this->strings['parent_theme_not_found'] = __('<strong>The parent theme could not be found.</strong> You will need to install the parent theme, <strong>%s</strong>, before you can use this child theme.');
+        $this->strings['parent_theme_install_success'] = __('Successfully installed the parent theme, <strong>%1$s %2$s</strong>.', 'ecjia');
+        $this->strings['parent_theme_not_found'] = __('<strong>The parent theme could not be found.</strong> You will need to install the parent theme, <strong>%s</strong>, before you can use this child theme.', 'ecjia');
     }
     
     
@@ -353,16 +353,16 @@ class ThemeUpgrader extends Upgrader
     
         // A proper archive should have a style.css file in the single subdirectory
         if ( ! file_exists( $working_directory . 'style.css' ) )
-            return new ecjia_error( 'incompatible_archive_theme_no_style', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>style.css</code> stylesheet.' ) );
+            return new ecjia_error( 'incompatible_archive_theme_no_style', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>style.css</code> stylesheet.', 'ecjia') );
     
         $info = get_file_data( $working_directory . 'style.css', array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
     
         if ( empty( $info['Name'] ) )
-            return new ecjia_error( 'incompatible_archive_theme_no_name', $this->strings['incompatible_archive'], __( "The <code>style.css</code> stylesheet doesn't contain a valid theme header." ) );
+            return new ecjia_error( 'incompatible_archive_theme_no_name', $this->strings['incompatible_archive'], __( "The <code>style.css</code> stylesheet doesn't contain a valid theme header.", 'ecjia') );
     
         // If it's not a child theme, it must have at least an index.php to be legit.
         if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) )
-            return new ecjia_error( 'incompatible_archive_theme_no_index', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>index.php</code> file.' ) );
+            return new ecjia_error( 'incompatible_archive_theme_no_index', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>index.php</code> file.', 'ecjia') );
     
         return $source;
     }

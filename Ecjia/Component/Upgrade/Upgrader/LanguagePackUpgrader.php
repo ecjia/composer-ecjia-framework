@@ -38,13 +38,13 @@ class LanguagePackUpgrader extends Upgrader
     
     public function upgrade_strings()
     {
-        $this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
-        $this->strings['up_to_date'] = __( 'The translation is up to date.' ); // We need to silently skip this case
-        $this->strings['no_package'] = __( 'Update package not available.' );
-        $this->strings['downloading_package'] = __( 'Downloading translation from <span class="code">%s</span>&#8230;' );
-        $this->strings['unpack_package'] = __( 'Unpacking the update&#8230;' );
-        $this->strings['process_failed'] = __( 'Translation update failed.' );
-        $this->strings['process_success'] = __( 'Translation updated successfully.' );
+        $this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.', 'ecjia');
+        $this->strings['up_to_date'] = __( 'The translation is up to date.', 'ecjia'); // We need to silently skip this case
+        $this->strings['no_package'] = __( 'Update package not available.', 'ecjia');
+        $this->strings['downloading_package'] = __( 'Downloading translation from <span class="code">%s</span>&#8230;', 'ecjia');
+        $this->strings['unpack_package'] = __( 'Unpacking the update&#8230;', 'ecjia');
+        $this->strings['process_failed'] = __( 'Translation update failed.', 'ecjia');
+        $this->strings['process_success'] = __( 'Translation updated successfully.', 'ecjia');
     }
     
     public function upgrade( $update = false, $args = array() )
@@ -179,7 +179,7 @@ class LanguagePackUpgrader extends Upgrader
     
         if ( ! $mo || ! $po )
             return new ecjia_error( 'incompatible_archive_pomo', $this->strings['incompatible_archive'],
-                __( 'The language pack is missing either the <code>.po</code> or <code>.mo</code> files.' ) );
+                __( 'The language pack is missing either the <code>.po</code> or <code>.mo</code> files.', 'ecjia') );
     
             return $source;
     }

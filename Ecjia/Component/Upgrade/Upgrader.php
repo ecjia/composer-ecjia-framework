@@ -53,25 +53,25 @@ class Upgrader
     
     public function generic_strings()
     {
-        $this->strings['bad_request'] = __('Invalid Data provided.');
-        $this->strings['fs_unavailable'] = __('Could not access filesystem.');
-        $this->strings['fs_error'] = __('Filesystem error.');
-        $this->strings['fs_no_root_dir'] = __('Unable to locate WordPress Root directory.');
-        $this->strings['fs_no_content_dir'] = __('Unable to locate WordPress Content directory (wp-content).');
-        $this->strings['fs_no_plugins_dir'] = __('Unable to locate WordPress Plugin directory.');
-        $this->strings['fs_no_themes_dir'] = __('Unable to locate WordPress Theme directory.');
+        $this->strings['bad_request'] = __('Invalid Data provided.', 'ecjia');
+        $this->strings['fs_unavailable'] = __('Could not access filesystem.', 'ecjia');
+        $this->strings['fs_error'] = __('Filesystem error.', 'ecjia');
+        $this->strings['fs_no_root_dir'] = __('Unable to locate WordPress Root directory.', 'ecjia');
+        $this->strings['fs_no_content_dir'] = __('Unable to locate WordPress Content directory (wp-content).', 'ecjia');
+        $this->strings['fs_no_plugins_dir'] = __('Unable to locate WordPress Plugin directory.', 'ecjia');
+        $this->strings['fs_no_themes_dir'] = __('Unable to locate WordPress Theme directory.', 'ecjia');
         /* translators: %s: directory name */
-        $this->strings['fs_no_folder'] = __('Unable to locate needed folder (%s).');
+        $this->strings['fs_no_folder'] = __('Unable to locate needed folder (%s).', 'ecjia');
     
-        $this->strings['download_failed'] = __('Download failed.');
-        $this->strings['installing_package'] = __('Installing the latest version&#8230;');
-        $this->strings['no_files'] = __('The package contains no files.');
-        $this->strings['folder_exists'] = __('Destination folder already exists.');
-        $this->strings['mkdir_failed'] = __('Could not create directory.');
-        $this->strings['incompatible_archive'] = __('The package could not be installed.');
+        $this->strings['download_failed'] = __('Download failed.', 'ecjia');
+        $this->strings['installing_package'] = __('Installing the latest version&#8230;', 'ecjia');
+        $this->strings['no_files'] = __('The package contains no files.', 'ecjia');
+        $this->strings['folder_exists'] = __('Destination folder already exists.', 'ecjia');
+        $this->strings['mkdir_failed'] = __('Could not create directory.', 'ecjia');
+        $this->strings['incompatible_archive'] = __('The package could not be installed.', 'ecjia');
     
-        $this->strings['maintenance_start'] = __('Enabling Maintenance mode&#8230;');
-        $this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;');
+        $this->strings['maintenance_start'] = __('Enabling Maintenance mode&#8230;', 'ecjia');
+        $this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;', 'ecjia');
     }
     
     public function fs_connect( $directories = array() )

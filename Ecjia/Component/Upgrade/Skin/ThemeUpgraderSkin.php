@@ -23,7 +23,7 @@ class ThemeUpgraderSkin extends UpgraderSkin
             'url' => '',
             'theme' => '',
             'nonce' => '',
-            'title' => __('Update Theme')
+            'title' => __('Update Theme', 'ecjia')
         );
         $args = rc_parse_args($args, $defaults);
     
@@ -57,18 +57,18 @@ class ThemeUpgraderSkin extends UpgraderSkin
     
             if ( get_stylesheet() == $stylesheet ) {
                 if ( current_user_can( 'edit_theme_options' ) )
-                    $update_actions['preview']  = '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Customize &#8220;%s&#8221;'), $name ) ) . '">' . __('Customize') . '</a>';
+                    $update_actions['preview']  = '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Customize &#8220;%s&#8221;', 'ecjia'), $name ) ) . '">' . __('Customize', 'ecjia') . '</a>';
             } elseif ( current_user_can( 'switch_themes' ) ) {
-                $update_actions['preview']  = '<a href="' . RC_Format::esc_url( $preview_link ) . '" class="hide-if-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Preview') . '</a>';
-                $update_actions['preview'] .= '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Live Preview') . '</a>';
-                $update_actions['activate'] = '<a href="' . RC_Format::esc_url( $activate_link ) . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>';
+                $update_actions['preview']  = '<a href="' . RC_Format::esc_url( $preview_link ) . '" class="hide-if-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;', 'ecjia'), $name ) ) . '">' . __('Preview', 'ecjia') . '</a>';
+                $update_actions['preview'] .= '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;', 'ecjia'), $name ) ) . '">' . __('Live Preview', 'ecjia') . '</a>';
+                $update_actions['activate'] = '<a href="' . RC_Format::esc_url( $activate_link ) . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;', 'ecjia'), $name ) ) . '">' . __('Activate', 'ecjia') . '</a>';
             }
     
             if ( ! $this->result || is_ecjia_error( $this->result ) || is_network_admin() )
                 unset( $update_actions['preview'], $update_actions['activate'] );
         }
     
-        $update_actions['themes_page'] = '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
+        $update_actions['themes_page'] = '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page', 'ecjia') . '</a>';
     
         /**
          * Filter the list of action links available following a single theme update.

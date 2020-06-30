@@ -18,14 +18,14 @@ class CoreUpgrader extends Upgrader
 
     public function upgrade_strings()
     {
-        $this->strings['up_to_date'] = __('WordPress is at the latest version.');
-        $this->strings['no_package'] = __('Update package not available.');
-        $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
-        $this->strings['unpack_package'] = __('Unpacking the update&#8230;');
-        $this->strings['copy_failed'] = __('Could not copy files.');
-        $this->strings['copy_failed_space'] = __('Could not copy files. You may have run out of disk space.' );
-        $this->strings['start_rollback'] = __( 'Attempting to roll back to previous version.' );
-        $this->strings['rollback_was_required'] = __( 'Due to an error during updating, WordPress has rolled back to your previous version.' );
+        $this->strings['up_to_date'] = __('WordPress is at the latest version.', 'ecjia');
+        $this->strings['no_package'] = __('Update package not available.', 'ecjia');
+        $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;', 'ecjia');
+        $this->strings['unpack_package'] = __('Unpacking the update&#8230;', 'ecjia');
+        $this->strings['copy_failed'] = __('Could not copy files.', 'ecjia');
+        $this->strings['copy_failed_space'] = __('Could not copy files. You may have run out of disk space.' , 'ecjia');
+        $this->strings['start_rollback'] = __( 'Attempting to roll back to previous version.' , 'ecjia');
+        $this->strings['rollback_was_required'] = __( 'Due to an error during updating, WordPress has rolled back to your previous version.' , 'ecjia');
     }
     
     public function upgrade( $current, $args = array() )
@@ -95,7 +95,7 @@ class CoreUpgrader extends Upgrader
         // Copy update-core.php from the new version into place.
         if ( !$wp_filesystem->copy($working_dir . '/wordpress/wp-admin/includes/update-core.php', $wp_dir . 'wp-admin/includes/update-core.php', true) ) {
             $wp_filesystem->delete($working_dir, true);
-            return new ecjia_error( 'copy_failed_for_update_core_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'wp-admin/includes/update-core.php' );
+            return new ecjia_error( 'copy_failed_for_update_core_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.', 'ecjia'), 'wp-admin/includes/update-core.php' );
         }
         $wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
     

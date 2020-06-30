@@ -290,25 +290,25 @@ class AutomaticUpdater
         $upgrader_item = $item;
         switch ( $type ) {
             case 'core':
-                $skin->feedback( __( 'Updating to WordPress %s' ), $item->version );
-                $item_name = sprintf( __( 'WordPress %s' ), $item->version );
+                $skin->feedback( sprintf(__( 'Updating to WordPress %s', 'ecjia'), $item->version));
+                $item_name = sprintf( __( 'WordPress %s', 'ecjia'), $item->version );
                 break;
             case 'theme':
                 $upgrader_item = $item->theme;
                 $theme = wp_get_theme( $upgrader_item );
                 $item_name = $theme->Get( 'Name' );
-                $skin->feedback( __( 'Updating theme: %s' ), $item_name );
+                $skin->feedback( sprintf(__( 'Updating theme: %s', 'ecjia'), $item_name ));
                 break;
             case 'plugin':
                 $upgrader_item = $item->plugin;
                 $plugin_data = get_plugin_data( $context . '/' . $upgrader_item );
                 $item_name = $plugin_data['Name'];
-                $skin->feedback( __( 'Updating plugin: %s' ), $item_name );
+                $skin->feedback( sprintf(__( 'Updating plugin: %s', 'ecjia'), $item_name ));
                 break;
             case 'translation':
                 $language_item_name = $upgrader->get_name_for_update( $item );
-                $item_name = sprintf( __( 'Translations for %s' ), $language_item_name );
-                $skin->feedback( sprintf( __( 'Updating translations for %1$s (%2$s)&#8230;' ), $language_item_name, $item->language ) );
+                $item_name = sprintf( __( 'Translations for %s', 'ecjia'), $language_item_name );
+                $skin->feedback( sprintf( __( 'Updating translations for %1$s (%2$s)&#8230;', 'ecjia'), $language_item_name, $item->language ) );
                 break;
         }
     
@@ -321,15 +321,15 @@ class AutomaticUpdater
     
         // if the filesystem is unavailable, false is returned.
         if ( false === $upgrade_result ) {
-            $upgrade_result = new ecjia_error( 'fs_unavailable', __( 'Could not access filesystem.' ) );
+            $upgrade_result = new ecjia_error( 'fs_unavailable', __( 'Could not access filesystem.', 'ecjia') );
         }
     
         // Core doesn't output this, so lets append it so we don't get confused
         if ( 'core' == $type ) {
             if ( is_ecjia_error( $upgrade_result ) ) {
-                $skin->error( __( 'Installation Failed' ), $upgrade_result );
+                $skin->error( __( 'Installation Failed', 'ecjia'), $upgrade_result );
             } else {
-                $skin->feedback( __( 'WordPress updated successfully' ) );
+                $skin->feedback( __( 'WordPress updated successfully', 'ecjia') );
             }
         }
     
@@ -611,18 +611,18 @@ class AutomaticUpdater
         switch ( $type ) {
             case 'success' : // We updated.
                 /* translators: 1: Site name, 2: WordPress version number. */
-                $subject = __( '[%1$s] Your site has updated to WordPress %2$s' );
+                $subject = __( '[%1$s] Your site has updated to WordPress %2$s', 'ecjia');
                 break;
     
             case 'fail' :   // We tried to update but couldn't.
             case 'manual' : // We can't update (and made no attempt).
                 /* translators: 1: Site name, 2: WordPress version number. */
-                $subject = __( '[%1$s] WordPress %2$s is available. Please update!' );
+                $subject = __( '[%1$s] WordPress %2$s is available. Please update!', 'ecjia');
                 break;
     
             case 'critical' : // We tried to update, started to copy files, then things went wrong.
                 /* translators: 1: Site name. */
-                $subject = __( '[%1$s] URGENT: Your site may be down due to a failed update' );
+                $subject = __( '[%1$s] URGENT: Your site may be down due to a failed update', 'ecjia');
                 break;
     
             default :
@@ -637,19 +637,19 @@ class AutomaticUpdater
     
         switch ( $type ) {
             case 'success' :
-                $body .= sprintf( __( 'Howdy! Your site at %1$s has been updated automatically to WordPress %2$s.' ), home_url(), $core_update->current );
+                $body .= sprintf( __( 'Howdy! Your site at %1$s has been updated automatically to WordPress %2$s.', 'ecjia'), home_url(), $core_update->current );
                 $body .= "\n\n";
                 if ( ! $newer_version_available )
-                    $body .= __( 'No further action is needed on your part.' ) . ' ';
+                    $body .= __( 'No further action is needed on your part.', 'ecjia') . ' ';
     
                 // Can only reference the About screen if their update was successful.
                 list( $about_version ) = explode( '-', $core_update->current, 2 );
-                $body .= sprintf( __( "For more on version %s, see the About WordPress screen:" ), $about_version );
+                $body .= sprintf( __( "For more on version %s, see the About WordPress screen:", 'ecjia'), $about_version );
                 $body .= "\n" . admin_url( 'about.php' );
     
                 if ( $newer_version_available ) {
-                    $body .= "\n\n" . sprintf( __( 'WordPress %s is also now available.' ), $next_user_core_update->current ) . ' ';
-                    $body .= __( 'Updating is easy and only takes a few moments:' );
+                    $body .= "\n\n" . sprintf( __( 'WordPress %s is also now available.', 'ecjia'), $next_user_core_update->current ) . ' ';
+                    $body .= __( 'Updating is easy and only takes a few moments:', 'ecjia');
                     $body .= "\n" . network_admin_url( 'update-core.php' );
                 }
     
@@ -657,28 +657,28 @@ class AutomaticUpdater
     
             case 'fail' :
             case 'manual' :
-                $body .= sprintf( __( 'Please update your site at %1$s to WordPress %2$s.' ), home_url(), $next_user_core_update->current );
+                $body .= sprintf( __( 'Please update your site at %1$s to WordPress %2$s.', 'ecjia'), home_url(), $next_user_core_update->current );
     
                 $body .= "\n\n";
     
                 // Don't show this message if there is a newer version available.
                 // Potential for confusion, and also not useful for them to know at this point.
                 if ( 'fail' == $type && ! $newer_version_available )
-                    $body .= __( 'We tried but were unable to update your site automatically.' ) . ' ';
+                    $body .= __( 'We tried but were unable to update your site automatically.', 'ecjia') . ' ';
     
-                $body .= __( 'Updating is easy and only takes a few moments:' );
+                $body .= __( 'Updating is easy and only takes a few moments:', 'ecjia');
                 $body .= "\n" . network_admin_url( 'update-core.php' );
                 break;
     
             case 'critical' :
                 if ( $newer_version_available )
-                    $body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s.' ), home_url(), $core_update->current );
+                    $body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s.', 'ecjia'), home_url(), $core_update->current );
                     else
-                        $body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.' ), home_url(), $core_update->current );
+                        $body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.', 'ecjia'), home_url(), $core_update->current );
     
-                    $body .= "\n\n" . __( "This means your site may be offline or broken. Don't panic; this can be fixed." );
+                    $body .= "\n\n" . __( "This means your site may be offline or broken. Don't panic; this can be fixed.", 'ecjia');
     
-                    $body .= "\n\n" . __( "Please check out your site now. It's possible that everything is working. If it says you need to update, you should do so:" );
+                    $body .= "\n\n" . __( "Please check out your site now. It's possible that everything is working. If it says you need to update, you should do so:", 'ecjia');
                     $body .= "\n" . network_admin_url( 'update-core.php' );
                     break;
         }
@@ -686,35 +686,35 @@ class AutomaticUpdater
         $critical_support = 'critical' === $type && ! empty( $core_update->support_email );
         if ( $critical_support ) {
             // Support offer if available.
-            $body .= "\n\n" . sprintf( __( "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working." ), $core_update->support_email );
+            $body .= "\n\n" . sprintf( __( "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working.", 'ecjia'), $core_update->support_email );
         } else {
             // Add a note about the support forums.
-            $body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
-            $body .= "\n" . __( 'https://wordpress.org/support/' );
+            $body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.', 'ecjia');
+            $body .= "\n" . __( 'https://wordpress.org/support/', 'ecjia');
         }
     
         // Updates are important!
         if ( $type != 'success' || $newer_version_available ) {
-            $body .= "\n\n" . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.' );
+            $body .= "\n\n" . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.', 'ecjia');
         }
     
         if ( $critical_support ) {
-            $body .= " " . __( "If you reach out to us, we'll also ensure you'll never have this problem again." );
+            $body .= " " . __( "If you reach out to us, we'll also ensure you'll never have this problem again.", 'ecjia');
         }
     
         // If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
         if ( $type == 'success' && ! $newer_version_available && ( get_plugin_updates() || get_theme_updates() ) ) {
-            $body .= "\n\n" . __( 'You also have some plugins or themes with updates available. Update them now:' );
+            $body .= "\n\n" . __( 'You also have some plugins or themes with updates available. Update them now:', 'ecjia');
             $body .= "\n" . network_admin_url();
         }
     
-        $body .= "\n\n" . __( 'The WordPress Team' ) . "\n";
+        $body .= "\n\n" . __( 'The WordPress Team', 'ecjia') . "\n";
     
         if ( 'critical' == $type && is_ecjia_error( $result ) ) {
             $body .= "\n***\n\n";
-            $body .= sprintf( __( 'Your site was running version %s.' ), $GLOBALS['wp_version'] );
-            $body .= ' ' . __( 'We have some data that describes the error your site encountered.' );
-            $body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
+            $body .= sprintf( __( 'Your site was running version %s.', 'ecjia'), $GLOBALS['wp_version'] );
+            $body .= ' ' . __( 'We have some data that describes the error your site encountered.', 'ecjia');
+            $body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:', 'ecjia');
     
             // If we had a rollback and we're still critical, then the rollback failed too.
             // Loop through all errors (the main WP_Error, the update result, the rollback result) for code, data, etc.
@@ -728,7 +728,7 @@ class AutomaticUpdater
                     continue;
                 }
                 $error_code = $error->get_error_code();
-                $body .= "\n\n" . sprintf( __( "Error code: %s" ), $error_code );
+                $body .= "\n\n" . sprintf( __( "Error code: %s", 'ecjia'), $error_code );
                 if ( 'rollback_was_required' == $error_code ) {
                     continue;
                 }
@@ -786,15 +786,15 @@ class AutomaticUpdater
         $body = array();
         $failures = 0;
     
-        $body[] = sprintf( __( 'WordPress site: %s' ), network_home_url( '/' ) );
+        $body[] = sprintf( __( 'WordPress site: %s', 'ecjia'), network_home_url( '/' ) );
     
         // Core
         if ( isset( $this->update_results['core'] ) ) {
             $result = $this->update_results['core'][0];
             if ( $result->result && ! is_ecjia_error( $result->result ) ) {
-                $body[] = sprintf( __( 'SUCCESS: WordPress was successfully updated to %s' ), $result->name );
+                $body[] = sprintf( __( 'SUCCESS: WordPress was successfully updated to %s', 'ecjia'), $result->name );
             } else {
-                $body[] = sprintf( __( 'FAILED: WordPress failed to update to %s' ), $result->name );
+                $body[] = sprintf( __( 'FAILED: WordPress failed to update to %s', 'ecjia'), $result->name );
                 $failures++;
             }
             $body[] = '';
@@ -807,28 +807,28 @@ class AutomaticUpdater
             $success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
             if ( $success_items ) {
                 $messages = array(
-                    'plugin'      => __( 'The following plugins were successfully updated:' ),
-                    'theme'       => __( 'The following themes were successfully updated:' ),
-                    'translation' => __( 'The following translations were successfully updated:' ),
+                    'plugin'      => __( 'The following plugins were successfully updated:', 'ecjia'),
+                    'theme'       => __( 'The following themes were successfully updated:', 'ecjia'),
+                    'translation' => __( 'The following translations were successfully updated:', 'ecjia'),
                 );
     
                 $body[] = $messages[ $type ];
                 foreach ( wp_list_pluck( $success_items, 'name' ) as $name ) {
-                    $body[] = ' * ' . sprintf( __( 'SUCCESS: %s' ), $name );
+                    $body[] = ' * ' . sprintf( __( 'SUCCESS: %s', 'ecjia'), $name );
                 }
             }
             if ( $success_items != $this->update_results[ $type ] ) {
                 // Failed updates
                 $messages = array(
-                    'plugin'      => __( 'The following plugins failed to update:' ),
-                    'theme'       => __( 'The following themes failed to update:' ),
-                    'translation' => __( 'The following translations failed to update:' ),
+                    'plugin'      => __( 'The following plugins failed to update:', 'ecjia'),
+                    'theme'       => __( 'The following themes failed to update:', 'ecjia'),
+                    'translation' => __( 'The following translations failed to update:', 'ecjia'),
                 );
     
                 $body[] = $messages[ $type ];
                 foreach ( $this->update_results[ $type ] as $item ) {
                     if ( ! $item->result || is_ecjia_error( $item->result ) ) {
-                        $body[] = ' * ' . sprintf( __( 'FAILED: %s' ), $item->name );
+                        $body[] = ' * ' . sprintf( __( 'FAILED: %s', 'ecjia'), $item->name );
                         $failures++;
                     }
                 }
@@ -848,14 +848,14 @@ If you think these failures might be due to a bug in WordPress, could you report
  * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta
  * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/
     
-Thanks! -- The WordPress Team" );
+Thanks! -- The WordPress Team", 'ecjia');
     
-            $subject = sprintf( __( '[%s] There were failures during background updates' ), $site_title );
+            $subject = sprintf( __( '[%s] There were failures during background updates', 'ecjia'), $site_title );
         } else {
-            $subject = sprintf( __( '[%s] Background updates have finished' ), $site_title );
+            $subject = sprintf( __( '[%s] Background updates have finished', 'ecjia'), $site_title );
         }
     
-        $title = __( 'UPDATE LOG' );
+        $title = __( 'UPDATE LOG', 'ecjia');
         $body[] = $title;
         $body[] = str_repeat( '=', strlen( $title ) );
         $body[] = '';
@@ -879,10 +879,10 @@ Thanks! -- The WordPress Team" );
     
                         if ( 'rollback' === $result_type ) {
                             /* translators: 1: Error code, 2: Error message. */
-                            $body[] = '  ' . sprintf( __( 'Rollback Error: [%1$s] %2$s' ), $result->get_error_code(), $result->get_error_message() );
+                            $body[] = '  ' . sprintf( __( 'Rollback Error: [%1$s] %2$s', 'ecjia'), $result->get_error_code(), $result->get_error_message() );
                         } else {
                             /* translators: 1: Error code, 2: Error message. */
-                            $body[] = '  ' . sprintf( __( 'Error: [%1$s] %2$s' ), $result->get_error_code(), $result->get_error_message() );
+                            $body[] = '  ' . sprintf( __( 'Error: [%1$s] %2$s', 'ecjia'), $result->get_error_code(), $result->get_error_message() );
                         }
     
                         if ( $result->get_error_data() )
