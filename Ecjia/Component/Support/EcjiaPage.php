@@ -153,7 +153,8 @@ class EcjiaPage extends Page
      */
     public function pres() {
         $num = max(1, $this->current_page - $this->page_row);
-        return $this->current_page > $this->page_row ? "<li><a class='data-pjax' href='" . $this->get_url($num) . "'>前{$this->page_row}页</a></li>" : "";
+        $sprint = sprintf(__('前%s页', 'ecjia'), $this->page_row);
+        return $this->current_page > $this->page_row ? "<li><a class='data-pjax' href='" . $this->get_url($num) . "'> {$sprint}</a></li>" : "";
     }
 
     /**
@@ -162,7 +163,8 @@ class EcjiaPage extends Page
      */
     public function nexts() {
         $num = min($this->total_pages, $this->current_page + $this->page_row);
-        return $this->current_page + $this->page_row < $this->total_pages ? "<li><a class='data-pjax' href='" . $this->get_url($num) . "'>后{$this->page_row}页</a></li>" : "";
+        $sprint = sprintf(__('后%s页', 'ecjia'), $this->page_row);
+        return $this->current_page + $this->page_row < $this->total_pages ? "<li><a class='data-pjax' href='" . $this->get_url($num) . "'>{$sprint}</a></li>" : "";
     }
 
     /**
@@ -188,7 +190,8 @@ class EcjiaPage extends Page
      * @return string
      */
     public function now_page() {
-        return "<li><span class='now_page'>第{$this->start_id}-{$this->end_id}{$this->desc['unit']}</span></li>";
+        $sprint = sprintf(__('第%s-%s%s', 'ecjia'), $this->start_id, $this->end_id, $this->desc['unit']);
+        return "<li><span class='now_page'>{$sprint}</span></li>";
     }
 
     /**
@@ -196,7 +199,8 @@ class EcjiaPage extends Page
      * @return string
      */
     public function count() {
-        return "<span class='count'>[共{$this->total_pages}页] [{$this->total_records}条记录]</span>";
+        $total_pages = sprintf(__('[共%s页] [%条记录]', 'ecjia'), $this->total_pages, $this->total_records);
+        return "<span class='count'>{$total_pages}</span>";
     }
 
     /**
@@ -204,11 +208,11 @@ class EcjiaPage extends Page
      */
     public function page_desc() {
     	$lang = array(
-    		'total_records' => __('总计 '),
-    		'total_pages' 	=> __('条记录，分为'),
-    		'page_current' 	=> __('页当前第'),
-    		'page_size' 	=> __('页，每页'),
-    		'page'			=> __(' 页'),
+    		'total_records' => __('总计 ', 'ecjia'),
+    		'total_pages' 	=> __('条记录，分为', 'ecjia'),
+    		'page_current' 	=> __('页当前第', 'ecjia'),
+    		'page_size' 	=> __('页，每页', 'ecjia'),
+    		'page'			=> __(' 页', 'ecjia'),
     	);
     	
     	return <<< EOF

@@ -110,7 +110,7 @@ class EcjiaForm
         if ( 'delete' === $type )
             $class = 'button-secondary delete';
     
-        $text = $text ? $text : __( 'Save Changes' );
+        $text = $text ? $text : __( 'Save Changes', 'ecjia');
     
         // Default the id attribute to $name unless an id was specifically provided in $other_attributes
         $id = $name;
