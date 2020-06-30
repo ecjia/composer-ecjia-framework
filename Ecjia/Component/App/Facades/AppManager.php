@@ -284,15 +284,15 @@ class AppManager extends Facade {
      */
     public static function validate_application($appdir) {
         if ( RC_File::validate_file($appdir) ) {
-            return new ecjia_error('application_invalid', __('Invalid application path.'));
+            return new ecjia_error('application_invalid', __('Invalid application path.', 'ecjia'));
         }
 
         if ( ! file_exists(SITE_APP_PATH . '/' . $appdir) && ! file_exists(RC_APP_PATH . '/' . $appdir) ) {
-            return new ecjia_error('application_not_found', __('Application file does not exist.'));
+            return new ecjia_error('application_not_found', __('Application file does not exist.', 'ecjia'));
         }
 
         if (!RC_App::get_package_data($appdir)) {
-            return new ecjia_error('application_package_not_found', __('Application Package info does not exist.'));
+            return new ecjia_error('application_package_not_found', __('Application Package info does not exist.', 'ecjia'));
         }
 
         return 0;
@@ -399,11 +399,11 @@ class AppManager extends Facade {
             
             if ( ob_get_length() > 0 ) {
                 $output = ob_get_clean();
-                return new ecjia_error('unexpected_output', __('The plugin generated unexpected output.'), $output);
+                return new ecjia_error('unexpected_output', __('The plugin generated unexpected output.', 'ecjia'), $output);
             }
             ob_end_clean();
         } else {
-            return new ecjia_error('application_already_installed', __('应用已经安装，请勿重复安装。'));
+            return new ecjia_error('application_already_installed', __('应用已经安装，请勿重复安装。', 'ecjia'));
         }
 
         return null;
@@ -430,7 +430,7 @@ class AppManager extends Facade {
         $application = RC_App::app_basename( trim( $app_dir ) );
 
         if ( ! self::is_active($app_id) ) {
-            new ecjia_error('application_not_installed', __('应用未安装！'));
+            new ecjia_error('application_not_installed', __('应用未安装！', 'ecjia'));
         }
 
 //        $install_class = $app_dir . '_installer';
