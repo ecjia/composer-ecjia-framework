@@ -873,10 +873,10 @@ class EcjiaScreen
 
             <div class="screen-meta-links" id="screen-meta-links">
                 <?php if ( $this->get_help_tabs() ) : ?>
-                <a class="btn btn-mini contextual-help-link" href="javascript:;" id="contextual-help-link" aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e( '帮助' ); ?><i class="fontello-icon-angle-down"></i></a>
+                <a class="btn btn-mini contextual-help-link" href="javascript:;" id="contextual-help-link" aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e( '帮助', 'ecjia'); ?><i class="fontello-icon-angle-down"></i></a>
                 <?php endif;
                 if ( $this->show_screen_options() ) : ?>
-                <a class="btn btn-mini show-settings-link" href="javascript:;" id="show-settings-link" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e( '选项' ); ?><i class="fontello-icon-angle-down"></i></a>
+                <a class="btn btn-mini show-settings-link" href="javascript:;" id="show-settings-link" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e( '选项', 'ecjia'); ?><i class="fontello-icon-angle-down"></i></a>
                 <?php endif; ?>
             </div>
 
@@ -948,7 +948,7 @@ class EcjiaScreen
 
 		switch ( $this->id ) {
 			case 'widgets':
-				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
+				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode', 'ecjia') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode', 'ecjia') . "</a></p>\n";
 				break;
 			default:
 				$this->_screen_settings = '';
@@ -1001,7 +1001,7 @@ class EcjiaScreen
 		<div class="screen-options-wrap" class="hidden" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>"><!-- tabindex="-1" -->
 		<form id="adv-settings" action="" method="post">
 		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
-			<h5><?php _e( '显示下列项目' ); ?></h5>
+			<h5><?php _e( '显示下列项目', 'ecjia'); ?></h5>
 		<?php
 		endif;
 
@@ -1132,7 +1132,7 @@ class EcjiaScreen
 					<?php echo RC_Format::esc_html( $per_page_label ); ?>
 				</label>
 			<?php endif;
-			echo ecjia_form::get_submit_button( __( '应用' ), 'btn', 'screen-options-apply', false ); ?>
+			echo ecjia_form::get_submit_button( __( '应用', 'ecjia'), 'btn', 'screen-options-apply', false ); ?>
 			<input type='hidden' name='wp_screen_options[option]' value='<?php echo RC_Format::esc_attr($option); ?>' />
 		</div>
 		<?php
@@ -1290,7 +1290,7 @@ class EcjiaScreen
 	 */
 	public static function convert_to_screen( $hook_name ) {
 	    if ( ! class_exists( __CLASS__ ) ) {
-	        _doing_it_wrong( 'convert_to_screen(), add_meta_box()', __( "Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead." ), '3.3' );
+	        _doing_it_wrong( 'convert_to_screen(), add_meta_box()', __( "Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead.", 'ecjia'), '3.3' );
 	        return (object) array( 'id' => '_invalid', 'base' => '_are_belong_to_us' );
 	    }
 
