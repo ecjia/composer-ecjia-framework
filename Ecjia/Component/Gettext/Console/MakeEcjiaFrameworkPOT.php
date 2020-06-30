@@ -43,7 +43,7 @@ class MakeEcjiaFrameworkPOT extends MakeEcjiaGenericPOT
             'default_output' => $dir . '/resources/languages/zh_CN/ecjia.pot',
         ));
 
-        $this->console->info(sprintf(__("提取%sPHP中语言包成功"), 'ecjia框架'));
+        $this->console->info(sprintf(__("提取%sPHP中语言包成功", 'ecjia'), 'ecjia框架'));
 
         return $result;
     }

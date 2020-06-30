@@ -45,7 +45,7 @@ class MakeEcjiaSystemPOT extends MakeEcjiaGenericPOT
             'default_output' => $dir . '/languages/zh_CN/system.pot',
         ));
 
-        $this->console->info(sprintf(__("提取%sPHP中语言包成功"), '系统应用'));
+        $this->console->info(sprintf(__("提取%sPHP中语言包成功", 'ecjia'), '系统应用'));
 
         $template_result = $this->makeTemplate($dir);
 
@@ -85,7 +85,7 @@ class MakeEcjiaSystemPOT extends MakeEcjiaGenericPOT
             unlink($template_pot);
         }
 
-        $this->console->info(sprintf(__("提取%s模板语言包成功"), '系统应用'));
+        $this->console->info(sprintf(__("提取%s模板语言包成功", 'ecjia'), '系统应用'));
 
         return true;
     }

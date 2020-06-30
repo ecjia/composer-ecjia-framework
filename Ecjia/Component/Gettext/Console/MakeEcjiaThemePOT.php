@@ -74,7 +74,7 @@ class MakeEcjiaThemePOT extends MakeEcjiaGenericPOT
         $output_shell = escapeshellarg($output);
         system("msguniq $output_shell -o $output_shell");
 
-        $this->console->info(sprintf(__("提取%sPHP中语言包成功"), $this->slug));
+        $this->console->info(sprintf(__("提取%sPHP中语言包成功", 'ecjia'), $this->slug));
 
         $template_result = $this->makeTemplate($dir);
 
@@ -143,7 +143,7 @@ class MakeEcjiaThemePOT extends MakeEcjiaGenericPOT
             unlink($template_pot);
         }
 
-        $this->console->info(sprintf(__("提取%s模板语言包成功"), $this->slug));
+        $this->console->info(sprintf(__("提取%s模板语言包成功", 'ecjia'), $this->slug));
 
         return true;
     }

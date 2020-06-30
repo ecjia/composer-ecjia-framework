@@ -73,7 +73,7 @@ class MakeEcjiaAppPOT extends MakeEcjiaGenericPOT
             'default_output' => $this->getPHPPotPath($dir),
         ));
 
-        $this->console->info(sprintf(__("提取%sPHP中语言包成功"), $this->getAppName()));
+        $this->console->info(sprintf(__("提取%sPHP中语言包成功", 'ecjia'), $this->getAppName()));
 
         $template_result = $this->makeTemplate($dir);
 
@@ -118,7 +118,7 @@ class MakeEcjiaAppPOT extends MakeEcjiaGenericPOT
             unlink($template_pot);
         }
 
-        $this->console->info(sprintf(__("提取%s模板语言包成功"), $this->getAppName()));
+        $this->console->info(sprintf(__("提取%s模板语言包成功", 'ecjia'), $this->getAppName()));
 
         return true;
     }

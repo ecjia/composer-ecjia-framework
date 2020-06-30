@@ -100,7 +100,7 @@ class MakeEcjiaPluginPOT extends MakePOT
         $output_shell = escapeshellarg($output);
         system("msguniq $output_shell -o $output_shell");
 
-        $this->console->info(sprintf(__("提取%sPHP中语言包成功"), $this->slug));
+        $this->console->info(sprintf(__("提取%sPHP中语言包成功", 'ecjia'), $this->slug));
 
         return $res;
     }
