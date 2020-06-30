@@ -200,7 +200,7 @@ class Option
      */
     public static function protect_special_option( $option ) {
         if ( 'alloptions' === $option || 'notoptions' === $option )
-            rc_die( sprintf( __( '%s is a protected WP option and may not be modified' ), RC_Format::esc_html( $option ) ) );
+            rc_die( sprintf( __( '%s is a protected WP option and may not be modified', 'ecjia'), RC_Format::esc_html( $option ) ) );
     }
     
     /**
