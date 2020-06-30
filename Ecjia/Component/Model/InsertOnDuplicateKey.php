@@ -46,13 +46,12 @@
 //
 
 /**
- * Created by PhpStorm.
  * User: royalwang
  * Date: 2018/7/23
  * Time: 1:33 PM
  */
 
-namespace Ecjia\System\Frameworks\Model;
+namespace Ecjia\Component\Model;
 
 
 trait InsertOnDuplicateKey
