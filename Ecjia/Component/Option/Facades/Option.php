@@ -630,7 +630,7 @@ class Option
         	    } else {
         	        $value = RC_Format::sanitize_email( $value );
         	        if ( ! is_email( $value ) ) {
-        	            $error = __( 'The email address entered did not appear to be a valid email address. Please enter a valid email address.' );
+        	            $error = __( 'The email address entered did not appear to be a valid email address. Please enter a valid email address.', 'ecjia');
         	        }
         	    }
         	    break;
@@ -733,7 +733,7 @@ class Option
         	        if ( preg_match( '#http(s?)://(.+)#i', $value ) ) {
         	            $value = RC_Format::esc_url_raw( $value );
         	        } else {
-        	            $error = __( 'The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL.' );
+        	            $error = __( 'The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL.', 'ecjia');
         	        }
         	    }
         	    break;
@@ -746,7 +746,7 @@ class Option
         	        if ( preg_match( '#http(s?)://(.+)#i', $value ) ) {
         	            $value = RC_Format::esc_url_raw( $value );
         	        } else {
-        	            $error = __( 'The Site address you entered did not appear to be a valid URL. Please enter a valid URL.' );
+        	            $error = __( 'The Site address you entered did not appear to be a valid URL. Please enter a valid URL.', 'ecjia');
         	        }
         	    }
         	    break;
@@ -801,7 +801,7 @@ class Option
         	case 'timezone_string':
         	    $allowed_zones = timezone_identifiers_list();
         	    if ( ! in_array( $value, $allowed_zones ) && ! empty( $value ) ) {
-        	        $error = __( 'The timezone you have entered is not valid. Please select a valid timezone.' );
+        	        $error = __( 'The timezone you have entered is not valid. Please select a valid timezone.', 'ecjia');
         	    }
         	    break;
     
