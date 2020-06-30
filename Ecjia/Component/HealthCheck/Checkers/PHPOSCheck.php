@@ -32,8 +32,8 @@ class PHPOSCheck
             'value' => PHP_OS,
             'checked_label' => $checked_label,
             'checked_status' => $checked_status,
-            'name' => __('服务器操作系统', 'installer'),
-            'suggest_label' => __('Windows_NT/Linux/Freebsd/Darwin', 'installer'),
+            'name' => __('服务器操作系统', 'ecjia'),
+            'suggest_label' => __('Windows_NT/Linux/Freebsd/Darwin', 'ecjia'),
         ];
     }
 

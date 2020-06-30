@@ -32,8 +32,8 @@ class UploadMaxFilesizeCheck
             'value' => $max_filesize,
             'checked_label' => $checked_label,
             'checked_status' => $checked_status,
-            'name' => __('文件上传大小', 'installer'),
-            'suggest_label' => __('2M及以上', 'installer'),
+            'name' => __('文件上传大小', 'ecjia'),
+            'suggest_label' => __('2M及以上', 'ecjia'),
         ];
 
     }

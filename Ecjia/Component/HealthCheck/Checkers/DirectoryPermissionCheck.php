@@ -23,10 +23,10 @@ class DirectoryPermissionCheck
 
         $checked = collect($dirPermission)->map(function ($item) use ($checker) {
             if ($item['m'] > 0) {
-                $checked_label  = $checker->getOk() . __('可写', 'installer');
+                $checked_label  = $checker->getOk() . __('可写', 'ecjia');
                 $checked_status = true;
             } else {
-                $checked_label  = $checker->getCancel() . __('不可写', 'installer');
+                $checked_label  = $checker->getCancel() . __('不可写', 'ecjia');
                 $checked_status = false;
             }
 
@@ -40,8 +40,8 @@ class DirectoryPermissionCheck
                 'value'          => $dir,
                 'checked_label'  => $checked_label,
                 'checked_status' => $checked_status,
-                'name' => __($item['item'], 'installer'),
-                'suggest_label' => __('可写', 'installer'),
+                'name' => __($item['item'], 'ecjia'),
+                'suggest_label' => __('可写', 'ecjia'),
             ];
         })->all();
 
@@ -71,7 +71,7 @@ class DirectoryPermissionCheck
             $mark = RC_File::file_mode_info(SITE_ROOT . $val);
 
             $list[] = array(
-                'item' => $key . __('目录', 'installer'),
+                'item' => $key . __('目录', 'ecjia'),
                 'dir'  => $val,
                 'mark' => $mark,
                 'r'    => $mark & 1,

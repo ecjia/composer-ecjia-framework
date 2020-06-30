@@ -31,7 +31,7 @@ class ExtensionGDCheck
                 $gd_support[] = 'gif';
             }
 
-            $label = sprintf(__("支持（%s）", 'installer'), implode(' / ', $gd_support));
+            $label = sprintf(__("支持（%s）", 'ecjia'), implode(' / ', $gd_support));
 
             $checked_label = $checker->getOk();
             $checked_status = true;
@@ -43,11 +43,11 @@ class ExtensionGDCheck
         }
 
         return [
-            'value' => $checked_status ? $label : __('关闭', 'installer'),
+            'value' => $checked_status ? $label : __('关闭', 'ecjia'),
             'checked_label' => $checked_label,
             'checked_status' => $checked_status,
-            'name' => __('GD扩展', 'installer'),
-            'suggest_label' => __('必须开启', 'installer'),
+            'name' => __('GD扩展', 'ecjia'),
+            'suggest_label' => __('必须开启', 'ecjia'),
         ];
 
     }

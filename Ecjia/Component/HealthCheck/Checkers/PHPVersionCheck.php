@@ -31,8 +31,8 @@ class PHPVersionCheck
             'value' => PHP_VERSION,
             'checked_label' => $checked_label,
             'checked_status' => $checked_status,
-            'name' => __('PHP版本', 'installer'),
-            'suggest_label' => sprintf(__('%s及以上', 'installer'), RoyalcmsConstant::PHP_REQUIRED),
+            'name' => __('PHP版本', 'ecjia'),
+            'suggest_label' => sprintf(__('%s及以上', 'ecjia'), RoyalcmsConstant::PHP_REQUIRED),
         ];
 
     }

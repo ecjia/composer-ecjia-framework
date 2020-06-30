@@ -34,8 +34,8 @@ class WebServerCheck
             'value' => $web_server,
             'checked_label' => $checked_label,
             'checked_status' => $checked_status,
-            'name' => __('WEB服务器', 'installer'),
-            'suggest_label' => __('推荐Apache/Nginx/IIS', 'installer'),
+            'name' => __('WEB服务器', 'ecjia'),
+            'suggest_label' => __('推荐Apache/Nginx/IIS', 'ecjia'),
         ];
     }
 

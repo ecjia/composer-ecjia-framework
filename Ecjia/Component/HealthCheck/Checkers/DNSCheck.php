@@ -42,8 +42,8 @@ class DNSCheck
             'value' => $host,
             'checked_label' => $checked_label,
             'checked_status' => $checked_status,
-            'name' => __('DNS解析', 'installer'),
-            'suggest_label' => __('建议设置正确', 'installer'),
+            'name' => __('DNS解析', 'ecjia'),
+            'suggest_label' => __('建议设置正确', 'ecjia'),
         ];
     }
 

@@ -11,14 +11,14 @@ class TimezoneCheck
 
     public function handle(CheckerInterface $checker)
     {
-        $result = function_exists("date_default_timezone_get") ? date_default_timezone_get() : __('无需设置', 'installer');
+        $result = function_exists("date_default_timezone_get") ? date_default_timezone_get() : __('无需设置', 'ecjia');
 
         return [
             'value' => $result,
             'checked_label' => $checker->getOk(),
             'checked_status' => true,
-            'name' => __('时区检查', 'installer'),
-            'suggest_label' => __('建议设置正确', 'installer'),
+            'name' => __('时区检查', 'ecjia'),
+            'suggest_label' => __('建议设置正确', 'ecjia'),
         ];
 
     }

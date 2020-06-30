@@ -27,11 +27,11 @@ class ExtensionMysqliCheck
         }
 
         return [
-            'value' => $checked_status ? __('开启', 'installer') : __('关闭', 'installer'),
+            'value' => $checked_status ? __('开启', 'ecjia') : __('关闭', 'ecjia'),
             'checked_label' => $checked_label,
             'checked_status' => $checked_status,
-            'name' => __('MySQLi扩展', 'installer'),
-            'suggest_label' => __('必须开启，请使用MySQL5.5以上版本', 'installer'),
+            'name' => __('MySQLi扩展', 'ecjia'),
+            'suggest_label' => __('必须开启，请使用MySQL5.5以上版本', 'ecjia'),
         ];
 
     }

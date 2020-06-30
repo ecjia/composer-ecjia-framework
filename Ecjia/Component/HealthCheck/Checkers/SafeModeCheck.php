@@ -23,11 +23,11 @@ class SafeModeCheck
         }
 
         return [
-            'value'          => $checked_status ? __('否', 'installer') : __('是', 'installer'),
+            'value'          => $checked_status ? __('否', 'ecjia') : __('是', 'ecjia'),
             'checked_label'  => $label,
             'checked_status' => $checked_status,
-            'name'           => __('安全模式', 'installer'),
-            'suggest_label'  => __('否，建议关闭', 'installer'),
+            'name'           => __('安全模式', 'ecjia'),
+            'suggest_label'  => __('否，建议关闭', 'ecjia'),
         ];
 
     }
