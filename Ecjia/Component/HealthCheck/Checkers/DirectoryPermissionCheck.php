@@ -40,7 +40,7 @@ class DirectoryPermissionCheck
                 'value'          => $dir,
                 'checked_label'  => $checked_label,
                 'checked_status' => $checked_status,
-                'name' => __($item['item'], 'ecjia'),
+                'name' => $item['item'],
                 'suggest_label' => __('可写', 'ecjia'),
             ];
         })->all();
