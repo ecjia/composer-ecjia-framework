@@ -82,7 +82,7 @@ class EcjiaOpen
         $this->scheme = $parts['scheme'];
         
         if ($this->scheme != 'ecjiaopen') {
-            throw new InvalidArgumentException(__('Url Scheme不是ecjiaopen。'));
+            throw new InvalidArgumentException(__('Url Scheme不是ecjiaopen。', 'ecjia'));
         }
         
         $this->host = $parts['host'];
@@ -123,8 +123,8 @@ class EcjiaOpen
         {
             return call_user_func_array(static::$macros[$this->openType], array($this->querys));
         }
-        
-        throw new \BadMethodCallException("Call to undefined opentype $this->openType");
+
+        throw new \BadMethodCallException(sprintf(__('Call to undefined opentype %s', 'ecjia'), $this->openType));
     }
     
     /**
@@ -154,8 +154,8 @@ class EcjiaOpen
         {
             return call_user_func_array(static::$macros[$method], $parameters);
         }
-    
-        throw new \BadMethodCallException("Call to undefined method $method");
+
+        throw new \BadMethodCallException(sprintf(__('Call to undefined method %s', 'ecjia'), $method));
     }
     
 }
