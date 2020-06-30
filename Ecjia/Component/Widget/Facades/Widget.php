@@ -311,7 +311,7 @@ class Widget
     		<a class="widget-control-close" href="#close"><?php _e('Close', 'ecjia'); ?></a>
     		</div>
     		<div class="alignright<?php if ( 'noform' === $has_form ) echo ' widget-control-noform'; ?>">
-    			<?php ecjia_form::submit_button( __( 'Save' ), 'button-primary widget-control-save right', 'savewidget', false, array( 'id' => 'widget-' . RC_Format::esc_attr( $id_format ) . '-savewidget' ) ); ?>
+    			<?php ecjia_form::submit_button( __( 'Save', 'ecjia'), 'button-primary widget-control-save right', 'savewidget', false, array( 'id' => 'widget-' . RC_Format::esc_attr( $id_format ) . '-savewidget' ) ); ?>
     			<span class="spinner"></span>
     		</div>
     		<br class="clear" />
