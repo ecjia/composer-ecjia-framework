@@ -117,7 +117,7 @@ abstract class UmengNotification
 	public function isComplete()
     {
 		if (is_null($this->appMasterSecret))
-			throw new Exception("Please set your app master secret for generating the signature!");
+			throw new Exception(__("Please set your app master secret for generating the signature!", 'ecjia'));
 		$this->checkArrayValues($this->data);
 		return TRUE;
 	}
@@ -126,7 +126,7 @@ abstract class UmengNotification
     {
 		foreach ($arr as $key => $value) {
 			if (is_null($value))
-				throw new Exception($key . " is NULL!");
+				throw new Exception(sprintf(__('%s is NULL!', 'ecjia'), $key));
 			else if (is_array($value)) {
 				$this->checkArrayValues($value);
 			}
@@ -161,10 +161,11 @@ abstract class UmengNotification
         // print($result . "\r\n");
         if ($httpCode == "0") {
           	 // Time out
-           	throw new Exception("Curl error number:" . $curlErrNo . " , Curl error details:" . $curlErr . "\r\n");
+
+           	throw new Exception(sprintf(__("Curl error number:%s , Curl error details:%s \r\n", 'ecjia'), $curlErrNo, $curlErr));
         } else if ($httpCode != "200") {
            	// We did send the notifition out and got a non-200 response
-           	throw new Exception("Http code:" . $httpCode .  " details:" . $result . "\r\n");
+           	throw new Exception(sprintf(__("http code:%s details:%s \r\n", 'ecjia'), $httpCode, $result));
         } else {
            	return $result;
         }

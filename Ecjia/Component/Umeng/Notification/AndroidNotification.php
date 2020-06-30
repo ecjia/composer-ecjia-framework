@@ -103,7 +103,7 @@ abstract class AndroidNotification extends UmengNotification
 	public function setPredefinedKeyValue($key, $value)
     {
 		if (!is_string($key))
-			throw new Exception("key should be a string!");
+			throw new Exception(__("key should be a string!", 'ecjia'));
 
 		if (in_array($key, $this->DATA_KEYS)) {
 			$this->data[$key] = $value;
@@ -138,7 +138,7 @@ abstract class AndroidNotification extends UmengNotification
 	public function setExtraField($key, $value)
     {
 		if (!is_string($key))
-			throw new Exception("key should be a string!");
+			throw new Exception(__("key should be a string!", 'ecjia'));
 		$this->data["payload"]["extra"][$key] = $value;
 	}
 }

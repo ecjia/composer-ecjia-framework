@@ -64,7 +64,7 @@ class AndroidCustomizedcast extends AndroidNotification
     {
 		parent::isComplete();
 		if (!array_key_exists("alias", $this->data) && !array_key_exists("file_id", $this->data))
-			throw new Exception("You need to set alias or upload file for customizedcast!");
+			throw new Exception(__("You need to set alias or upload file for customizedcast!", 'ecjia'));
 	}
 
 	// Upload file with device_tokens or alias to Umeng
@@ -72,11 +72,11 @@ class AndroidCustomizedcast extends AndroidNotification
 	public function uploadContents($content)
     {
 		if ($this->data["appkey"] == NULL)
-			throw new Exception("appkey should not be NULL!");
+			throw new Exception(__("appkey should not be NULL!", 'ecjia'));
 		if ($this->data["timestamp"] == NULL)
-			throw new Exception("timestamp should not be NULL!");
+			throw new Exception(__("timestamp should not be NULL!", 'ecjia'));
 		if (!is_string($content))
-			throw new Exception("content should be a string!");
+			throw new Exception(__("content should be a string!", 'ecjia'));
 
 		$post = array("appkey"           => $this->data["appkey"],
 					  "timestamp"        => $this->data["timestamp"],
@@ -100,12 +100,12 @@ class AndroidCustomizedcast extends AndroidNotification
         curl_close($ch);
         print($result . "\r\n");
         if ($httpCode == "0") //time out
-        	throw new Exception("Curl error number:" . $curlErrNo . " , Curl error details:" . $curlErr . "\r\n");
+        	throw new Exception(sprintf(__("Curl error number:%s , Curl error details:%s \r\n", 'ecjia'), $curlErrNo, $curlErr));
         else if ($httpCode != "200") //we did send the notifition out and got a non-200 response
-        	throw new Exception("http code:" . $httpCode . " details:" . $result . "\r\n");
+        	throw new Exception(sprintf(__("http code:%s details:%s \r\n", 'ecjia'), $httpCode, $result));
         $returnData = json_decode($result, TRUE);
         if ($returnData["ret"] == "FAIL")
-        	throw new Exception("Failed to upload file, details:" . $result . "\r\n");
+        	throw new Exception(sprintf(__("Failed to upload file, details:%s \r\n", 'ecjia'), $result));
         else
         	$this->data["file_id"] = $returnData["data"]["file_id"];
 	}
