@@ -121,7 +121,7 @@ abstract class ApplicationConfig
             if (count($collection)) {
                 array_unshift($clients, [
                     'app_id' => 0,
-                    'app_name' => __('统一设置', 'mobile'),
+                    'app_name' => __('统一设置', 'ecjia'),
                     'platform' => $this->options->getPlatform()->getCode(),
                     'device_client' => 'all',
                     'device_code' => 0,

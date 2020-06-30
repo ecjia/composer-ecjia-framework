@@ -86,7 +86,7 @@ class ApplicationConfigOptions
         $groups = $this->getConfigGroups();
 
         $outHtml = '<div class="setting-group m_b20">' . PHP_EOL;
-        $outHtml .= '    <span class="setting-group-title"><i class="fontello-icon-cog"></i>' .__('应用配置', 'mobile'). '</span>' . PHP_EOL;
+        $outHtml .= '    <span class="setting-group-title"><i class="fontello-icon-cog"></i>' .__('应用配置', 'ecjia'). '</span>' . PHP_EOL;
         $outHtml .= '    <ul class="nav nav-list m_t10">' . PHP_EOL;
 
         foreach ($groups as $group) {

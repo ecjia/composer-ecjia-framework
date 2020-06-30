@@ -113,7 +113,7 @@ class ApplicationConfigFactory
     public function getOptionKey($code)
     {
         if (!array_key_exists($code, self::$factories)) {
-            throw new InvalidArgumentException("Application Option key '$code' is not supported.");
+            throw new InvalidArgumentException(sprintf(__('Application Option key %s is not supported.', 'ecjia'), $code));
         }
     
         $className = self::$factories[$code];

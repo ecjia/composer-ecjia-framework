@@ -171,7 +171,7 @@ class ApplicationPlatformFactory
     public function platform($code)
     {
         if (!array_key_exists($code, self::$factories)) {
-            throw new InvalidArgumentException("Application platform '$code' is not supported.");
+            throw new InvalidArgumentException(sprintf(__('Application platform  %s is not supported.', 'ecjia'), $code));
         }
     
         $className = self::$factories[$code];
@@ -263,9 +263,9 @@ class ApplicationPlatformFactory
         $allClients = $this->getAllClients();
         
         if (!array_key_exists($code, $allClients)) {
-            throw new InvalidArgumentException("Application client '$code' is not supported.");
+            throw new InvalidArgumentException(sprintf(__('Application client  %s is not supported.', 'ecjia'), $code));
         }
-        
+
         $class = $allClients[$code];
         
         return $class;

@@ -102,7 +102,7 @@ class ApplicationClientOption implements ApplicationOptionInterface
 
         $this->device = $this->client->getMobileDevice();
         if (empty($this->device)) {
-            throw new Exception('当前设置未激活，请去设备管理中激活设备！');
+            throw new Exception(__('当前设置未激活，请去设备管理中激活设备！', 'ecjia'));
         }
 
         $model = MobileOptionModel::where('platform', $this->client->getPlatformCode())
