@@ -237,7 +237,7 @@ class ThemeOption
     {
         if ( 'alloptions' === $option || 'notoptions' === $option )
         {
-            rc_die( sprintf( __( '%s is a protected ECJia Theme option and may not be modified' ), RC_Format::esc_html( $option ) ) );
+            rc_die( sprintf( __( '%s is a protected ECJia Theme option and may not be modified', 'ecjia'), RC_Format::esc_html( $option ) ) );
         }
     }
 
