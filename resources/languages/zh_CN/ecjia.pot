@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia Framework 2.4.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2020-06-30 02:47:21+00:00\n"
+"POT-Creation-Date: 2020-06-30 09:44:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -286,17 +286,31 @@ msgid "信任机构"
 msgstr ""
 
 #: Ecjia/Component/AdminLog/AdminLogObject.php:121
+#: Ecjia/Component/FileHash/Menu.php:105
 #: Ecjia/Component/Menu/MenuGroup/AppsMenuGroup.php:24
 #: Ecjia/Component/Screen/EcjiaScreen.php:1135
 msgid "应用"
 msgstr ""
 
 #: Ecjia/Component/AdminLog/AdminLogObject.php:122
+#: Ecjia/Component/FileHash/Menu.php:138
 msgid "插件"
 msgstr ""
 
 #: Ecjia/Component/ApiClient/Requests/Actions/RemoteAction.php:93
 msgid "Const [serverHost] url not defined."
+msgstr ""
+
+#: Ecjia/Component/ApiServer/Responses/ApiManager.php:79
+msgid "NO ACCESS"
+msgstr ""
+
+#: Ecjia/Component/ApiServer/Responses/ApiManager.php:84
+#: Ecjia/Component/ApiServer/Responses/ApiManager.php:92
+#: Ecjia/Component/ApiServer/Route/ApiControllerParser.php:98
+#: Ecjia/Component/ApiServer/Route/ApiModuleParser.php:102
+#: Ecjia/Component/ApiServer/Route/ApiNamespaceParser.php:84
+msgid "Api Error:%s does not exist."
 msgstr ""
 
 #: Ecjia/Component/App/Facades/AppManager.php:287
@@ -324,12 +338,34 @@ msgstr ""
 msgid "应用未安装！"
 msgstr ""
 
+#: Ecjia/Component/AppClient/Client/ApplicationClientOption.php:105
+msgid "当前设置未激活，请去设备管理中激活设备！"
+msgstr ""
+
 #: Ecjia/Component/AppClient/Config/ApplicationConfig.php:124
 msgid "统一设置"
 msgstr ""
 
+#: Ecjia/Component/AppClient/Config/ApplicationConfigFactory.php:116
+msgid "Application Option key %s is not supported."
+msgstr ""
+
 #: Ecjia/Component/AppClient/Config/ApplicationConfigOptions.php:89
 msgid "应用配置"
+msgstr ""
+
+#: Ecjia/Component/AppClient/Platform/ApplicationPlatformFactory.php:174
+msgid "Application platform  %s is not supported."
+msgstr ""
+
+#: Ecjia/Component/AppClient/Platform/ApplicationPlatformFactory.php:266
+msgid "Application client  %s is not supported."
+msgstr ""
+
+#: Ecjia/Component/CleanCache/CacheFactory.php:119
+#: Ecjia/Component/ComponentFactory/ComponentFactory.php:135
+#: Ecjia/Component/Config/Component/ComponentFactory.php:120
+msgid "Component %s is not supported."
 msgstr ""
 
 #: Ecjia/Component/CleanCache/Components/AdminTemplateCache.php:82
@@ -412,21 +448,49 @@ msgstr ""
 msgid "Url Scheme不是ecjiaopen。"
 msgstr ""
 
-#: Ecjia/Component/FileHash/FormatterResult.php:105
+#: Ecjia/Component/EcjiaOpen/EcjiaOpen.php:127
+msgid "Call to undefined opentype %s"
+msgstr ""
+
+#: Ecjia/Component/EcjiaOpen/EcjiaOpen.php:158
+msgid "Call to undefined method %s"
+msgstr ""
+
+#: Ecjia/Component/FileHash/FormatterResult.php:73
+msgid "被修改"
+msgstr ""
+
+#: Ecjia/Component/FileHash/FormatterResult.php:74
+msgid "被删除"
+msgstr ""
+
+#: Ecjia/Component/FileHash/FormatterResult.php:75
+msgid "未知"
+msgstr ""
+
+#: Ecjia/Component/FileHash/FormatterResult.php:104
 msgid "<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>被修改</span>"
 msgstr ""
 
-#: Ecjia/Component/FileHash/FormatterResult.php:110
-#: Ecjia/Component/FileHash/FormatterResult.php:120
+#: Ecjia/Component/FileHash/FormatterResult.php:109
+#: Ecjia/Component/FileHash/FormatterResult.php:119
 msgid "<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>未知</span>"
 msgstr ""
 
-#: Ecjia/Component/FileHash/FormatterResult.php:116
+#: Ecjia/Component/FileHash/FormatterResult.php:115
 msgid "<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>被删除</span>"
 msgstr ""
 
-#: Ecjia/Component/FileHash/FormatterResult.php:122
+#: Ecjia/Component/FileHash/FormatterResult.php:121
 msgid "<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>正确</span>"
+msgstr ""
+
+#: Ecjia/Component/FileHash/Menu.php:173
+msgid "主题"
+msgstr ""
+
+#: Ecjia/Component/FileHash/Menu.php:209
+msgid "站点"
 msgstr ""
 
 #: Ecjia/Component/Gettext/Console/MakeEcjiaAppPOT.php:76
@@ -656,6 +720,14 @@ msgstr ""
 msgid "The plugin does not have a valid header."
 msgstr ""
 
+#: Ecjia/Component/Plugin/PluginManager.php:111
+msgid "Driver [%s] not found class file."
+msgstr ""
+
+#: Ecjia/Component/Plugin/PluginManager.php:129
+msgid "Driver [%s] not extended AbstractPlugin class."
+msgstr ""
+
 #: Ecjia/Component/Purview/EcjiaPurview.php:103
 msgid "系统"
 msgstr ""
@@ -739,23 +811,39 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: Ecjia/Component/Support/EcjiaPage.php:207
-msgid "总计 "
+#: Ecjia/Component/Support/EcjiaPage.php:156
+msgid "前%s页"
 msgstr ""
 
-#: Ecjia/Component/Support/EcjiaPage.php:208
-msgid "条记录，分为"
+#: Ecjia/Component/Support/EcjiaPage.php:166
+msgid "后%s页"
 msgstr ""
 
-#: Ecjia/Component/Support/EcjiaPage.php:209
-msgid "页当前第"
+#: Ecjia/Component/Support/EcjiaPage.php:193
+msgid "第%s-%s%s"
 msgstr ""
 
-#: Ecjia/Component/Support/EcjiaPage.php:210
-msgid "页，每页"
+#: Ecjia/Component/Support/EcjiaPage.php:202
+msgid "[共%s页] [%条记录]"
 msgstr ""
 
 #: Ecjia/Component/Support/EcjiaPage.php:211
+msgid "总计 "
+msgstr ""
+
+#: Ecjia/Component/Support/EcjiaPage.php:212
+msgid "条记录，分为"
+msgstr ""
+
+#: Ecjia/Component/Support/EcjiaPage.php:213
+msgid "页当前第"
+msgstr ""
+
+#: Ecjia/Component/Support/EcjiaPage.php:214
+msgid "页，每页"
+msgstr ""
+
+#: Ecjia/Component/Support/EcjiaPage.php:215
 msgid " 页"
 msgstr ""
 
@@ -947,6 +1035,70 @@ msgstr ""
 
 #: Ecjia/Component/ThemeOption/ThemeSetting.php:176
 msgid "%1$s is deprecated. The callback from %2$s is used instead."
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:67
+#: Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:67
+msgid "You need to set alias or upload file for customizedcast!"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:75
+#: Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:66
+#: Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:74
+#: Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:66
+msgid "appkey should not be NULL!"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:77
+#: Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:68
+#: Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:76
+#: Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:68
+msgid "timestamp should not be NULL!"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:79
+#: Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:70
+#: Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:78
+#: Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:70
+msgid "content should be a string!"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:103
+#: Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:94
+#: Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:102
+#: Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:94
+#: Ecjia/Component/Umeng/Notification/UmengNotification.php:165
+msgid "Curl error number:%s , Curl error details:%s \n"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:105
+#: Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:96
+#: Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:104
+#: Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:96
+#: Ecjia/Component/Umeng/Notification/UmengNotification.php:168
+msgid "http code:%s details:%s \n"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:108
+#: Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:99
+#: Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:107
+#: Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:99
+msgid "Failed to upload file, details:%s \n"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/AndroidNotification.php:106
+#: Ecjia/Component/Umeng/Notification/AndroidNotification.php:141
+#: Ecjia/Component/Umeng/Notification/IOSNotification.php:85
+#: Ecjia/Component/Umeng/Notification/IOSNotification.php:106
+msgid "key should be a string!"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/UmengNotification.php:120
+msgid "Please set your app master secret for generating the signature!"
+msgstr ""
+
+#: Ecjia/Component/Umeng/Notification/UmengNotification.php:129
+msgid "%s is NULL!"
 msgstr ""
 
 #: Ecjia/Component/Upgrade/AutomaticUpdater.php:293
