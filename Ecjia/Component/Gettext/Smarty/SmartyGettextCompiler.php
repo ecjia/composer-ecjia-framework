@@ -92,7 +92,7 @@ msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
     public function beautifyFilePath($file)
     {
-        $root = realpath(SITE_ROOT);
+        $root = royalcms()->basePath();
         return str_replace($root, '', $file);
     }
 

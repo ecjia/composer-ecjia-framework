@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: royalwang
  * Date: 2019/1/14
  * Time: 14:46
@@ -28,6 +27,7 @@ class MakePOT extends GettextConsoleAbstract
         'ecjia-app',
         'ecjia-plugin',
         'ecjia-theme',
+        'ecjia-framework',
     );
 
     public $rules = array(
