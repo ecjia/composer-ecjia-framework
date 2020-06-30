@@ -46,7 +46,7 @@
 //
 namespace Ecjia\Component\ThemeOption\Models;
 
-use Ecjia\System\Frameworks\Model\Model;
+use Ecjia\Component\Model\Model;
 
 class TemplateOptionsModel extends Model
 {
