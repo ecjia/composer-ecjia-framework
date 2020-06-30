@@ -76,12 +76,12 @@ class ApiManager
         $url = $this->request->query('url');
 
         if (empty($url)) {
-            return new ecjia_error('url_param_not_exists', 'NO ACCESS');
+            return new ecjia_error('url_param_not_exists', __('NO ACCESS', 'ecjia'));
         }
 
         $router = new ApiRouter($url);
         if (! $router->hasKey()) {
-            return new ecjia_error('api_not_exists', 'Api Error: ' . $url . ' does not exist.');
+            return new ecjia_error('api_not_exists', sprintf(__('Api Error:%s does not exist.', 'ecjia'), $url));
         }
 
         $router->parseKey();
@@ -89,7 +89,7 @@ class ApiManager
         $handle = $router->getApihandler();
 
         if (empty($handle)) {
-            return new ecjia_error('api_not_handle', 'Api Error: ' . $url . ' does not exist.');
+            return new ecjia_error('api_not_handle', sprintf(__('Api Error:%s does not exist.', 'ecjia'), $url));
         }
 
         return $handle;

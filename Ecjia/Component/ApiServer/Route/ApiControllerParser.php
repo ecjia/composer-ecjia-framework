@@ -95,7 +95,7 @@ class ApiControllerParser implements ApiParserInterface
             return new $class;
         }
 
-        return new ecjia_error('api_not_instanceof', 'Api Error: ' . $this->getFullClassName() . ' does not exist.');
+        return new ecjia_error('api_not_instanceof', sprintf(__('Api Error:%s does not exist.', 'ecjia'), $this->getFullClassName()));
     }
 
 }
