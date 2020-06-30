@@ -18,7 +18,7 @@ class Validate
     {
 
         if ( ! \RC_Format::sanitize_email( $value ) ) {
-            return __( 'Please write a valid email address!', 'cs-framework' );
+            return __( 'Please write a valid email address!', 'ecjia' );
         }
 
     }
@@ -36,7 +36,7 @@ class Validate
     {
 
         if ( ! is_numeric( $value ) ) {
-            return __( 'Please write a numeric data!', 'cs-framework' );
+            return __( 'Please write a numeric data!', 'ecjia' );
         }
 
     }
@@ -52,7 +52,7 @@ class Validate
     public static function cs_validate_required( $value )
     {
         if ( empty( $value ) ) {
-            return __( 'Fatal Error! This field is required!', 'cs-framework' );
+            return __( 'Fatal Error! This field is required!', 'ecjia' );
         }
     }
 

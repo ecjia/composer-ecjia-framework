@@ -33,7 +33,7 @@ class Textarea extends Options
     public function shortcode_generator()
     {
         if( isset( $this->field['shortcode'] ) && CS_ACTIVE_SHORTCODE ) {
-            echo '<a href="#" class="button button-primary cs-shortcode cs-shortcode-textarea">'. __( 'Add Shortcode', 'cs-framework' ) .'</a>';
+            echo '<a href="#" class="button button-primary cs-shortcode cs-shortcode-textarea">'. __( 'Add Shortcode', 'ecjia' ) .'</a>';
         }
     }
 }

@@ -77,7 +77,7 @@ class OptionField
             $element->output();
             $output .= ob_get_clean();
         } else {
-            $output .= '<p>'. __( 'This field class is not available!', 'theme-framework' ) .'</p>';
+            $output .= '<p>'. __( 'This field class is not available!', 'ecjia' ) .'</p>';
         }
 
         $output .= ( isset( $field['title'] ) ) ? '</div>' : '';

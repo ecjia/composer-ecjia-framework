@@ -203,19 +203,19 @@ class Options extends ThemeFrameworkAbstract
             $value = $this->element_value();
 
             $out .= "<pre>";
-            $out .= "<strong>" . __('CONFIG', 'cs-framework') . ":</strong>";
+            $out .= "<strong>" . __('CONFIG', 'ecjia') . ":</strong>";
             $out .= "\n";
             ob_start();
             var_export($this->field);
             $out .= htmlspecialchars(ob_get_clean());
             $out .= "\n\n";
-            $out .= "<strong>" . __('USAGE', 'cs-framework') . ":</strong>";
+            $out .= "<strong>" . __('USAGE', 'ecjia') . ":</strong>";
             $out .= "\n";
             $out .= (isset($this->field['id'])) ? "cs_get_option( '" . $this->field['id'] . "' );" : '';
 
             if (!empty($value)) {
                 $out .= "\n\n";
-                $out .= "<strong>" . __('VALUE', 'cs-framework') . ":</strong>";
+                $out .= "<strong>" . __('VALUE', 'ecjia') . ":</strong>";
                 $out .= "\n";
                 ob_start();
                 var_export($value);
@@ -229,11 +229,11 @@ class Options extends ThemeFrameworkAbstract
         if ((isset($this->field['debug_light']) && $this->field['debug_light'] === true) || (defined('CS_OPTIONS_DEBUG_LIGHT') && CS_OPTIONS_DEBUG_LIGHT)) {
 
             $out .= "<pre>";
-            $out .= "<strong>" . __('USAGE', 'cs-framework') . ":</strong>";
+            $out .= "<strong>" . __('USAGE', 'ecjia') . ":</strong>";
             $out .= "\n";
             $out .= (isset($this->field['id'])) ? "cs_get_option( '" . $this->field['id'] . "' );" : '';
             $out .= "\n";
-            $out .= "<strong>" . __('ID', 'cs-framework') . ":</strong>";
+            $out .= "<strong>" . __('ID', 'ecjia') . ":</strong>";
             $out .= "\n";
             $out .= (isset($this->field['id'])) ? $this->field['id'] : '';
             $out .= "</pre>";
@@ -308,7 +308,7 @@ class Options extends ThemeFrameworkAbstract
 
             $out .= '<input type="hidden" name="' . $this->element_name('[multilang]', true) . '" value="true" />';
             $out .= '</fieldset>';
-            $out .= '<p class="cs-text-desc">' . sprintf(__('You are editing language: ( <strong>%s</strong> )', 'cs-framework'), $this->multilang['current']) . '</p>';
+            $out .= '<p class="cs-text-desc">' . sprintf(__('You are editing language: ( <strong>%s</strong> )', 'ecjia'), $this->multilang['current']) . '</p>';
 
         }
 

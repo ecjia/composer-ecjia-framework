@@ -364,12 +364,12 @@ class AdminPanel extends ThemeFrameworkAbstract
             if ( is_array( $decode_string ) ) {
                 return $decode_string;
             }
-            $add_errors[] = $this->add_settings_error( __( 'Success. Imported backup options.', 'cs-framework' ), 'updated' );
+            $add_errors[] = $this->add_settings_error( __( 'Success. Imported backup options.', 'ecjia' ), 'updated' );
         }
 
         // reset all options
         if ( isset( $request['resetall'] ) ) {
-            $add_errors[] = $this->add_settings_error( __( 'Default options restored.', 'cs-framework' ), 'updated' );
+            $add_errors[] = $this->add_settings_error( __( 'Default options restored.', 'ecjia' ), 'updated' );
             return null;
         }
 
@@ -388,7 +388,7 @@ class AdminPanel extends ThemeFrameworkAbstract
                     }
                 }
             }
-            $add_errors[] = $this->add_settings_error( __( 'Default options restored for only this section.', 'cs-framework' ), 'updated' );
+            $add_errors[] = $this->add_settings_error( __( 'Default options restored for only this section.', 'ecjia' ), 'updated' );
         }
 
         // option sanitize and validate

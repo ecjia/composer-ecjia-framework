@@ -26,8 +26,8 @@ class Icon extends Options
 
         echo '<div class="cs-icon-select">';
         echo '<span class="cs-icon-preview'. $hidden .'"><i class="'. $value .'"></i></span>';
-        echo '<a href="#" class="button button-primary cs-icon-add">'. __( 'Add Icon', 'cs-framework' ) .'</a>';
-        echo '<a href="#" class="button cs-warning-primary cs-icon-remove'. $hidden .'">'. __( 'Remove Icon', 'cs-framework' ) .'</a>';
+        echo '<a href="#" class="button button-primary cs-icon-add">'. __( 'Add Icon', 'ecjia' ) .'</a>';
+        echo '<a href="#" class="button cs-warning-primary cs-icon-remove'. $hidden .'">'. __( 'Remove Icon', 'ecjia' ) .'</a>';
         echo '<input type="text" name="'. $this->element_name() .'" value="'. $value .'"'. $this->element_class( 'cs-icon-value' ) . $this->element_attributes() .' />';
         echo '</div>';
 

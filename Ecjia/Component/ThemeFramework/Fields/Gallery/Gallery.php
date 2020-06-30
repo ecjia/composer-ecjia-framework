@@ -29,9 +29,9 @@ class Gallery extends Options
         echo $this->element_before();
 
         $value  = $this->element_value();
-        $add    = ( ! empty( $this->field['add_title'] ) ) ? $this->field['add_title'] : __( 'Add Gallery', 'cs-framework' );
-        $edit   = ( ! empty( $this->field['edit_title'] ) ) ? $this->field['edit_title'] : __( 'Edit Gallery', 'cs-framework' );
-        $clear  = ( ! empty( $this->field['clear_title'] ) ) ? $this->field['clear_title'] : __( 'Clear', 'cs-framework' );
+        $add    = ( ! empty( $this->field['add_title'] ) ) ? $this->field['add_title'] : __( 'Add Gallery', 'ecjia' );
+        $edit   = ( ! empty( $this->field['edit_title'] ) ) ? $this->field['edit_title'] : __( 'Edit Gallery', 'ecjia' );
+        $clear  = ( ! empty( $this->field['clear_title'] ) ) ? $this->field['clear_title'] : __( 'Clear', 'ecjia' );
         $hidden = ( empty( $value ) ) ? ' hidden' : '';
 
         echo '<ul>';

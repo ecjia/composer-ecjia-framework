@@ -28,7 +28,7 @@ class Image extends Options
 
         $preview = '';
         $value   = $this->element_value();
-        $add     = ( ! empty( $this->field['add_title'] ) ) ? $this->field['add_title'] : __( 'Add Image', 'cs-framework' );
+        $add     = ( ! empty( $this->field['add_title'] ) ) ? $this->field['add_title'] : __( 'Add Image', 'ecjia' );
         $hidden  = ( empty( $value ) ) ? ' hidden' : '';
 
         if ( ! empty( $value ) ) {
