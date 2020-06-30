@@ -91,11 +91,11 @@ class Metadata
     
     private function _check_args() {
         if (!$this->meta_app) {
-            return new ecjia_error('meta_app_no_exists', __('ecjia meta app no exists'));
+            return new ecjia_error('meta_app_no_exists', __('ecjia meta app no exists', 'ecjia'));
         }
         
         if (!$this->meta_group) {
-            return new ecjia_error('meta_group_no_exists', __('ecjia meta group no exists'));
+            return new ecjia_error('meta_group_no_exists', __('ecjia meta group no exists', 'ecjia'));
         }
         
         $this->meta_type = $this->meta_app . '_' . $this->meta_group;
