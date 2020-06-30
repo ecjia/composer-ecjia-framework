@@ -43,19 +43,19 @@ class ShowMessageOption implements ShowMessageOptionInterface
         switch ($this->page_state) {
             case 1:
             case 'alert-success':
-                $page_state = array('icon' => 'fontello-icon-ok-circled', 'msg' => __('操作成功'), 'class' => 'alert-success');
+                $page_state = array('icon' => 'fontello-icon-ok-circled', 'msg' => __('操作成功', 'ecjia'), 'class' => 'alert-success');
                 break;
             case 2:
             case 'alert-info':
-                $page_state = array('icon' => 'fontello-icon-info-circled', 'msg' => __('操作提示'), 'class' => 'alert-info');
+                $page_state = array('icon' => 'fontello-icon-info-circled', 'msg' => __('操作提示', 'ecjia'), 'class' => 'alert-info');
                 break;
             case 3:
             case '':
-                $page_state = array('icon' => 'fontello-icon-attention-circled', 'msg' => __('操作警告'), 'class' => '');
+                $page_state = array('icon' => 'fontello-icon-attention-circled', 'msg' => __('操作警告', 'ecjia'), 'class' => '');
                 break;
             case 'alert-danger':
             default:
-                $page_state = array('icon' => 'fontello-icon-cancel-circled', 'msg' => __('操作错误'), 'class' => 'alert-danger');
+                $page_state = array('icon' => 'fontello-icon-cancel-circled', 'msg' => __('操作错误', 'ecjia'), 'class' => 'alert-danger');
         }
 
         return $page_state;

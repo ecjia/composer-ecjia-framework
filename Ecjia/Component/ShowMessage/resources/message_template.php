@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>ECJIA - <?php echo __('操作提示'); ?></title>
+    <title>ECJIA - <?php echo __('操作提示', 'ecjia'); ?></title>
     <style type="text/css">
         * {
             margin: 0;
@@ -51,11 +51,11 @@
 </head>
 <body id="error-page">
 <div class="error-message">
-    <h2><?php echo __('操作提示'); ?></h2>
+    <h2><?php echo __('操作提示', 'ecjia'); ?></h2>
     <div>
         <p><?php echo $msg;?></p>
-        <a href="javascript:<?php echo $url; ?>"><?php echo __('返回'); ?></a>
-        <a href="<?php echo $site_url; ?>"><?php echo __('返回首页'); ?></a>
+        <a href="javascript:<?php echo $url; ?>"><?php echo __('返回', 'ecjia'); ?></a>
+        <a href="<?php echo $site_url; ?>"><?php echo __('返回首页', 'ecjia'); ?></a>
     </div>
 </div>
 </body>
