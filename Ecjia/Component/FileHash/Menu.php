@@ -102,7 +102,7 @@ class Menu
         $menus[] = [
             'name' => 'ecjia.apps',
             'type' => 'nav-header',
-            'title' => '应用',
+            'title' => __('应用', 'ecjia'),
             'dir' => '',
             'sort' => 100,
         ];
@@ -135,7 +135,7 @@ class Menu
         $menus[] = [
             'name' => 'ecjia.plugins',
             'type' => 'nav-header',
-            'title' => '插件',
+            'title' => __('插件', 'ecjia'),
             'dir' => '',
             'sort' => 200,
         ];
@@ -170,7 +170,7 @@ class Menu
         $menus[] = [
             'name' => 'ecjia.themes',
             'type' => 'nav-header',
-            'title' => '主题',
+            'title' => __('主题', 'ecjia'),
             'dir' => '',
             'sort' => 300,
         ];
@@ -206,7 +206,7 @@ class Menu
         $menus[] = [
             'name' => 'ecjia.sites',
             'type' => 'nav-header',
-            'title' => '站点',
+            'title' => __('站点', 'ecjia'),
             'dir' => '',
             'sort' => 400,
         ];

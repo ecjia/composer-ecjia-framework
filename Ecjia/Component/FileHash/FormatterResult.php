@@ -70,12 +70,11 @@ class FormatterResult
     public function counterLabel()
     {
         return [
-            'modifyfile' => '被修改',
-            'missingfile' => '被删除',
-            'newfile' => '未知'
+            'modifyfile' => __('被修改', 'ecjia'),
+            'missingfile' => __('被删除', 'ecjia'),
+            'newfile' => __('未知', 'ecjia')
         ];
     }
-
 
     private function _formatterTime($file, $weekbefore)
     {
@@ -102,24 +101,24 @@ class FormatterResult
         if ($item instanceof WrongHash) {
             $this->modifyFileList[] = $item;
             $dir['modify']++;
-            $status = __('<span class="stop_color"><i class="fontello-icon-attention-circled"></i>被修改</span>');
+            $status = __('<span class="stop_color"><i class="fontello-icon-attention-circled"></i>被修改</span>', 'ecjia');
         }
         elseif ($item instanceof NewFile) {
             $this->newFileList[] = $item;
             $dir['new']++;
-            $status = __('<span class="ok_color"><i class="fontello-icon-help-circled"></i>未知</span>');
+            $status = __('<span class="ok_color"><i class="fontello-icon-help-circled"></i>未知</span>', 'ecjia');
         }
         //统计“被删除”的文件
         elseif ($item instanceof  MissingFile) {
             $this->missingFileList[] = $item;
             $dir['missing']++;
-            $status = __('<span class="error_color"><i class="fontello-icon-minus-circled"></i>被删除</span>');
+            $status = __('<span class="error_color"><i class="fontello-icon-minus-circled"></i>被删除</span>', 'ecjia');
         }
         //统计“未知”的文件
         elseif ($item instanceof  MissingHash) {
-            $status = __('<span class="ok_color"><i class="fontello-icon-help-circled"></i>未知</span>');
+            $status = __('<span class="ok_color"><i class="fontello-icon-help-circled"></i>未知</span>', 'ecjia');
         } else {
-            $status = __('<span class="ok_color"><i class="fontello-icon-ok-circled"></i>正确</span>');
+            $status = __('<span class="ok_color"><i class="fontello-icon-ok-circled"></i>正确</span>', 'ecjia');
         }
 
         return $status;
