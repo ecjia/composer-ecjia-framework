@@ -90,7 +90,7 @@ class RemoteAction extends BaseAction implements RequestAction
     {
         //判断serverHost是否定义
         if ( ! $this->apiManager->serverHost()) {
-            throw new ServerHostNotFoundException(__('Const [serverHost] url not defined.'));
+            throw new ServerHostNotFoundException(__('Const [serverHost] url not defined.', 'ecjia'));
         }
 
         $this->buildUrl();
