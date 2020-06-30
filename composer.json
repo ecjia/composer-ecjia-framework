@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ecjia\\Component\\": "Ecjia/Component"
+            "Ecjia\\Component\\": "src/Ecjia/Component"
         }
     },
     "extra": {
