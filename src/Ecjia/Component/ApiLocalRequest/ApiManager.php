@@ -44,7 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\Component\ApiClient\LocalRequest;
+namespace Ecjia\Component\ApiLocalRequest;
 
 use Ecjia\Component\ApiClient\Requests\ApiManager as BaseApiManager;
 use RC_Session;

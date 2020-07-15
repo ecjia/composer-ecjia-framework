@@ -44,7 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\Component\ApiClient\LocalRequest;
+namespace Ecjia\Component\ApiLocalRequest;
 
 class ApiConst
 {
