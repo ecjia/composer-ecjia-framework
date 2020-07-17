@@ -177,7 +177,7 @@ class Theme
                 if (substr($file, -7) == 'dwt.php')
                 {
                     $filename = substr($file, 0, -8);
-                    $files[$filename] = with(new ThemeTemplate($this, $file))->getFileinfo();
+                    $files[$filename] = (new ThemeTemplate($this, $file))->getFileinfo();
                 }
             }
             closedir($template_handle);
@@ -234,7 +234,7 @@ class Theme
                 if (substr($file, -7) == 'lbi.php')
                 {
                     $filename         = substr($file, 0, -8);
-                    $files[$filename] = with(new ThemeLibrary($this, $file))->getFileinfo();
+                    $files[$filename] = (new ThemeLibrary($this, $file))->getFileinfo();
                 }
             }
             closedir($library_handle);

@@ -192,7 +192,7 @@ class ThemeTemplate
                     foreach ($lib_matches AS $k => $v) {
                         $v[3]   = strtolower($v[3]);
                         $library = basename($v[3]);
-                        $libs[] = with(new ThemeWidget($this->theme, $library))->setTemplate($this->file_shortname)->setRegion($val['name'])->setSortOrder($i);
+                        $libs[] = (new ThemeWidget($this->theme, $library))->setTemplate($this->file_shortname)->setRegion($val['name'])->setSortOrder($i);
                         $i++;
                     }
         
@@ -223,7 +223,7 @@ class ThemeTemplate
         }
         
         $library = $lib . '.lbi.php';
-        return with(new ThemeWidget($this->theme, $library));
+        return (new ThemeWidget($this->theme, $library));
     } 
     
     /**

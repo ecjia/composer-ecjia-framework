@@ -79,7 +79,7 @@ class ApplicationPlatformFactory
                 $value = str_replace('.php', '', $value);
                 $className = __NAMESPACE__ . '\Platform\\' . $value;
                 
-                $key = with(new $className)->getCode();
+                $key = (new $className)->getCode();
                 $factories[$key] = $className;
             }
     
@@ -198,7 +198,7 @@ class ApplicationPlatformFactory
                 if (array_get($client, 'device_code')) {
 
                     $allClients[array_get($client, 'device_code')]
-                        = with(new ApplicationClient())
+                        = (new ApplicationClient())
                         ->setDeviceClient(array_get($client, 'device_client'))
                         ->setDeviceName(array_get($client, 'device_name'))
                         ->setDeviceCode(array_get($client, 'device_code'))
@@ -238,7 +238,7 @@ class ApplicationPlatformFactory
                 foreach ($clients as $client) {
 
                     $allClients[array_get($client, 'device_code')]
-                        = with(new ApplicationClient())
+                        = (new ApplicationClient())
                         ->setDeviceClient(array_get($client, 'device_client'))
                         ->setDeviceName(array_get($client, 'device_name'))
                         ->setDeviceCode(array_get($client, 'device_code'))

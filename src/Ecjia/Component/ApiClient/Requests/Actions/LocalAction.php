@@ -69,7 +69,7 @@ class LocalAction extends BaseAction implements RequestAction
 
         try {
 
-            $response = with(new ApiManager($request))->handleRequest();
+            $response = (new ApiManager($request))->handleRequest();
 
         }
         catch(\Exception $e){

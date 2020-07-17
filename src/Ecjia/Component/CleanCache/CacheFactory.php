@@ -87,7 +87,7 @@ class CacheFactory
                 $value = str_replace('.php', '', $value);
                 $className = __NAMESPACE__ . '\Components\\' . $value;
                 
-                $key = with(new $className)->getCode();
+                $key = (new $className)->getCode();
                 $factories[$key] = $className;
             }
     

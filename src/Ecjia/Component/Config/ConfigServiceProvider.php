@@ -159,7 +159,7 @@ class ConfigServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function guessPackagePath($namespace = null)
     {
-        $path = with(new ReflectionClass($this))->getFileName();
+        $path = (new ReflectionClass($this))->getFileName();
 
         return realpath(dirname($path).'/../../../');
     }

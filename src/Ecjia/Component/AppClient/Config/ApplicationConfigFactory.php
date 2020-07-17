@@ -79,7 +79,7 @@ class ApplicationConfigFactory
                 $value = str_replace('.php', '', $value);
                 $className = __NAMESPACE__ . '\Metables\\' . $value;
                 
-                $key = with(new $className)->getCode();
+                $key = (new $className)->getCode();
                 $factories[$key] = $className;
             }
     

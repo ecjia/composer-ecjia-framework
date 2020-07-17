@@ -75,7 +75,7 @@ class SettingSeeder
     {
         Config::clearCache();
 
-        $components = with(new ComponentFactory($this->component))->getComponents();
+        $components = (new ComponentFactory($this->component))->getComponents();
 
         collect($components)->each(function ($item) {
             $group = $item->getCode();

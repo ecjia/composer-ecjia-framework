@@ -49,6 +49,7 @@ namespace Ecjia\Component\Framework;
 
 
 use ArrayObject;
+use Ecjia\Component\CharCode\CharCode;
 use ecjia_admin;
 use ecjia_config;
 use Illuminate\Support\Traits\Macroable;
@@ -216,12 +217,12 @@ class Ecjia extends Container
      */
     public static function powerByLink()
     {
-        return with(new \Ecjia\System\Frameworks\Component\CharCode)->byLink();
+        return (new CharCode)->byLink();
     }
 
     public static function powerByText()
     {
-        return with(new \Ecjia\System\Frameworks\Component\CharCode)->byText();
+        return (new CharCode())->byText();
     }
 
     public static function loadGlobalPlugins()

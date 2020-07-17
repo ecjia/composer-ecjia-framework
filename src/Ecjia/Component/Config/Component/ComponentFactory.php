@@ -90,7 +90,7 @@ class ComponentFactory
                 $value = str_replace('.php', '', $value);
                 $className = $this->component_namespace->getNamespace() . '\\' . $value;
                 
-                $key = with(new $className)->getCode();
+                $key = (new $className)->getCode();
                 $factories[$key] = $className;
             }
     
