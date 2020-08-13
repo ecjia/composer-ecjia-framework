@@ -81,7 +81,7 @@ abstract class ComponentFactory
     /**
      * Cache instance
      *
-     * @return \Ecjia\System\Frameworks\Component\Cache
+     * @return \Ecjia\Component\Cache\Cache
      */
     abstract public function getCacheInstance();
 
