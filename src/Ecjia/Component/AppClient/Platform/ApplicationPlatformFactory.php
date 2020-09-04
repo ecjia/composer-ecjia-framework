@@ -44,7 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\Component\AppClien\Platform;
+namespace Ecjia\Component\AppClient\Platform;
 
 use RC_Hook;
 use RC_Cache;

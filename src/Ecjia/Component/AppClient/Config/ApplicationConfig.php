@@ -10,7 +10,7 @@ namespace Ecjia\Component\AppClient\Config;
 
 use Ecjia\App\Mobile\Models\MobileManageModel;
 use RC_Uri;
-use Ecjia\Component\AppClien\Platform\ApplicationPlatformFactory;
+use Ecjia\Component\AppClient\Platform\ApplicationPlatformFactory;
 
 abstract class ApplicationConfig
 {
