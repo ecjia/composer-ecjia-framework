@@ -61,7 +61,7 @@ class SessionLoginsModel extends Model
      *
      * @var string
      */
-    protected $keyType = 'varchar';
+    protected $keyType = 'string';
 
 	/**
 	 * 可以被批量赋值的属性。
