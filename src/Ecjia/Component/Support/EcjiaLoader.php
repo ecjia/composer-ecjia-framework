@@ -46,6 +46,8 @@
 //
 namespace Ecjia\Component\Support;
 
+use Ecjia\Component\ScriptLoader\ScriptLoader;
+use Ecjia\Component\ScriptLoader\StyleLoader;
 use RC_Hook;
 
 /**
@@ -65,12 +67,12 @@ class EcjiaLoader
 {
 
     /**
-     * @var \Ecjia\System\Frameworks\ScriptLoader\ScriptLoader
+     * @var \Ecjia\Component\ScriptLoader\ScriptLoader
      */
     protected static $script_loader;
 
     /**
-     * @var \Ecjia\System\Frameworks\ScriptLoader\StyleLoader
+     * @var \Ecjia\Component\ScriptLoader\StyleLoader
      */
     protected static $style_loader;
 
@@ -89,7 +91,7 @@ class EcjiaLoader
     {
 
 	    if (is_null(self::$script_loader)) {
-            self::$script_loader = new \Ecjia\System\Frameworks\ScriptLoader\ScriptLoader($scripts);
+            self::$script_loader = new ScriptLoader($scripts);
         }
 
 	}
@@ -114,7 +116,7 @@ class EcjiaLoader
     {
 
         if (is_null(self::$style_loader)) {
-            self::$style_loader = new \Ecjia\System\Frameworks\ScriptLoader\StyleLoader($styles);
+            self::$style_loader = new StyleLoader($styles);
         }
 
 	}
