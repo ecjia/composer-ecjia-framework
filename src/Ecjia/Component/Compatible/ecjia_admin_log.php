@@ -49,7 +49,7 @@
  * @author royalwang
  *
  */
-class ecjia_admin_log extends Ecjia\System\Facades\AdminLog
+class ecjia_admin_log extends Ecjia\Component\Facades\AdminLog
 {
 
 }
