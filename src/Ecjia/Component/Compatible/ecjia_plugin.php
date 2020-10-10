@@ -45,7 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 
-class ecjia_plugin extends Ecjia\Component\View\Facades\View
+class ecjia_plugin extends Ecjia\Component\Plugin\Facades\PluginManager
 {
 
 }
