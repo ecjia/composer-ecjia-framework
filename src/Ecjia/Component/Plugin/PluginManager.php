@@ -50,6 +50,7 @@ use Royalcms\Component\Support\Manager;
 
 class PluginManager extends Manager
 {
+    use PluginManagerError;
     
     protected $plugins = array();
     

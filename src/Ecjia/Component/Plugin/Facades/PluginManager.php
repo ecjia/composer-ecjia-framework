@@ -1,4 +1,4 @@
-<?php 
+<?php
 //  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -46,6 +46,9 @@
 //
 namespace Ecjia\Component\Plugin\Facades;
 
+use Ecjia\Component\Plugin\ActivePluginStorage;
+use Ecjia\Component\Plugin\GlobalPluginStorage;
+use Ecjia\Component\Plugin\SystemPluginStorage;
 use ecjia_config;
 use ecjia_error;
 use RC_File;
@@ -54,7 +57,8 @@ use RC_Loader;
 use RC_Plugin;
 use Royalcms\Component\Support\Facades\Facade;
 
-class PluginManager extends Facade {
+class PluginManager extends Facade
+{
 
     protected static function getFacadeAccessor()
     {
@@ -66,19 +70,20 @@ class PluginManager extends Facade {
      *
      * Checks that the file exists and {@link validate_file() is valid file}.
      *
-     * @since 1.0.0
-     *
      * @param string $plugin Plugin Path
      * @return ecjia_error|int 0 on success, ecjia_error on failure.
+     * @since 1.0.0
+     *
      */
-    public static function validate_plugin($plugin) {
-        if ( RC_File::validate_file($plugin) )
+    public static function validate_plugin($plugin)
+    {
+        if (RC_File::validate_file($plugin))
             return new ecjia_error('plugin_invalid', __('Invalid plugin path.', 'ecjia'));
-        if ( ! file_exists(SITE_PLUGIN_PATH . '/' . $plugin) && ! file_exists(RC_PLUGIN_PATH . '/' . $plugin) )
+        if (!file_exists(SITE_PLUGIN_PATH . '/' . $plugin) && !file_exists(RC_PLUGIN_PATH . '/' . $plugin))
             return new ecjia_error('plugin_not_found', __('Plugin file does not exist.', 'ecjia'));
 
         $installed_plugins = RC_Plugin::get_plugins();
-        if ( ! isset($installed_plugins[$plugin]) )
+        if (!isset($installed_plugins[$plugin]))
             return new ecjia_error('no_plugin_header', __('The plugin does not have a valid header.', 'ecjia'));
         return 0;
     }
@@ -101,37 +106,49 @@ class PluginManager extends Facade {
      * If any errors are found or text is outputted, then it will be captured to
      * ensure that the success redirection will update the error redirection.
      *
-     * @since 1.0.0
-     *
      * @param string $plugin Plugin path to main plugin file with plugin data.
      * @param bool $silent Prevent calling activation hooks. Optional, default is false.
      * @return WP_Error|null WP_Error on invalid file or null on success.
+     * @since 1.0.0
+     *
      */
-    public static function activate_plugin( $plugin, $silent = false ) {
-        $plugin = RC_Plugin::plugin_basename( trim( $plugin ) );
+    public static function activate_plugin($plugin, $silent = false)
+    {
+        $plugin = RC_Plugin::plugin_basename(trim($plugin));
 
-        $current = ecjia_config::instance()->get_addon_config('active_plugins', true);
-        $valid = self::validate_plugin($plugin);
-        if ( is_ecjia_error($valid) )
+        $storage        = new ActivePluginStorage();
+
+//        $current = ecjia_config::instance()->get_addon_config('active_plugins', true);
+        $active_plugins = $storage->getPlugins();
+
+        $valid   = self::validate_plugin($plugin);
+        if (is_ecjia_error($valid)) {
             return $valid;
+        }
 
-        if ( !in_array($plugin, $current) ) {
+        if (!in_array($plugin, $active_plugins)) {
             ob_start();
             RC_Plugin::load_files($plugin);
 
-            if ( ! $silent ) {
+            if (!$silent) {
                 $all_plugins = RC_Plugin::get_plugins();
                 if ($all_plugins[$plugin]['PluginApp'] == 'system') {
-                    $plugin_dir = dirname($plugin);
-                    $system_plugins = ecjia_config::instance()->get_addon_config('system_plugins', true);
-                    $system_plugins[$plugin_dir] = $plugin;
-                    ecjia_config::instance()->set_addon_config('system_plugins', $system_plugins, true);
+
+                    (new SystemPluginStorage())->addPlugin($plugin);
+
+//                    $plugin_dir                  = dirname($plugin);
+//                    $system_plugins              = ecjia_config::instance()->get_addon_config('system_plugins', true);
+//                    $system_plugins[$plugin_dir] = $plugin;
+//                    ecjia_config::instance()->set_addon_config('system_plugins', $system_plugins, true);
                 }
                 elseif ($all_plugins[$plugin]['PluginApp'] == 'global') {
-                    $plugin_dir = dirname($plugin);
-                    $global_plugins = ecjia_config::instance()->get_addon_config('global_plugins', true);
-                    $global_plugins[$plugin_dir] = $plugin;
-                    ecjia_config::instance()->set_addon_config('global_plugins', $global_plugins, true);
+
+                    (new GlobalPluginStorage())->addPlugin($plugin);
+
+//                    $plugin_dir                  = dirname($plugin);
+//                    $global_plugins              = ecjia_config::instance()->get_addon_config('global_plugins', true);
+//                    $global_plugins[$plugin_dir] = $plugin;
+//                    ecjia_config::instance()->set_addon_config('global_plugins', $global_plugins, true);
                 }
 
                 /**
@@ -140,13 +157,13 @@ class PluginManager extends Facade {
                  * If a plugin is silently activated (such as during an update),
                  * this hook does not fire.
                  *
+                 * @param string $plugin Plugin path to main plugin file with plugin data.
+                 * @param bool $network_wide Whether to enable the plugin for all sites in the network
+                 *                             or just the current site. Multisite only. Default is false.
                  * @since 1.0.0
                  *
-                 * @param string $plugin       Plugin path to main plugin file with plugin data.
-                 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
-                 *                             or just the current site. Multisite only. Default is false.
                  */
-                RC_Hook::do_action( 'activate_plugin', $plugin );
+                RC_Hook::do_action('activate_plugin', $plugin);
 
                 /**
                  * Fires as a specific plugin is being deactivated.
@@ -158,41 +175,43 @@ class PluginManager extends Facade {
                  * If a plugin is silently activated (such as during an update),
                  * this hook does not fire.
                  *
-                 * @since 1.0.0
-                 *
                  * @param bool $network_wide Whether to enable the plugin for all sites in the network
                  *                           or just the current site. Multisite only. Default is false.
+                 * @since 1.0.0
+                 *
                  */
-                RC_Hook::do_action( 'activate_' . $plugin );
+                RC_Hook::do_action('activate_' . $plugin);
 
-                if (is_ecjia_error(self::$error)) {
-                    return self::$error;
+                if (is_ecjia_error(self::get_error())) {
+                    return self::get_error();
                 }
             }
 
             //插件安装完成后，更新数据库
-            $current[] = $plugin;
-            sort($current);
+//            $current[] = $plugin;
+//            sort($current);
 
-            ecjia_config::instance()->set_addon_config('active_plugins', $current, true);
+            $storage->addPlugin($plugin);
 
-            if ( ! $silent ) {
+//            ecjia_config::instance()->set_addon_config('active_plugins', $current, true);
+
+            if (!$silent) {
                 /**
                  * Fires after a plugin has been activated.
                  *
                  * If a plugin is silently activated (such as during an update),
                  * this hook does not fire.
                  *
+                 * @param string $plugin Plugin path to main plugin file with plugin data.
+                 * @param bool $network_wide Whether to enable the plugin for all sites in the network
+                 *                             or just the current site. Multisite only. Default is false.
                  * @since 1.0.0
                  *
-                 * @param string $plugin       Plugin path to main plugin file with plugin data.
-                 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
-                 *                             or just the current site. Multisite only. Default is false.
                  */
-                RC_Hook::do_action( 'activated_plugin', $plugin );
+                RC_Hook::do_action('activated_plugin', $plugin);
             }
 
-            if ( ob_get_length() > 0 ) {
+            if (ob_get_length() > 0) {
                 $output = ob_get_clean();
                 return new ecjia_error('unexpected_output', __('The plugin generated unexpected output.', 'ecjia'), $output);
             }
@@ -208,30 +227,37 @@ class PluginManager extends Facade {
      * The deactivation hook is disabled by the plugin upgrader by using the $silent
      * parameter.
      *
-     * @since 1.0.0
-     *
      * @param string|array $plugins Single plugin or list of plugins to deactivate.
      * @param bool $silent Prevent calling deactivation hooks. Default is false.
      * @param mixed $network_wide Whether to deactivate the plugin for all sites in the network.
-     * 	A value of null (the default) will deactivate plugins for both the site and the network.
+     *    A value of null (the default) will deactivate plugins for both the site and the network.
+     * @since 1.0.0
+     *
      */
-    public static function deactivate_plugins( $plugins, $silent = false ) {
-        $current = ecjia_config::instance()->get_addon_config( 'active_plugins', true );
+    public static function deactivate_plugins($plugins, $silent = false)
+    {
+//        $current = ecjia_config::instance()->get_addon_config( 'active_plugins', true );
+        $storage        = new ActivePluginStorage();
+        $active_plugins = $storage->getPlugins();
 
-        foreach ( (array) $plugins as $plugin ) {
-            $plugin = RC_Plugin::plugin_basename( trim( $plugin ) );
-            if ( ! self::is_active($plugin) )
+        foreach ((array)$plugins as $plugin) {
+            $plugin = RC_Plugin::plugin_basename(trim($plugin));
+            if (!self::is_active($plugin)) {
                 continue;
+            }
 
             RC_Plugin::load_files($plugin);
 
-            if ( ! $silent ) {
+            if (!$silent) {
                 $all_plugins = RC_Plugin::get_plugins();
+
                 if ($all_plugins[$plugin]['PluginApp'] == 'system') {
-                    $plugin_dir = dirname($plugin);
-                    $system_plugins = ecjia_config::instance()->get_addon_config('system_plugins', true);
-                    unset($system_plugins[$plugin_dir]);
-                    ecjia_config::instance()->set_addon_config('system_plugins', $system_plugins, true);
+                    (new SystemPluginStorage())->removePlugin($plugin);
+
+//                    $plugin_dir     = dirname($plugin);
+//                    $system_plugins = ecjia_config::instance()->get_addon_config('system_plugins', true);
+//                    unset($system_plugins[$plugin_dir]);
+//                    ecjia_config::instance()->set_addon_config('system_plugins', $system_plugins, true);
                 }
 
                 /**
@@ -240,22 +266,24 @@ class PluginManager extends Facade {
                  * If a plugin is silently deactivated (such as during an update),
                  * this hook does not fire.
                  *
+                 * @param string $plugin Plugin path to main plugin file with plugin data.
+                 * @param bool $network_deactivating Whether the plugin is deactivated for all sites in the network
+                 *                                     or just the current site. Multisite only. Default is false.
                  * @since 1.0.0
                  *
-                 * @param string $plugin               Plugin path to main plugin file with plugin data.
-                 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network
-                 *                                     or just the current site. Multisite only. Default is false.
                  */
-                RC_Hook::do_action( 'deactivate_plugin', $plugin );
+                RC_Hook::do_action('deactivate_plugin', $plugin);
             }
 
             //从数据库中更新插件列表
-            $key = array_search( $plugin, $current );
-            if ( false !== $key ) {
-                unset( $current[ $key ] );
-            }
+            $storage->removePlugin($plugin);
 
-            if ( ! $silent ) {
+//            $key = array_search($plugin, $active_plugins);
+//            if (false !== $key) {
+////                unset( $current[ $key ] );
+//            }
+
+            if (!$silent) {
                 /**
                  * Fires as a specific plugin is being deactivated.
                  *
@@ -266,15 +294,15 @@ class PluginManager extends Facade {
                  * If a plugin is silently deactivated (such as during an update),
                  * this hook does not fire.
                  *
-                 * @since 1.0.0
-                 *
                  * @param bool $network_deactivating Whether the plugin is deactivated for all sites in the network
                  *                                   or just the current site. Multisite only. Default is false.
+                 * @since 1.0.0
+                 *
                  */
-                RC_Hook::do_action( 'deactivate_' . $plugin );
+                RC_Hook::do_action('deactivate_' . $plugin);
 
-                if (is_ecjia_error(self::$error)) {
-                    return self::$error;
+                if (is_ecjia_error(self::get_error())) {
+                    return self::get_error();
                 }
 
                 /**
@@ -283,54 +311,66 @@ class PluginManager extends Facade {
                  * If a plugin is silently deactivated (such as during an update),
                  * this hook does not fire.
                  *
+                 * @param string $plugin Plugin basename.
+                 * @param bool $network_deactivating Whether the plugin is deactivated for all sites in the network
+                 *                                     or just the current site. Multisite only. Default false.
                  * @since 1.0.0
                  *
-                 * @param string $plugin               Plugin basename.
-                 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network
-                 *                                     or just the current site. Multisite only. Default false.
                  */
-                RC_Hook::do_action( 'deactivated_plugin', $plugin );
+                RC_Hook::do_action('deactivated_plugin', $plugin);
             }
         }
 
-        ecjia_config::instance()->set_addon_config('active_plugins', $current, true);
+//        ecjia_config::instance()->set_addon_config('active_plugins', $current, true);
     }
 
 
     /**
      * Check whether the plugin is active by checking the active_plugins list.
      *
-     * @since 1.0.0
-     *
      * @param string $plugin Base plugin path from plugins directory.
      * @return bool True, if in the active plugins list. False, not in the list.
+     * @since 1.0.0
+     *
      */
-    public static function is_active( $plugin ) {
-        $active_plugins = ecjia_config::instance()->get_addon_config('active_plugins', true);
-        return in_array( $plugin, $active_plugins );
+    public static function is_active($plugin)
+    {
+//        $active_plugins = ecjia_config::instance()->get_addon_config('active_plugins', true);
+        return (new ActivePluginStorage())->isActived($plugin);
     }
 
 
-    private static $error = null;
+//    private static $error = null;
 
-    public static function add_error($code = '', $message = '', $data = '') {
-        if (is_null(self::$error)) {
-            self::$error = new ecjia_error($code, $message, $data);
-        } else {
-            self::$error->add($code, $message, $data);
-        }
-        return self::$error;
+    public static function add_error($code = '', $message = '', $data = '')
+    {
+//        if (is_null(self::$error)) {
+//            self::$error = new ecjia_error($code, $message, $data);
+//        } else {
+//            self::$error->add($code, $message, $data);
+//        }
+//        return self::$error;
+
+        $instance = static::getFacadeRoot();
+
+        return $instance->addError($code, $message, $data);
     }
 
-    public static function get_error() {
-        return self::$error;
+    public static function get_error()
+    {
+//        return self::$error;
+
+        $instance = static::getFacadeRoot();
+
+        return $instance->getError();
     }
 
 
     /**
      * 获取模板模板绝对路径
      */
-    public static function get_plugin_template($path, $plugin) {
+    public static function get_plugin_template($path, $plugin)
+    {
         if (RC_Loader::exists_site_plugin($plugin)) {
             $realdir = SITE_PLUGIN_PATH;
         } else {
@@ -341,5 +381,5 @@ class PluginManager extends Facade {
 
         return str_replace('/', DS, $tpl_path);
     }
-    
+
 }
