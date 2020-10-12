@@ -5,6 +5,7 @@ namespace Ecjia\Component\Plugin;
 
 
 use Ecjia\Component\Plugin\Contracts\PluginStorageInterface;
+use ecjia_config;
 
 class ApplicationPluginStorage implements PluginStorageInterface
 {
