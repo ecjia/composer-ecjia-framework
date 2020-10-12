@@ -3,6 +3,7 @@
 
 namespace Ecjia\Component\Plugin;
 
+use ecjia_error;
 
 trait PluginManagerError
 {
