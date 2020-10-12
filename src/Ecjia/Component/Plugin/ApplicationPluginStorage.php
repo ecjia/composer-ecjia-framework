@@ -49,7 +49,7 @@ class ApplicationPluginStorage implements PluginStorageInterface
 
         $this->active_plugins[$plugin_dir] = $plugin;
 
-        ecjia_config::addon()->write($this->storage_code, true);
+        ecjia_config::addon()->write($this->storage_code, $this->active_plugins, true);
     }
 
 

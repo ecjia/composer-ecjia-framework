@@ -47,7 +47,7 @@ class SystemPluginStorage implements PluginStorageInterface
 
         $this->active_plugins[$plugin_dir] = $plugin;
 
-        ecjia_config::addon()->write('system_plugins', true);
+        ecjia_config::addon()->write('system_plugins', $this->active_plugins, true);
     }
 
 

@@ -43,7 +43,7 @@ class ActivePluginStorage implements PluginStorageInterface
 
         sort($this->active_plugins);
 
-        ecjia_config::addon()->write('active_plugins', true);
+        ecjia_config::addon()->write('active_plugins', $this->active_plugins, true);
     }
 
 

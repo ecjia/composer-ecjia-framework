@@ -47,7 +47,7 @@ class GlobalPluginStorage implements PluginStorageInterface
 
         $this->active_plugins[$plugin_dir] = $plugin;
 
-        ecjia_config::addon()->write('global_plugins', true);
+        ecjia_config::addon()->write('global_plugins', $this->active_plugins, true);
     }
 
 
