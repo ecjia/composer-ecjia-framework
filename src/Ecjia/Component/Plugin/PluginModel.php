@@ -88,7 +88,7 @@ abstract class PluginModel extends Model
      */
     public function getInstalledPlugins()
     {
-        return ecjia_config::getAddonConfig($this->addon_plugin_name, true, true);
+        return ecjia_config::getAddonConfig($this->addon_plugin_name, true, false);
     }
 
     /**

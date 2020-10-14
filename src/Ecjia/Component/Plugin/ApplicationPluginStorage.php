@@ -12,6 +12,9 @@ class ApplicationPluginStorage implements PluginStorageInterface
 
     private $active_plugins;
 
+    /**
+     * @var array
+     */
     protected $storage_code;
 
     public function __construct()
@@ -21,10 +24,11 @@ class ApplicationPluginStorage implements PluginStorageInterface
 
     /**
      * Get all installed plugins
+     * @return array
      */
     public function getPlugins()
     {
-        return $this->active_pluginsSystemPluginStorage.php;
+        return $this->active_plugins;
     }
 
     /**

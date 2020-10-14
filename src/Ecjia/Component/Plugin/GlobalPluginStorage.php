@@ -22,7 +22,7 @@ class GlobalPluginStorage implements PluginStorageInterface
      */
     public function getPlugins()
     {
-        return $this->active_pluginsSystemPluginStorage.php;
+        return $this->active_plugins;
     }
 
     /**
