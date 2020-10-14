@@ -104,8 +104,10 @@ class Config
     {
         return $this->repository;
     }
-    
 
+    /**
+     * @return ItemManager
+     */
     public function item()
     {
         if (is_null($this->itemManager)) {
@@ -115,6 +117,9 @@ class Config
         return $this->itemManager;
     }
 
+    /**
+     * @return GroupManager
+     */
     public function group()
     {
         if (is_null($this->groupManager)) {
@@ -124,7 +129,9 @@ class Config
         return $this->groupManager;
     }
 
-
+    /**
+     * @return AddonConfigManager
+     */
     public function addon()
     {
         if (is_null($this->addonMananger)) {
