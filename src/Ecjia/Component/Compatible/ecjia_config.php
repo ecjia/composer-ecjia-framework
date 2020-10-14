@@ -44,6 +44,9 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\Component\Config\Manager\AddonConfigManager;
+use Ecjia\Component\Config\Manager\GroupManager;
+use Ecjia\Component\Config\Manager\ItemManager;
 
 /**
  * Class ecjia_config
@@ -57,6 +60,9 @@
  * @method static add($group, $key, $value, $options = []) bool
  * @method static change($group, $key, $value, $options = []) bool
  * @method static delete($key) bool
+ * @method static ItemManager item()
+ * @method static GroupManager group()
+ * @method static AddonConfigManager addon()
  */
 class ecjia_config extends Ecjia\Component\Config\Facades\Config
 {
