@@ -48,6 +48,25 @@ namespace Ecjia\Component\Region\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
+/**
+ * Class Region
+ * @package Ecjia\Component\Region\Facades
+ *
+ * @method static string defaultCountry() 获取当前国家名称
+ * @method static string defaultCountryName() 获取国家名称
+ * @method static string country($country) 获取国家名称
+ * @method static array getProvinces() 获取所有省份地区
+ * @method static array getSubarea($regionId) 获取指定城市的下一级地区
+ * @method static array getRegion($regionId) 获取地区信息
+ * @method static string getRegionName($regionId) 获取地区名称
+ * @method static array getRegions(array $regionIds) 获取多个地区信息
+ * @method static array getRegionsByType($type) 获取地区信息，只能获取3级（含3级）以下的所有地区
+ * @method static array getRegionsBySearch($name, $type = null) 获取地区信息，根据城市名称搜索匹配的所有地区
+ * @method static array getRegionsWithRecursivelyUpwards($regionId) 获取地区信息，并同时获取该地区向上递归的所有父级地区信息
+ * @method static array getSplitRegionWithKey($regionId) 获取指定字符串的5级地区信息数组
+ * @method static array getSplitRegion($regionId) 获取分割后地区数组
+ * @method static array getDisplayLabel($province, $city = null, $district = null, $street = null) 获取地区显示标签
+ */
 class Region extends Facade
 {
 
