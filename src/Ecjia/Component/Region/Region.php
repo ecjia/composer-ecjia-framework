@@ -3,6 +3,7 @@
 namespace Ecjia\Component\Region;
 
 use RC_DB;
+use RC_Hook;
 
 class Region
 {
@@ -15,7 +16,7 @@ class Region
     public function __construct($country = 'CN')
     {
         $this->country = $country;
-        $this->database_connection = RC_DB::connection(config('cashier.database_connection', 'default'));
+        $this->database_connection = RC_Hook::apply_filters('ecjia_region_database_connection', RC_DB::connection('default'));
     }
 
     /**
