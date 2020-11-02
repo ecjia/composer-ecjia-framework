@@ -4,9 +4,13 @@
 namespace Ecjia\Component\Framework;
 
 
+use Ecjia\Component\App\AppManager;
+use Ecjia\Component\Site\SiteManager;
+use Ecjia\Component\Theme\ThemeManager;
 use Ecjia\Component\ThemeFramework\ThemeFramework;
 use Ecjia\Component\ThemeOption\ThemeSetting;
 use Ecjia\Component\Transient\Transient;
+use Ecjia\Component\Version\VersionManager;
 use Royalcms\Component\Support\ServiceProvider;
 
 class EcjiaServiceProvider extends ServiceProvider
@@ -17,6 +21,12 @@ class EcjiaServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerEcjiaContainer();
+
+        $this->registerAppManager();
+
+        $this->registerThemeManager();
+
         $this->registerThemeOption();
 
         $this->registerThemeSetting();
@@ -25,7 +35,44 @@ class EcjiaServiceProvider extends ServiceProvider
 
         $this->registerThemeFramework();
 
+        $this->registerSiteManager();
+
+        $this->registerVersionManager();
+
         $this->loadAlias();
+    }
+
+    public function registerEcjiaContainer()
+    {
+        $this->royalcms->singleton('ecjia', function($royalcms){
+            return new Ecjia();
+        });
+    }
+
+    /**
+     * Register the App manager
+     * \Ecjia\Component\Plugin\PluginManager
+     *
+     * @return void
+     */
+    public function registerAppManager()
+    {
+        $this->royalcms->singleton('ecjia.app.manager', function($royalcms) {
+            return new AppManager();
+        });
+    }
+
+    /**
+     * Register the Theme manager
+     * \Ecjia\Component\Theme\ThemeManager
+     *
+     * @return void
+     */
+    public function registerThemeManager()
+    {
+        $this->royalcms->singleton('ecjia.theme.manager', function($royalcms) {
+            return new ThemeManager($royalcms);
+        });
     }
 
     /**
@@ -65,6 +112,32 @@ class EcjiaServiceProvider extends ServiceProvider
     {
         $this->royalcms->singleton('ecjia.theme.framework', function($royalcms){
             return new ThemeFramework();
+        });
+    }
+
+    /**
+     * Register the Site manager
+     * \Ecjia\Component\Site\SiteManager
+     *
+     * @return void
+     */
+    public function registerSiteManager()
+    {
+        $this->royalcms->singleton('ecjia.site.manager', function($royalcms) {
+            return new SiteManager($royalcms);
+        });
+    }
+
+    /**
+     * Register the Site manager
+     * \Ecjia\Component\Version\VersionManager
+     *
+     * @return void
+     */
+    public function registerVersionManager()
+    {
+        $this->royalcms->singleton('ecjia.version.manager', function($royalcms) {
+            return new VersionManager($royalcms);
         });
     }
 
