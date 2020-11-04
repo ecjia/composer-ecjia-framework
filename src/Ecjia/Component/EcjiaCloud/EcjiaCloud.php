@@ -58,13 +58,6 @@ use RC_Object;
  */
 class EcjiaCloud extends RC_Object
 {
-    
-    /**
-     * 服务器地址
-     * @var string
-     */
-    const serverHost = 'https://cloud.ecjia.com/sites/api/?url=';
-    
     const STATUS_ERROR = 'error';
     const STATUS_SUCCESS = 'success';
     
@@ -80,6 +73,12 @@ class EcjiaCloud extends RC_Object
     private $api;
     
     private $cache_time;
+
+    /**
+     * 错误信息
+     * @var $error
+     */
+    private $error;
     
     // 返回信息
     protected $status = self::STATUS_ERROR;
@@ -89,14 +88,16 @@ class EcjiaCloud extends RC_Object
     protected $return_data = array();
     
     protected $response;
-    
-    protected $is_cached = false;
-    
+
     /**
-     * 错误信息
-     * @var $error
+     * @var bool
      */
-    private $error;
+    protected $is_cached = false;
+
+    /**
+     * @var string
+     */
+    protected $server_host;
     
     
     /**
@@ -109,6 +110,23 @@ class EcjiaCloud extends RC_Object
         return static::make();
     }
 
+    /**
+     * @return string
+     */
+    public function getServerHost(): string
+    {
+        return $this->server_host ?: ServerHost::DEFAULT_HOST;
+    }
+
+    /**
+     * @param string $server_host
+     * @return EcjiaCloud
+     */
+    public function setServerHost(string $server_host): EcjiaCloud
+    {
+        $this->server_host = $server_host;
+        return $this;
+    }
 
     public function addError($code = '', $message = '', $data = '')
     {
@@ -158,7 +176,15 @@ class EcjiaCloud extends RC_Object
         
         return $this;
     }
-    
+
+    /**
+     * 获取接口完整URL
+     * @return string
+     */
+    protected function getFullUrl()
+    {
+        return $this->getServerHost() . $this->api;
+    }
     
     /**
      * 请求
@@ -172,7 +198,7 @@ class EcjiaCloud extends RC_Object
         if (!$this->cache_time || 'error' == $data['status'] || SYS_TIME - $this->cache_time > $data['timestamp']) {
             $fields['body'] = $this->data;
             
-            $response = RC_Http::remote_post(self::serverHost . $this->api, $fields);
+            $response = RC_Http::remote_post($this->getFullUrl(), $fields);
 
             if (RC_Error::is_error($response)) {
                 $this->addError($response->get_error_code(), $response->get_error_message(), $response->get_error_data());
