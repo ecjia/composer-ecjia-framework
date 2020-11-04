@@ -24,7 +24,7 @@ class AuthLoginDecrypt
      * @param $authcode
      * @param $authkey
      */
-    public function __construct($authcode, $encrypter = null)
+    public function __construct($authcode, AuthEncrypter $encrypter = null)
     {
         $this->authcode = $authcode;
 
@@ -32,7 +32,7 @@ class AuthLoginDecrypt
             $this->encrypter = royalcms('encrypter');
         }
         else {
-            $this->encrypter = $encrypter;
+            $this->encrypter = $encrypter->getEncrypter();
         }
     }
 
