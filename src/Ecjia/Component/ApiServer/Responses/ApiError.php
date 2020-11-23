@@ -54,6 +54,8 @@
 namespace Ecjia\Component\ApiServer\Responses;
 
 use ecjia_error;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 
 /**
  * API错误返回类
@@ -61,7 +63,7 @@ use ecjia_error;
  * @since 1.5
  */
 
-class ApiError extends ecjia_error
+class ApiError extends ecjia_error implements Arrayable, Jsonable
 {
 
     private static $errorCodes = [
@@ -98,10 +100,15 @@ class ApiError extends ecjia_error
 
     public function __construct($code, $message = null)
     {
-        parent::__construct($code, $message);
+        if (is_ecjia_error($code)) {
+            parent::__construct($code->get_error_code(), $code->get_error_message(), $code->get_error_data());
+        }
+        else {
+            parent::__construct($code, $message);
+        }
     }
 
-    public function getData()
+    public function toArray()
     {
         $data = array(
             'status' => array(
@@ -113,9 +120,9 @@ class ApiError extends ecjia_error
         return $data;
     }
 
-    public function getJson()
+    public function toJson($options = 0)
     {
-        $data = $this->getData();
+        $data = $this->toArray();
 
         return json_encode($data);
     }

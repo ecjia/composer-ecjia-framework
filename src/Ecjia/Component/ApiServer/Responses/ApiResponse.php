@@ -73,7 +73,7 @@ class ApiResponse extends Response
         $this->sourceData = $data;
 
         if (is_ecjia_error($this->sourceData)) {
-            $this->responseData = (new ApiError($this->sourceData->get_error_code(), $this->sourceData->get_error_message()))->getData();
+            $this->responseData = new ApiError($this->sourceData);
         } else {
             $this->responseData = $this->makeSucceedStatus();
 
