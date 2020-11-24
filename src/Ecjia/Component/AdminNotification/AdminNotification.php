@@ -66,7 +66,7 @@ class AdminNotification
     /**
      * @return string
      */
-    public function getPosition(): string
+    public function getPosition()
     {
         return $this->position;
     }
@@ -75,7 +75,7 @@ class AdminNotification
      * @param string $position
      * @return AdminNotification
      */
-    public function setPosition(string $position): AdminNotification
+    public function setPosition($position)
     {
         $this->position = $position;
         return $this;
@@ -84,7 +84,7 @@ class AdminNotification
     /**
      * @return string
      */
-    public function getType(): string
+    public function getType()
     {
         return $this->type;
     }
@@ -93,7 +93,7 @@ class AdminNotification
      * @param string $type
      * @return AdminNotification
      */
-    public function setType(string $type): AdminNotification
+    public function setType($type)
     {
         $this->type = $type;
         return $this;
@@ -120,7 +120,7 @@ class AdminNotification
     /**
      * @return string
      */
-    public function getSpeed(): string
+    public function getSpeed()
     {
         return $this->speed;
     }
@@ -129,7 +129,7 @@ class AdminNotification
      * @param string $speed
      * @return AdminNotification
      */
-    public function setSpeed(string $speed): AdminNotification
+    public function setSpeed($speed)
     {
         $this->speed = $speed;
         return $this;
@@ -138,7 +138,7 @@ class AdminNotification
     /**
      * @return bool
      */
-    public function isDuplicates(): bool
+    public function isDuplicates()
     {
         return $this->duplicates;
     }
@@ -147,7 +147,7 @@ class AdminNotification
      * @param bool $duplicates
      * @return AdminNotification
      */
-    public function setDuplicates(bool $duplicates): AdminNotification
+    public function setDuplicates($duplicates)
     {
         $this->duplicates = $duplicates;
         return $this;
