@@ -218,7 +218,6 @@ class Migrate
     /**
      * Get all of the will migration files in a given path.
      *
-     * @param  string  $path
      * @return array
      */
     public function getWillMigrationFiles()
@@ -235,12 +234,10 @@ class Migrate
         return $migrations;
     }
 
-
     /**
      * Get count of the will migration files in a given path.
      *
-     * @param  string  $path
-     * @return array
+     * @return integer
      */
     public function getWillMigrationFilesCount()
     {
@@ -249,6 +246,28 @@ class Migrate
         return count($migrations);
     }
 
+    /**
+     * Get all of the all migration files in a given path.
+     *
+     * @return array
+     */
+    public function getMigrationFiles()
+    {
+        $migrations = $this->migrator->getMigrationFiles($this->path);
+        return $migrations;
+    }
+
+    /**
+     * Get count of the all migration files in a given path.
+     *
+     * @return integer
+     */
+    public function getMigrationFilesCount()
+    {
+        $migrations = $this->getMigrationFiles();
+
+        return count($migrations);
+    }
 
     /**
      * Raise a note event for the migrator.
