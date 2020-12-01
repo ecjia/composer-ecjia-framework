@@ -71,7 +71,7 @@ class Migrate
     protected $repository;
     
     
-    protected $database;
+    protected $connection;
 
 
     protected $path;
@@ -87,7 +87,7 @@ class Migrate
     {
         $this->migrator = royalcms('migrator');
         $this->repository = royalcms('migration.repository');
-        $this->database = RC_Config::get('database.default');
+        $this->connection = config('database.default');
 
         $this->path = royalcms('path.database').'/migrations';
     }
@@ -117,7 +117,7 @@ class Migrate
      */
     protected function prepareDatabase()
     {
-        $this->migrator->setConnection($this->database);
+        $this->migrator->setConnection($this->connection);
         
         if ( ! $this->migrator->repositoryExists())
         {
@@ -144,7 +144,7 @@ class Migrate
     {
         $this->notes = array();
 
-        $this->migrator->requireFiles($path, $files = $this->migrator->getMigrationFiles($path));
+        $this->migrator->requireFiles($files = $this->migrator->getMigrationFiles($path));
 
         // Once we grab all of the migration files for the path, we will compare them
         // against the migrations that have already been run for this package then
