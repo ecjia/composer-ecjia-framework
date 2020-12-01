@@ -46,7 +46,10 @@
 //
 namespace Ecjia\Component\Database;
 
+use Ecjia\Component\Database\Migrations\Migrator;
+use Illuminate\Support\Collection;
 use RC_Config;
+use Royalcms\Component\Foundation\Royalcms;
 
 /**
  * ecjia数据库迁移类
@@ -69,29 +72,35 @@ class Migrate
      * @var \Royalcms\Component\Database\Migrations\MigrationRepositoryInterface
      */
     protected $repository;
-    
-    
-    protected $connection;
-
-
-    protected $path;
 
     /**
-     * The notes for the current operation.
-     *
-     * @var array
+     * @var string
      */
-    protected $notes = array();
-    
+    protected $connection;
+
+    /**
+     * @var string
+     */
+    protected $path;
+
+
     public function __construct()
     {
-        $this->migrator = royalcms('migrator');
+        $this->migrator = $this->createMigrator();
         $this->repository = royalcms('migration.repository');
         $this->connection = config('database.default');
 
         $this->path = royalcms('path.database').'/migrations';
     }
-    
+
+    /**
+     * @return Migrator
+     */
+    public function createMigrator()
+    {
+        $repository = royalcms('migration.repository');
+        return new Migrator($repository, royalcms('db'), royalcms('files'), royalcms('events'));
+    }
     
     /**
      * Execute the command.
@@ -102,12 +111,12 @@ class Migrate
     {
         $this->prepareDatabase();
 
-        $this->run($this->path, $limit);
+        $this->migrator->runLimiting($this->path, $limit = 20);
         
         // Once the migrator has run we will grab the note output and send it out to
         // the console screen, since the migrator itself functions without having
         // any instances of the OutputInterface contract passed into the class.
-        return $this->getNotes();
+        return $this->migrator->getNotes();
     }
     
     /**
@@ -124,95 +133,10 @@ class Migrate
             $this->repository->createRepository();
         }    
     }
-    
-    
+
     public function createMigrationsTable()
     {
         $this->prepareDatabase();
-    }
-
-
-
-    /**
-     * Run the outstanding migrations at a given path.
-     *
-     * @param  string  $path
-     * @param  bool    $pretend
-     * @return void
-     */
-    public function run($path, $limit = 20)
-    {
-        $this->notes = array();
-
-        $this->migrator->requireFiles($files = $this->migrator->getMigrationFiles($path));
-
-        // Once we grab all of the migration files for the path, we will compare them
-        // against the migrations that have already been run for this package then
-        // run each of the outstanding migrations against a database connection.
-        $ran = $this->repository->getRan();
-
-        $migrations = array_diff($files, $ran);
-
-        $this->runMigrationList($migrations, $limit);
-    }
-
-    /**
-     * Run an array of migrations.
-     *
-     * @param  array  $migrations
-     * @param  bool   $pretend
-     * @return void
-     */
-    public function runMigrationList($migrations, $limit = 20)
-    {
-        // First we will just make sure that there are any migrations to run. If there
-        // aren't, we will just make a note of it to the developer so they're aware
-        // that all of the migrations have been run against this database system.
-        if (count($migrations) == 0)
-        {
-            $this->note('<info>Nothing to migrate.</info>');
-
-            return;
-        }
-
-        $batch = $this->repository->getNextBatchNumber();
-
-        $migrations = array_chunk($migrations, $limit);
-
-        $migrations = array_shift($migrations);
-
-        // Once we have the array of migrations, we will spin through them and run the
-        // migrations "up" so the changes are made to the databases. We'll then log
-        // that the migration was run so we don't repeat it next time we execute.
-        foreach ($migrations as $file)
-        {
-            $this->runUp($file, $batch);
-        }
-    }
-
-
-    /**
-     * Run "up" a migration instance.
-     *
-     * @param  string  $file
-     * @param  int     $batch
-     * @return void
-     */
-    protected function runUp($file, $batch)
-    {
-        // First we will resolve a "real" instance of the migration class from this
-        // migration file name. Once we have the instances we can run the actual
-        // command such as "up" or "down", or we can just simulate the action.
-        $migration = $this->migrator->resolve($file);
-
-        $migration->up();
-
-        // Once we have run a migrations class, we will log that it was run in this
-        // repository so that we don't try to run it next time we do a migration
-        // in the application. A migration repository keeps the migrate order.
-        $this->repository->log($file, $batch);
-
-        $this->note("<info>Migrated:</info> $file");
     }
 
     /**
@@ -267,27 +191,6 @@ class Migrate
         $migrations = $this->getMigrationFiles();
 
         return count($migrations);
-    }
-
-    /**
-     * Raise a note event for the migrator.
-     *
-     * @param  string  $message
-     * @return void
-     */
-    protected function note($message)
-    {
-        $this->notes[] = $message;
-    }
-
-    /**
-     * Get the notes for the last operation.
-     *
-     * @return array
-     */
-    public function getNotes()
-    {
-        return $this->notes;
     }
 
 }
