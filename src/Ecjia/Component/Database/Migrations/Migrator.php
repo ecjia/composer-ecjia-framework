@@ -25,6 +25,8 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         $this->requireFiles($migrations);
 
         $this->runMigrationList($migrations, $limit);
+
+        return $migrations;
     }
 
 

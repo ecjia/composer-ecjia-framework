@@ -111,12 +111,12 @@ class Migrate
     {
         $this->prepareDatabase();
 
-        $this->migrator->runLimiting($this->path, $limit = 20);
-        
-        // Once the migrator has run we will grab the note output and send it out to
-        // the console screen, since the migrator itself functions without having
-        // any instances of the OutputInterface contract passed into the class.
-        return $this->migrator->getNotes();
+        $migrations = $this->migrator->runLimiting($this->path, $limit = 20);
+
+        // Once we have all these migrations that are outstanding we are ready to run
+        // we will go ahead and run them "up". This will execute each migration as
+        // an operation against a database. Then we'll return this list of them.
+        return $migrations;
     }
     
     /**
