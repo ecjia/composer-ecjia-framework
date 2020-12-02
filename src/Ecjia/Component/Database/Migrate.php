@@ -153,7 +153,8 @@ class Migrate
         // run each of the outstanding migrations against a database connection.
         $ran = $this->repository->getRan();
 
-        $migrations = array_diff($files, $ran);
+        $files_table = array_keys($files);
+        $migrations = array_diff($files_table, $ran);
 
         return $migrations;
     }
