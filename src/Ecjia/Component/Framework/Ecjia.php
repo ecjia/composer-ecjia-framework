@@ -61,9 +61,9 @@ class Ecjia extends Container
 {
     use Macroable;
 
-    const VERSION = '2.10.0';
+    const VERSION = '2.11.0';
 
-    const RELEASE = '20201102';
+    const RELEASE = '20201207';
 
     protected $config;
 
