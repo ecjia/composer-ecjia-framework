@@ -144,6 +144,14 @@ class AdminNotification
     }
 
     /**
+     * @return bool
+     */
+    public function getDuplicates()
+    {
+        return $this->duplicates;
+    }
+
+    /**
      * @param bool $duplicates
      * @return AdminNotification
      */

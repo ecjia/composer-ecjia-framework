@@ -129,7 +129,7 @@ class Notification
                 $notification->getPosition() and $options['position'] = $notification->getPosition();
                 $notification->getType() and $options['type'] = $notification->getType();
                 $notification->getSpeed() and $options['speed'] = $notification->getSpeed();
-                $notification->getDuplicates() and $options['duplicates'] = $notification->getDuplicates();
+                $notification->isDuplicates() and $options['duplicates'] = $notification->isDuplicates();
                 !empty($options) and $options_json = json_encode($options); 
                 
                 $script .= '$.sticky("' . rc_addslashes($notification->getContent()) . '", ' . $options_json . ');' . PHP_EOL;
