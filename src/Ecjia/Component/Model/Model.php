@@ -54,5 +54,12 @@ abstract class Model extends Eloquent
 {
     use Rememberable;
     use InsertOnDuplicateKey;
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
     
 }
