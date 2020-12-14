@@ -465,6 +465,48 @@ class EcjiaScreen
     }
 
     /**
+     * @return AdminNoticeScreen
+     */
+    public function getAdminNoticeScreen(): AdminNoticeScreen
+    {
+        return $this->admin_notice_screen;
+    }
+
+    /**
+     * @return HelpSidebarScreen
+     */
+    public function getHelpSidebarScreen(): HelpSidebarScreen
+    {
+        return $this->help_sidebar_screen;
+    }
+
+    /**
+     * @return HelpTabsScreen
+     */
+    public function getHelpTabsScreen(): HelpTabsScreen
+    {
+        return $this->help_tabs_screen;
+    }
+
+    /**
+     * @return NavHereScreen
+     */
+    public function getNavHereScreen(): NavHereScreen
+    {
+        return $this->nav_here_screen;
+    }
+
+    /**
+     * @return OptionScreen
+     */
+    public function getOptionScreen(): OptionScreen
+    {
+        return $this->option_screen;
+    }
+
+    
+
+    /**
      * Indicates whether the screen is in a particular admin
      *
      * @param string $admin The admin to check against (network | user | site).
