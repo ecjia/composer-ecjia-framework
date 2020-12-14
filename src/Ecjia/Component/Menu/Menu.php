@@ -79,7 +79,7 @@ class Menu
     /**
      * @return string
      */
-    public function getBase(): string
+    public function getBase()
     {
         return $this->base;
     }
@@ -88,7 +88,7 @@ class Menu
      * @param string $base
      * @return Menu
      */
-    public function setBase(string $base): Menu
+    public function setBase($base): Menu
     {
         $this->base = $base;
         return $this;
@@ -97,7 +97,7 @@ class Menu
     /**
      * @return string
      */
-    public function getAction(): string
+    public function getAction()
     {
         return $this->action;
     }
@@ -106,7 +106,7 @@ class Menu
      * @param string $action
      * @return Menu
      */
-    public function setAction(string $action): Menu
+    public function setAction($action): Menu
     {
         $this->action = $action;
         return $this;
@@ -115,7 +115,7 @@ class Menu
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -124,7 +124,7 @@ class Menu
      * @param string $name
      * @return Menu
      */
-    public function setName(string $name): Menu
+    public function setName($name): Menu
     {
         $this->name = $name;
         return $this;
@@ -133,7 +133,7 @@ class Menu
     /**
      * @return int
      */
-    public function getSort(): int
+    public function getSort()
     {
         return $this->sort;
     }
@@ -142,7 +142,7 @@ class Menu
      * @param int $sort
      * @return Menu
      */
-    public function setSort(int $sort): Menu
+    public function setSort($sort): Menu
     {
         $this->sort = $sort;
         return $this;
@@ -151,7 +151,7 @@ class Menu
     /**
      * @return string
      */
-    public function getLink(): string
+    public function getLink()
     {
         return $this->link;
     }
@@ -160,7 +160,7 @@ class Menu
      * @param string $link
      * @return Menu
      */
-    public function setLink(string $link): Menu
+    public function setLink($link): Menu
     {
         $this->link = $link;
         return $this;
@@ -169,7 +169,7 @@ class Menu
     /**
      * @return string
      */
-    public function getIcon(): string
+    public function getIcon()
     {
         return $this->icon;
     }
@@ -178,7 +178,7 @@ class Menu
      * @param string $icon
      * @return Menu
      */
-    public function setIcon(string $icon): Menu
+    public function setIcon($icon): Menu
     {
         $this->icon = $icon;
         return $this;
@@ -187,7 +187,7 @@ class Menu
     /**
      * @return string
      */
-    public function getTarget(): string
+    public function getTarget()
     {
         return $this->target;
     }
@@ -196,7 +196,7 @@ class Menu
      * @param string $target
      * @return Menu
      */
-    public function setTarget(string $target): Menu
+    public function setTarget($target): Menu
     {
         $this->target = $target;
         return $this;
@@ -205,7 +205,7 @@ class Menu
     /**
      * @return array
      */
-    public function getSubmenus(): array
+    public function getSubmenus()
     {
         if (is_array($this->submenus)) {
             usort($this->submenus, array('Ecjia\Component\Menu\MenuSortHandler', 'Handler'));
@@ -276,7 +276,7 @@ class Menu
     /**
      * @return array
      */
-    public function getPurviews(): array
+    public function getPurviews()
     {
         return $this->purviews;
     }
