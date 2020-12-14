@@ -48,6 +48,17 @@ namespace Ecjia\Component\Screen;
 
 use admin_nav_here;
 use admin_notice;
+use Ecjia\Component\Screen\Screens\AdminNoticeScreen;
+use Ecjia\Component\Screen\Screens\HelpSidebarScreen;
+use Ecjia\Component\Screen\Screens\HelpTabsScreen;
+use Ecjia\Component\Screen\Screens\NavHereScreen;
+use Ecjia\Component\Screen\Screens\OptionScreen;
+use Ecjia\Component\Screen\ScreenRenders\AdminNoticeScreenRender;
+use Ecjia\Component\Screen\ScreenRenders\NavHereScreenRender;
+use Ecjia\Component\Screen\Traits\AdminNoticeTrait;
+use Ecjia\Component\Screen\Traits\HelpSidebarTrait;
+use Ecjia\Component\Screen\Traits\HelpTabsTrait;
+use Ecjia\Component\Screen\Traits\NavHereTrait;
 use ecjia_form;
 use RC_Format;
 use RC_Hook;
@@ -67,51 +78,56 @@ use RC_Uri;
  */
 class EcjiaScreen
 {
-	/**
-	 * Any action associated with the screen. 'add' for *-add.php and *-new.php screens. Empty otherwise.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access public
-	 */
-	public $action;
+    use HelpTabsTrait;
+    use HelpSidebarTrait;
+    use NavHereTrait;
+    use AdminNoticeTrait;
 
-	/**
-	 * The base type of the screen. This is typically the same as $id but with any post types and taxonomies stripped.
-	 * For example, for an $id of 'edit-post' the base is 'edit'.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access public
-	 */
-	public $base;
+    /**
+     * Any action associated with the screen. 'add' for *-add.php and *-new.php screens. Empty otherwise.
+     *
+     * @since 1.0.0
+     * @var string
+     * @access public
+     */
+    public $action;
 
-	/**
-	 * The number of columns to display. Access with get_columns().
-	 *
-	 * @since 1.0.0
-	 * @var int
-	 * @access private
-	 */
-	private $columns = 0;
+    /**
+     * The base type of the screen. This is typically the same as $id but with any post types and taxonomies stripped.
+     * For example, for an $id of 'edit-post' the base is 'edit'.
+     *
+     * @since 1.0.0
+     * @var string
+     * @access public
+     */
+    public $base;
 
-	/**
-	 * The unique ID of the screen.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access public
-	 */
-	public $id;
+    /**
+     * The number of columns to display. Access with get_columns().
+     *
+     * @since 1.0.0
+     * @var int
+     * @access private
+     */
+    private $columns = 0;
 
-	/**
-	 * Which admin the screen is in. network | user | site | false
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access protected
-	 */
-	protected $in_admin;
+    /**
+     * The unique ID of the screen.
+     *
+     * @since 1.0.0
+     * @var string
+     * @access public
+     */
+    public $id;
+
+    /**
+     * Which admin the screen is in. network | user | site | false
+     *
+     * @since 1.0.0
+     * @var string
+     * @access protected
+     */
+    protected $in_admin;
 
 // 	/**
 // 	 * Whether the screen is in the network admin.
@@ -137,26 +153,26 @@ class EcjiaScreen
 // 	 */
 // 	public $is_user;
 
-	/**
-	 * The base menu parent.
-	 * This is derived from $parent_file by removing the query string and any .php extension.
-	 * $parent_file values of 'edit.php?post_type=page' and 'edit.php?post_type=post' have a $parent_base of 'edit'.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access public
-	 */
-	public $parent_base;
+    /**
+     * The base menu parent.
+     * This is derived from $parent_file by removing the query string and any .php extension.
+     * $parent_file values of 'edit.php?post_type=page' and 'edit.php?post_type=post' have a $parent_base of 'edit'.
+     *
+     * @since 1.0.0
+     * @var string
+     * @access public
+     */
+    public $parent_base;
 
-	/**
-	 * The parent_file for the screen per the admin menu system.
-	 * Some $parent_file values are 'edit.php?post_type=page', 'edit.php', and 'options-general.php'.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access public
-	 */
-	public $parent_file;
+    /**
+     * The parent_file for the screen per the admin menu system.
+     * Some $parent_file values are 'edit.php?post_type=page', 'edit.php', and 'options-general.php'.
+     *
+     * @since 1.0.0
+     * @var string
+     * @access public
+     */
+    public $parent_file;
 
 // 	/**
 // 	 * The post type associated with the screen, if any.
@@ -178,107 +194,90 @@ class EcjiaScreen
 // 	 */
 // 	public $taxonomy;
 
-	/**
-	 * The help tab data associated with the screen, if any.
-	 *
-	 * @since 1.0.0
-	 * @var array
-	 * @access private
-	 */
-	private $_help_tabs = array();
+    /**
+     * The help tab data associated with the screen, if any.
+     *
+     * @since 1.0.0
+     * @var array
+     * @access private
+     */
+    private $_help_tabs = array();
 
-	/**
-	 * The help sidebar data associated with screen, if any.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access private
-	 */
-	private $_help_sidebar = '';
+    /**
+     * The help sidebar data associated with screen, if any.
+     *
+     * @since 1.0.0
+     * @var string
+     * @access private
+     */
+    private $_help_sidebar = '';
 
-	/**
-	 * The screen options associated with screen, if any.
-	 *
-	 * @since 1.0.0
-	 * @var array
-	 * @access private
-	 */
-	private $_options = array();
+    /**
+     * The screen options associated with screen, if any.
+     *
+     * @since 1.0.0
+     * @var array
+     * @access private
+     */
+    private $_options = array();
 
-	/**
-	 * The screen options associated with screen, if any.
-	 *
-	 * @since 1.0.0
-	 * @var array
-	 * @access protected
-	 */
-	protected $_nav_here = array();
+    /**
+     * The screen object registry.
+     *
+     * @since 1.0.0
+     * @var array
+     * @access private
+     */
+    private static $_registry = array();
 
-	/**
-	 * The screen options associated with screen, if any.
-	 *
-	 * @since 1.0.0
-	 * @var array
-	 * @access protected
-	 */
-	protected $_admin_notice = array();
+    /**
+     * Stores the result of the public show_screen_options function.
+     *
+     * @since 1.0.0
+     * @var bool
+     * @access private
+     */
+    private $_show_screen_options;
 
-	/**
-	 * The screen object registry.
-	 *
-	 * @since 1.0.0
-	 * @var array
-	 * @access private
-	 */
-	private static $_registry = array();
+    /**
+     * Stores the 'screen_settings' section of screen options.
+     *
+     * @since 1.0.0
+     * @var string
+     * @access private
+     */
+    private $_screen_settings;
 
-	/**
-	 * Stores the result of the public show_screen_options function.
-	 *
-	 * @since 1.0.0
-	 * @var bool
-	 * @access private
-	 */
-	private $_show_screen_options;
+    public static $hook_suffix;
 
-	/**
-	 * Stores the 'screen_settings' section of screen options.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 * @access private
-	 */
-	private $_screen_settings;
+    private $_sidebar_display = true;
 
-	public static $hook_suffix;
+    protected $subject;
 
-	private $_sidebar_display = true;
-	
-	protected $subject;
+    /**
+     * Fetches a screen object.
+     *
+     * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
+     *    Defaults to the current $hook_suffix global.
+     * @return WP_Screen Screen object.
+     * @since 1.0.0
+     * @access public
+     *
+     */
+    public static function get($hook_name = '')
+    {
 
-	/**
-	 * Fetches a screen object.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
-	 * 	Defaults to the current $hook_suffix global.
-	 * @return WP_Screen Screen object.
-	 */
-	public static function get( $hook_name = '' ) {
+        if (is_a($hook_name, __CLASS__))
+            return $hook_name;
 
-		if ( is_a( $hook_name, __CLASS__ ) )
-			return $hook_name;
+        $post_type = $taxonomy = null;
+        $in_admin  = false;
+        $action    = '';
 
-		$post_type = $taxonomy = null;
-		$in_admin = false;
-		$action = '';
-
-		if ( $hook_name )
-			$id = $hook_name;
-		else
-			$id = self::$hook_suffix;
+        if ($hook_name)
+            $id = $hook_name;
+        else
+            $id = self::$hook_suffix;
 
 // 		// For those pesky meta boxes.
 // 		if ( $hook_name && post_type_exists( $hook_name ) ) {
@@ -326,12 +325,12 @@ class EcjiaScreen
 // 				$in_admin = 'site';
 // 		}
 
-		if ( 'index' == $id )
-			$id = 'dashboard';
-		elseif ( 'front' == $id )
-			$in_admin = false;
+        if ('index' == $id)
+            $id = 'dashboard';
+        elseif ('front' == $id)
+            $in_admin = false;
 
-		$base = $id;
+        $base = $id;
 
 // 		If this is the current screen, see if we can be more accurate for post types and taxonomies.
 // 		if ( ! $hook_name ) {
@@ -395,721 +394,610 @@ class EcjiaScreen
 // 			$base .= '-user';
 // 		}
 
-		if ( isset( self::$_registry[ $id ] ) ) {
-			$screen = self::$_registry[ $id ];
-			if ( $screen === self::get_current_screen() )
-				return $screen;
-		} else {
-			$screen = new static();
-			$screen->id     = $id;
-		}
+        if (isset(self::$_registry[$id])) {
+            $screen = self::$_registry[$id];
+            if ($screen === self::get_current_screen())
+                return $screen;
+        } else {
+            $screen     = new static();
+            $screen->id = $id;
+        }
 
-		$screen->base       = $base;
-		$screen->action     = $action;
+        $screen->base   = $base;
+        $screen->action = $action;
 // 		$screen->post_type  = (string) $post_type;
 // 		$screen->taxonomy   = (string) $taxonomy;
 // 		$screen->is_user    = ( 'user' == $in_admin );
 // 		$screen->is_network = ( 'network' == $in_admin );
 // 		$screen->in_admin   = $in_admin;
 
-		self::$_registry[ $id ] = $screen;
+        self::$_registry[$id] = $screen;
 
-		return $screen;
-	}
+        return $screen;
+    }
 
-	/**
-	 * Makes the screen object the current screen.
-	 *
-	 * @see set_current_screen()
-	 * @since 1.0.0
-	 */
-	function make_current_screen() {
+    /**
+     * Makes the screen object the current screen.
+     *
+     * @see set_current_screen()
+     * @since 1.0.0
+     */
+    function make_current_screen()
+    {
 // 		global $current_screen, $taxnow, $typenow;
-		self::$current_screen = $this;
+        self::$current_screen = $this;
 // 		$taxnow = $this->taxonomy;
 // 		$typenow = $this->post_type;
 
-		/**
-		 * Fires after the current screen has been set.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param WP_Screen $current_screen Current WP_Screen object.
-		 */
-		RC_Hook::do_action( 'current_screen', self::$current_screen );
-	}
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 * @access private
-	 */
-	private function __construct() {}
-
-	/**
-	 * Indicates whether the screen is in a particular admin
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $admin The admin to check against (network | user | site).
-	 * If empty any of the three admins will result in true.
-	 * @return boolean True if the screen is in the indicated admin, false otherwise.
-	 *
-	 */
-	public function in_admin( $admin = null ) {
-		if ( empty( $admin ) ) {
-		    return (bool) $this->in_admin;
-		}
-
-		return ( $admin == $this->in_admin );
-	}
-
-	/**
-	 * Set the parent information for the screen.
-	 * This is called in header after the menu parent for the screen has been determined.
-	 *
-	 * @since 1.0.0
-	 * 
-	 * @param string $parent_base The parent base of the screen. 
-	 * @param string $parent_file The parent file of the screen. Typically the $parent_file global.
-	 */
-	function set_parentage($parent_base, $parent_file = null ) {
-		$this->parent_file = $parent_file;
-		$this->parent_base = $parent_base;
-	}
-
-	/**
-	 * 添加一个对象
-	 * @param admin_nav_here $nav_here
-	 */
-	public function add_nav_here(admin_nav_here $nav_here) {
-	    if ($nav_here instanceof admin_nav_here) {
-	        $this->_nav_here[] = $nav_here;
-	    }
-	}
-
-	/**
-	 * 移除所有对象
-	 */
-	public function remove_nav_here() {
-	    $this->_nav_here = array();
-	}
-
-	/**
-	 * 移出最后一个对象
-	 */
-	public function remove_last_nav_here() {
-	    array_pop($this->_nav_here);
-	}
-
-	/**
-	 * 添加一个对象
-	 * @param admin_notice $admin_notice
-	 */
-	public function add_admin_notice(admin_notice $admin_notice) {
-	    if ($admin_notice instanceof admin_notice) {
-	        $this->_admin_notice[] = $admin_notice;
-	    }
-	}
-
-	/**
-	 * 设置隐藏侧边栏
-	 */
-	public function set_sidebar_display($bool) {
-	    $this->_sidebar_display = $bool;
-
-	    if ($bool) {
-	        setcookie('ecjia_sidebar', '');
-	    } else {
-	        setcookie('ecjia_sidebar', 'hidden');
-	    }
-	}
-
-	/**
-	 * 获取侧边栏显示状态
-	 * @return boolean
-	 */
-	public function get_sidebar_display() {
-	    return $this->_sidebar_display;
-	}
-
-	/**
-	 * Adds an option for the screen.
-	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add screen options.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $option Option ID
-	 * @param mixed $args Option-dependent arguments.
-	 */
-	public function add_option( $option, $args = array() ) {
-		$this->_options[ $option ] = $args;
-	}
-
-	/**
-	 * Remove an option from the screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $option Option ID.
-	 */
-	public function remove_option( $option ) {
-		unset( $this->_options[ $option ] );
-	}
-
-	/**
-	 * Remove all options from the screen.
-	 *
-	 * @since 1.0.0
-	 */
-	public function remove_options() {
-		$this->_options = array();
-	}
-
-	/**
-	 * Get the options registered for the screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Options with arguments.
-	 */
-	public function get_options() {
-		return $this->_options;
-	}
-
-	/**
-	 * Gets the arguments for an option for the screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $option Option ID.
-	 * @param mixed $key Optional. Specific array key for when the option is an array.
-	 */
-	public function get_option( $option, $key = false ) {
-		if ( ! isset( $this->_options[ $option ] ) )
-			return null;
-		if ( $key ) {
-			if ( isset( $this->_options[ $option ][ $key ] ) )
-				return $this->_options[ $option ][ $key ];
-			return null;
-		}
-		return $this->_options[ $option ];
-	}
-	
-	public function set_subject($subject) {
-	    $this->subject = $subject;
-	}
-	
-	public function get_subject()
-	{
-	    return $this->subject;
-	}
-
-	/**
-	 * Gets the help tabs registered for the screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Help tabs with arguments.
-	 */
-	public function get_help_tabs() {
-		return $this->_help_tabs;
-	}
-
-	/**
-	 * Gets the arguments for a help tab.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $id Help Tab ID.
-	 * @return array Help tab arguments.
-	 */
-	public function get_help_tab( $id ) {
-		if ( ! isset( $this->_help_tabs[ $id ] ) )
-			return null;
-		return $this->_help_tabs[ $id ];
-	}
-
-	/**
-	 * Add a help tab to the contextual help for the screen.
-	 * Call this on the load-$pagenow hook for the relevant screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $args
-	 * - string   - title    - Title for the tab.
-	 * - string   - id       - Tab ID. Must be HTML-safe.
-	 * - string   - content  - Help tab content in plain text or HTML. Optional.
-	 * - callback - callback - A callback to generate the tab content. Optional.
-	 *
-	 */
-	public function add_help_tab( $args ) {
-		$defaults = array(
-			'title'    => false,
-			'id'       => false,
-			'content'  => '',
-			'callback' => false,
-		);
-		$args = rc_parse_args( $args, $defaults );
-
-		$args['id'] = RC_Format::sanitize_html_class( $args['id'] );
-
-		// Ensure we have an ID and title.
-		if ( ! $args['id'] || ! $args['title'] )
-			return;
-
-		// Allows for overriding an existing tab with that ID.
-		$this->_help_tabs[ $args['id'] ] = $args;
-	}
-
-	/**
-	 * Removes a help tab from the contextual help for the screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $id The help tab ID.
-	 */
-	public function remove_help_tab( $id ) {
-		unset( $this->_help_tabs[ $id ] );
-	}
-
-	/**
-	 * Removes all help tabs from the contextual help for the screen.
-	 *
-	 * @since 1.0.0
-	 */
-	public function remove_help_tabs() {
-		$this->_help_tabs = array();
-	}
-
-	/**
-	 * Gets the content from a contextual help sidebar.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Contents of the help sidebar.
-	 */
-	public function get_help_sidebar() {
-		return $this->_help_sidebar;
-	}
-
-	/**
-	 * Add a sidebar to the contextual help for the screen.
-	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add a sidebar to the contextual help.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $content Sidebar content in plain text or HTML.
-	 */
-	public function set_help_sidebar( $content ) {
-		$this->_help_sidebar = $content;
-	}
-
-	/**
-	 * Gets the number of layout columns the user has selected.
-	 *
-	 * The layout_columns option controls the max number and default number of
-	 * columns. This method returns the number of columns within that range selected
-	 * by the user via Screen Options. If no selection has been made, the default
-	 * provisioned in layout_columns is returned. If the screen does not support
-	 * selecting the number of layout columns, 0 is returned.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return int Number of columns to display.
-	 */
-	public function get_columns() {
-		return $this->columns;
-	}
-	
-	/**
-	 * Gets the admin notice registered for the screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Help tabs with arguments.
-	 */
-	public function get_admin_notice() {
-	    return $this->_admin_notice;
-	}
-
-	/**
-	 * Render the screen's help section.
-	 *
-	 * This will trigger the deprecated filters for backwards compatibility.
-	 *
-	 * @since 1.0.0
-	 */
-	public function render_screen_meta() {
-		$help_sidebar = $this->get_help_sidebar();
-
-		$help_class = 'hidden';
-		if ( ! $help_sidebar )
-			$help_class .= ' no-sidebar';
-
-		// Time to render!
-		if (!empty($this->_nav_here)) :
-		?>
-		<div id="jCrumbs" class="breadCrumb module breadCrumbECJ">
-			<div class="breadCrumbWrap">
-				<ul>
-					<li><a href="<?php echo RC_Uri::url('@index/init');?>"><i class="icon-home"></i></a></li>
-					<?php
-
-						foreach ($this->_nav_here as $nav_here) :
-						    if (end($this->_nav_here) === $nav_here) {
-                                $last_css = ' class="last"';
-                            }
-							if ($nav_here->get_link()) :
-								?>
-							<li<?php echo $last_css;?>><a href="<?php echo $nav_here->get_link();?>"><?php echo $nav_here->get_label();?></a></li>
-					       <?php else : ?>
-					       <li<?php echo $last_css;?>><?php echo $nav_here->get_label();?></li>
-					       <?php
-					       endif;
-					   endforeach;
-					?>
-				</ul>
-			</div>
-
-			<div id="screen-meta" class="metabox-prefs">
-
-				<div class="contextual-help-wrap" class="<?php echo RC_Format::esc_attr( $help_class ); ?>" aria-label="<?php esc_attr_e('Contextual Help Tab'); ?>"><!-- tabindex="-1"  -->
-
-					<div id="contextual-help-columns tab-content row-fluid">
-
-							<div class="contextual-help-tabs">
-								<ul class="">
-									<?php
-									$class = ' class="active"';
-									foreach ( $this->get_help_tabs() as $tab ) :
-										$link_id  = "tab-link-{$tab['id']}";
-										$panel_id = "tab-panel-{$tab['id']}";
-									?>
-
-									<li id="<?php echo RC_Format::esc_attr( $link_id ); ?>"<?php echo $class; ?>>
-										<a href="#<?php echo RC_Format::esc_attr( "#$panel_id" ); ?>" aria-controls="<?php echo RC_Format::esc_attr( $panel_id ); ?>" data-toggle="tab">
-											<?php echo RC_Format::esc_html( $tab['title'] ); ?>
-										</a>
-									</li>
-									<?php
-										$class = '';
-									endforeach;
-									?>
-								</ul>
-							</div>
-							<div class="contextual-help-tabs-wrap">
-								<div class="tab-content">
-									<?php
-									$classes = 'help-tab-content active';
-									foreach ( $this->get_help_tabs() as $tab ):
-										$panel_id = "tab-panel-{$tab['id']}";
-									?>
-
-									<div id="<?php echo RC_Format::esc_attr( $panel_id ); ?>" class="<?php echo $classes; ?> tab-pane">
-										<?php
-											// Print tab content.
-										echo $tab['content'];
-
-											// If it exists, fire tab callback.
-										if ( ! empty( $tab['callback'] ) )
-											call_user_func_array( $tab['callback'], array( $this, $tab ) );
-										?>
-									</div>
-									<?php
-									$classes = 'help-tab-content';
-									endforeach;
-									?>
-								</div>
-							</div>
-
-						<?php if ( $help_sidebar ) : ?>
-							<div class="contextual-help-sidebar tab-pane active">
-								<?php echo $help_sidebar; ?>
-							</div>
-						<?php endif; ?>
-					</div>
-				</div>
-    		<?php
-    		// Setup layout columns
-
-    		/**
-    		 * Filter the array of screen layout columns.
-    		 *
-    		 * This hook provides back-compat for plugins using the back-compat
-    		 * filter instead of add_screen_option().
-    		 *
-    		 * @since 1.0.0
-    		 *
-    		 * @param array     $empty_columns Empty array.
-    		 * @param string    $screen_id     Screen ID.
-    		 * @param WP_Screen $this          Current WP_Screen instance.
-    		 */
-    		$columns = RC_Hook::apply_filters( 'screen_layout_columns', array(), $this->id, $this );
-
-    		if ( ! empty( $columns ) && isset( $columns[ $this->id ] ) )
-    			$this->add_option( 'layout_columns', array('max' => $columns[ $this->id ] ) );
-
-    		if ( $this->get_option( 'layout_columns' ) ) {
-    			$this->columns = (int) get_user_option("screen_layout_$this->id");
-
-    			if ( ! $this->columns && $this->get_option( 'layout_columns', 'default' ) )
-    				$this->columns = $this->get_option( 'layout_columns', 'default' );
-    		}
-    		$GLOBALS[ 'screen_layout_columns' ] = $this->columns; // Set the global for back-compat.
-
-    		// Add screen options
-    		if ( $this->show_screen_options() )
-    			$this->render_screen_options();
-    		?>
-    		</div>
-    		<?php
-    		if ( ! $this->get_help_tabs() && ! $this->show_screen_options() && ! $this->get_admin_notice()){
-    			echo "</div>";
-    			return;
-    		}
-    		?>
-
-            <div class="screen-meta-links" id="screen-meta-links">
-                <?php if ( $this->get_help_tabs() ) : ?>
-                <a class="btn btn-mini contextual-help-link" href="javascript:;" id="contextual-help-link" aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e( '帮助', 'ecjia'); ?><i class="fontello-icon-angle-down"></i></a>
-                <?php endif;
-                if ( $this->show_screen_options() ) : ?>
-                <a class="btn btn-mini show-settings-link" href="javascript:;" id="show-settings-link" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e( '选项', 'ecjia'); ?><i class="fontello-icon-angle-down"></i></a>
-                <?php endif; ?>
-            </div>
-
-			<script type="text/javascript">
-				$('.contextual-help-link').on('click', function(){
-					var
-						$this = $(this),
-						$screenmeta = $this.parents('.breadCrumb').find('.contextual-help-wrap'),
-						$i = $this.find('i');
-					if(!$screenmeta.is(":animated") && $this.css('opacity') != 0){
-						if($i.attr('class', $i.hasClass('fontello-icon-angle-down') ? 'fontello-icon-angle-up' : 'fontello-icon-angle-down').hasClass('fontello-icon-angle-up')){
-							$screenmeta.slideDown('slow', 'easeOutQuint');
-							$('.show-settings-link').css({'opacity':0,'cursor':'default'});
-						}else{
-							$screenmeta.slideUp('slow', 'easeInQuart');
-							$('.show-settings-link').css({'opacity':1,'cursor':'pointer'});
-						}
-					}
-				})
-				$('.show-settings-link').on('click', function(){
-					var
-						$this = $(this),
-						$screenmeta = $this.parents('.breadCrumb').find('.screen-options-wrap'),
-						$i = $this.find('i');
-					if(!$screenmeta.is(":animated") && $this.css('opacity') != 0){
-						if($i.attr('class', $i.hasClass('fontello-icon-angle-down') ? 'fontello-icon-angle-up' : 'fontello-icon-angle-down').hasClass('fontello-icon-angle-up')){
-							$screenmeta.slideDown('slow', 'easeOutBack');
-							$('.contextual-help-link').css({'opacity':0,'cursor':'default'});
-						}else{
-							$screenmeta.slideUp('slow', 'easeInBack');
-							$('.contextual-help-link').css({'opacity':1,'cursor':'pointer'});
-						}
-					}
-				})
-			</script>
-		</div>
-		<?php
-		endif;
-
-		$this->render_screen_admin_notice();
-	}
-	
-	
-	public function render_screen_admin_notice()
-	{
-        if (!empty($this->_admin_notice)) :
-            foreach ($this->_admin_notice as $admin_notice) :
-            ?>
-                <div class="alert<?php if ($admin_notice->get_type()) echo ' '.$admin_notice->get_type(); ?>">
-                    <?php if ($admin_notice->get_allow_close()) :?>
-                	<a data-dismiss="alert" class="close">×</a>
-                	<?php endif;?>
-                	<?php echo $admin_notice->get_content();?>
-                </div>
-		       <?php
-		    endforeach;
-		endif;
+        /**
+         * Fires after the current screen has been set.
+         *
+         * @param WP_Screen $current_screen Current WP_Screen object.
+         * @since 1.0.0
+         *
+         */
+        RC_Hook::do_action('current_screen', self::$current_screen);
     }
 
-	public function show_screen_options() {
-		global $wp_meta_boxes;
+    protected $admin_notice_screen;
 
-		if ( is_bool( $this->_show_screen_options ) )
-			return $this->_show_screen_options;
+    protected $help_sidebar_screen;
 
-		$columns = self::get_column_headers( $this );
+    protected $help_tabs_screen;
 
-		$show_screen = ! empty( $wp_meta_boxes[ $this->id ] ) || $columns || $this->get_option( 'per_page' );
+    protected $nav_here_screen;
 
-		switch ( $this->id ) {
-			case 'widgets':
-				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode', 'ecjia') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode', 'ecjia') . "</a></p>\n";
-				break;
-			default:
-				$this->_screen_settings = '';
-				break;
-		}
+    protected $option_screen;
 
-		/**
-		 * Filter the screen settings text displayed in the Screen Options tab.
-		 *
-		 * This filter is currently only used on the Widgets screen to enable
-		 * accessibility mode.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string    $screen_settings Screen settings.
-		 * @param WP_Screen $this            WP_Screen object.
-		 */
-		$this->_screen_settings = RC_Hook::apply_filters( 'screen_settings', $this->_screen_settings, $this );
+    /**
+     * Constructor
+     *
+     * @since 1.0.0
+     * @access private
+     */
+    private function __construct()
+    {
+        $this->admin_notice_screen = new AdminNoticeScreen();
+        $this->help_sidebar_screen = new HelpSidebarScreen();
+        $this->help_tabs_screen = new HelpTabsScreen();
+        $this->nav_here_screen = new NavHereScreen();
+        $this->option_screen = new OptionScreen();
+    }
 
-		if ( $this->_screen_settings || $this->_options )
-			$show_screen = true;
+    /**
+     * Indicates whether the screen is in a particular admin
+     *
+     * @param string $admin The admin to check against (network | user | site).
+     * If empty any of the three admins will result in true.
+     * @return boolean True if the screen is in the indicated admin, false otherwise.
+     *
+     * @since 1.0.0
+     *
+     */
+    public function in_admin($admin = null)
+    {
+        if (empty($admin)) {
+            return (bool)$this->in_admin;
+        }
 
-		/**
-		 * Filter whether to show the Screen Options tab.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param bool      $show_screen Whether to show Screen Options tab.
-		 *                               Default true.
-		 * @param WP_Screen $this        Current WP_Screen instance.
-		 */
-		$this->_show_screen_options = RC_Hook::apply_filters( 'screen_options_show_screen', $show_screen, $this );
-		return $this->_show_screen_options;
-	}
+        return ($admin == $this->in_admin);
+    }
 
-	/**
-	 * Render the screen options tab.
-	 *
-	 * @since 1.0.0
-	 */
-	public function render_screen_options() {
-		global $wp_meta_boxes, $wp_list_table;
+    /**
+     * Set the parent information for the screen.
+     * This is called in header after the menu parent for the screen has been determined.
+     *
+     * @param string $parent_base The parent base of the screen.
+     * @param string $parent_file The parent file of the screen. Typically the $parent_file global.
+     * @since 1.0.0
+     *
+     */
+    function set_parentage($parent_base, $parent_file = null)
+    {
+        $this->parent_file = $parent_file;
+        $this->parent_base = $parent_base;
+    }
 
-		$columns = self::get_column_headers( $this );
-		$hidden  = self::get_hidden_columns( $this );
+
+
+
+
+
+
+    
+
+    /**
+     * 设置隐藏侧边栏
+     */
+    public function set_sidebar_display($bool)
+    {
+        $this->_sidebar_display = $bool;
+
+        if ($bool) {
+            setcookie('ecjia_sidebar', '');
+        } else {
+            setcookie('ecjia_sidebar', 'hidden');
+        }
+    }
+
+    /**
+     * 获取侧边栏显示状态
+     * @return boolean
+     */
+    public function get_sidebar_display()
+    {
+        return $this->_sidebar_display;
+    }
+
+    /**
+     * Adds an option for the screen.
+     * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add screen options.
+     *
+     * @param string $option Option ID
+     * @param mixed $args Option-dependent arguments.
+     * @since 1.0.0
+     *
+     */
+    public function add_option($option, $args = array())
+    {
+        $this->_options[$option] = $args;
+    }
+
+    /**
+     * Remove an option from the screen.
+     *
+     * @param string $option Option ID.
+     * @since 1.0.0
+     *
+     */
+    public function remove_option($option)
+    {
+        unset($this->_options[$option]);
+    }
+
+    /**
+     * Remove all options from the screen.
+     *
+     * @since 1.0.0
+     */
+    public function remove_options()
+    {
+        $this->_options = array();
+    }
+
+    /**
+     * Get the options registered for the screen.
+     *
+     * @return array Options with arguments.
+     * @since 1.0.0
+     *
+     */
+    public function get_options()
+    {
+        return $this->_options;
+    }
+
+    /**
+     * Gets the arguments for an option for the screen.
+     *
+     * @param string $option Option ID.
+     * @param mixed $key Optional. Specific array key for when the option is an array.
+     * @since 1.0.0
+     *
+     */
+    public function get_option($option, $key = false)
+    {
+        if (!isset($this->_options[$option]))
+            return null;
+        if ($key) {
+            if (isset($this->_options[$option][$key]))
+                return $this->_options[$option][$key];
+            return null;
+        }
+        return $this->_options[$option];
+    }
+
+    public function set_subject($subject)
+    {
+        $this->subject = $subject;
+    }
+
+    public function get_subject()
+    {
+        return $this->subject;
+    }
+
+
+
+
+
+
+    /**
+     * Gets the number of layout columns the user has selected.
+     *
+     * The layout_columns option controls the max number and default number of
+     * columns. This method returns the number of columns within that range selected
+     * by the user via Screen Options. If no selection has been made, the default
+     * provisioned in layout_columns is returned. If the screen does not support
+     * selecting the number of layout columns, 0 is returned.
+     *
+     * @return int Number of columns to display.
+     * @since 1.0.0
+     *
+     */
+    public function get_columns()
+    {
+        return $this->columns;
+    }
+
+
+
+    /**
+     * Render the screen's help section.
+     *
+     * This will trigger the deprecated filters for backwards compatibility.
+     *
+     * @since 1.0.0
+     */
+    public function render_screen_meta()
+    {
+        $help_sidebar = $this->get_help_sidebar();
+
+        $help_class = 'hidden';
+        if (!$help_sidebar)
+            $help_class .= ' no-sidebar';
+
+        // Time to render!
+        if ($this->nav_here_screen->has_nav_here()) :
+            ?>
+            <div id="jCrumbs" class="breadCrumb module breadCrumbECJ">
+                <?php
+                $this->render_screen_nav_here();
+                ?>
+
+                <div id="screen-meta" class="metabox-prefs">
+
+                    <div class="contextual-help-wrap" class="<?php echo RC_Format::esc_attr($help_class); ?>"
+                         aria-label="<?php esc_attr_e('Contextual Help Tab'); ?>"><!-- tabindex="-1"  -->
+
+                        <div id="contextual-help-columns tab-content row-fluid">
+
+                            <div class="contextual-help-tabs">
+                                <ul class="">
+                                    <?php
+                                    $class        = ' class="active"';
+                                    foreach ($this->get_help_tabs() as $tab) :
+                                        $link_id = "tab-link-{$tab['id']}";
+                                        $panel_id = "tab-panel-{$tab['id']}";
+                                        ?>
+
+                                        <li id="<?php echo RC_Format::esc_attr($link_id); ?>"<?php echo $class; ?>>
+                                            <a href="#<?php echo RC_Format::esc_attr("#$panel_id"); ?>"
+                                               aria-controls="<?php echo RC_Format::esc_attr($panel_id); ?>"
+                                               data-toggle="tab">
+                                                <?php echo RC_Format::esc_html($tab['title']); ?>
+                                            </a>
+                                        </li>
+                                        <?php
+                                        $class = '';
+                                    endforeach;
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="contextual-help-tabs-wrap">
+                                <div class="tab-content">
+                                    <?php
+                                    $classes = 'help-tab-content active';
+                                    foreach ($this->get_help_tabs() as $tab):
+                                        $panel_id = "tab-panel-{$tab['id']}";
+                                        ?>
+
+                                        <div id="<?php echo RC_Format::esc_attr($panel_id); ?>"
+                                             class="<?php echo $classes; ?> tab-pane">
+                                            <?php
+                                            // Print tab content.
+                                            echo $tab['content'];
+
+                                            // If it exists, fire tab callback.
+                                            if (!empty($tab['callback']))
+                                                call_user_func_array($tab['callback'], array($this, $tab));
+                                            ?>
+                                        </div>
+                                        <?php
+                                        $classes = 'help-tab-content';
+                                    endforeach;
+                                    ?>
+                                </div>
+                            </div>
+
+                            <?php if ($help_sidebar) : ?>
+                                <div class="contextual-help-sidebar tab-pane active">
+                                    <?php echo $help_sidebar; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php
+                    // Setup layout columns
+
+                    /**
+                     * Filter the array of screen layout columns.
+                     *
+                     * This hook provides back-compat for plugins using the back-compat
+                     * filter instead of add_screen_option().
+                     *
+                     * @param array $empty_columns Empty array.
+                     * @param string $screen_id Screen ID.
+                     * @param WP_Screen $this Current WP_Screen instance.
+                     * @since 1.0.0
+                     *
+                     */
+                    $columns = RC_Hook::apply_filters('screen_layout_columns', array(), $this->id, $this);
+
+                    if (!empty($columns) && isset($columns[$this->id]))
+                        $this->add_option('layout_columns', array('max' => $columns[$this->id]));
+
+                    if ($this->get_option('layout_columns')) {
+                        $this->columns = (int)get_user_option("screen_layout_$this->id");
+
+                        if (!$this->columns && $this->get_option('layout_columns', 'default'))
+                            $this->columns = $this->get_option('layout_columns', 'default');
+                    }
+                    $GLOBALS['screen_layout_columns'] = $this->columns; // Set the global for back-compat.
+
+                    // Add screen options
+                    if ($this->show_screen_options())
+                        $this->render_screen_options();
+                    ?>
+                </div>
+                <?php
+                if (!$this->get_help_tabs() && !$this->show_screen_options() && !$this->get_admin_notice()) {
+                    echo "</div>";
+                    return;
+                }
+                ?>
+
+                <div class="screen-meta-links" id="screen-meta-links">
+                    <?php if ($this->get_help_tabs()) : ?>
+                        <a class="btn btn-mini contextual-help-link" href="javascript:;" id="contextual-help-link"
+                           aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e('帮助', 'ecjia'); ?><i
+                                    class="fontello-icon-angle-down"></i></a>
+                    <?php endif;
+                    if ($this->show_screen_options()) : ?>
+                        <a class="btn btn-mini show-settings-link" href="javascript:;" id="show-settings-link"
+                           aria-controls="screen-options-wrap" aria-expanded="false"><?php _e('选项', 'ecjia'); ?><i
+                                    class="fontello-icon-angle-down"></i></a>
+                    <?php endif; ?>
+                </div>
+
+                <script type="text/javascript">
+                    $('.contextual-help-link').on('click', function () {
+                        var
+                            $this = $(this),
+                            $screenmeta = $this.parents('.breadCrumb').find('.contextual-help-wrap'),
+                            $i = $this.find('i');
+                        if (!$screenmeta.is(":animated") && $this.css('opacity') != 0) {
+                            if ($i.attr('class', $i.hasClass('fontello-icon-angle-down') ? 'fontello-icon-angle-up' : 'fontello-icon-angle-down').hasClass('fontello-icon-angle-up')) {
+                                $screenmeta.slideDown('slow', 'easeOutQuint');
+                                $('.show-settings-link').css({'opacity': 0, 'cursor': 'default'});
+                            } else {
+                                $screenmeta.slideUp('slow', 'easeInQuart');
+                                $('.show-settings-link').css({'opacity': 1, 'cursor': 'pointer'});
+                            }
+                        }
+                    })
+                    $('.show-settings-link').on('click', function () {
+                        var
+                            $this = $(this),
+                            $screenmeta = $this.parents('.breadCrumb').find('.screen-options-wrap'),
+                            $i = $this.find('i');
+                        if (!$screenmeta.is(":animated") && $this.css('opacity') != 0) {
+                            if ($i.attr('class', $i.hasClass('fontello-icon-angle-down') ? 'fontello-icon-angle-up' : 'fontello-icon-angle-down').hasClass('fontello-icon-angle-up')) {
+                                $screenmeta.slideDown('slow', 'easeOutBack');
+                                $('.contextual-help-link').css({'opacity': 0, 'cursor': 'default'});
+                            } else {
+                                $screenmeta.slideUp('slow', 'easeInBack');
+                                $('.contextual-help-link').css({'opacity': 1, 'cursor': 'pointer'});
+                            }
+                        }
+                    })
+                </script>
+            </div>
+        <?php
+        endif;
+
+        $this->render_screen_admin_notice();
+    }
+
+    public function render_screen_nav_here()
+    {
+        (new NavHereScreenRender($this->nav_here_screen))->render();
+    }
+
+    public function render_screen_admin_notice()
+    {
+        (new AdminNoticeScreenRender($this->admin_notice_screen))->render();
+    }
+
+    public function show_screen_options()
+    {
+        global $wp_meta_boxes;
+
+        if (is_bool($this->_show_screen_options))
+            return $this->_show_screen_options;
+
+        $columns = self::get_column_headers($this);
+
+        $show_screen = !empty($wp_meta_boxes[$this->id]) || $columns || $this->get_option('per_page');
+
+        switch ($this->id) {
+            case 'widgets':
+                $this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode', 'ecjia') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode', 'ecjia') . "</a></p>\n";
+                break;
+            default:
+                $this->_screen_settings = '';
+                break;
+        }
+
+        /**
+         * Filter the screen settings text displayed in the Screen Options tab.
+         *
+         * This filter is currently only used on the Widgets screen to enable
+         * accessibility mode.
+         *
+         * @param string $screen_settings Screen settings.
+         * @param WP_Screen $this WP_Screen object.
+         * @since 1.0.0
+         *
+         */
+        $this->_screen_settings = RC_Hook::apply_filters('screen_settings', $this->_screen_settings, $this);
+
+        if ($this->_screen_settings || $this->_options)
+            $show_screen = true;
+
+        /**
+         * Filter whether to show the Screen Options tab.
+         *
+         * @param bool $show_screen Whether to show Screen Options tab.
+         *                               Default true.
+         * @param WP_Screen $this Current WP_Screen instance.
+         * @since 1.0.0
+         *
+         */
+        $this->_show_screen_options = RC_Hook::apply_filters('screen_options_show_screen', $show_screen, $this);
+        return $this->_show_screen_options;
+    }
+
+    /**
+     * Render the screen options tab.
+     *
+     * @since 1.0.0
+     */
+    public function render_screen_options()
+    {
+        global $wp_meta_boxes, $wp_list_table;
+
+        $columns = self::get_column_headers($this);
+        $hidden  = self::get_hidden_columns($this);
 // 		$post    = get_post();
 
-		?>
+        ?>
 
-		<div class="screen-options-wrap" class="hidden" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>"><!-- tabindex="-1" -->
-		<form id="adv-settings" action="" method="post">
-		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
-			<h5><?php _e( '显示下列项目', 'ecjia'); ?></h5>
-		<?php
-		endif;
+        <div class="screen-options-wrap" class="hidden" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
+            <!-- tabindex="-1" -->
+            <form id="adv-settings" action="" method="post">
+                <?php if (isset($wp_meta_boxes[$this->id]) || $this->get_option('per_page') || ($columns && empty($columns['_title']))) : ?>
+                    <h5><?php _e('显示下列项目', 'ecjia'); ?></h5>
+                <?php
+                endif;
 
-		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
-			<div class="metabox-prefs">
-				<?php
-					self::meta_box_prefs( $this );
+                if (isset($wp_meta_boxes[$this->id])) : ?>
+                    <div class="metabox-prefs">
+                        <?php
+                        self::meta_box_prefs($this);
 
-					if ( 'dashboard' === $this->id && RC_Hook::has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
-						if ( isset( $_GET['welcome'] ) ) {
-							$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
-							update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
-						} else {
-							$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
-							if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) )
-								$welcome_checked = false;
-						}
-						echo '<label for="wp_welcome_panel-hide">';
-						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
-						echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
-					}
-				?>
-				<br class="clear" />
-			</div>
-			<?php endif;
-			if ( $columns ) :
-				if ( ! empty( $columns['_title'] ) ) : ?>
-			<h5><?php echo $columns['_title']; ?></h5>
-			<?php endif; ?>
-			<div class="metabox-prefs">
-				<?php
-				$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');
+                        if ('dashboard' === $this->id && RC_Hook::has_action('welcome_panel') && current_user_can('edit_theme_options')) {
+                            if (isset($_GET['welcome'])) {
+                                $welcome_checked = empty($_GET['welcome']) ? 0 : 1;
+                                update_user_meta(get_current_user_id(), 'show_welcome_panel', $welcome_checked);
+                            } else {
+                                $welcome_checked = get_user_meta(get_current_user_id(), 'show_welcome_panel', true);
+                                if (2 == $welcome_checked && wp_get_current_user()->user_email != get_option('admin_email'))
+                                    $welcome_checked = false;
+                            }
+                            echo '<label for="wp_welcome_panel-hide">';
+                            echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked((bool)$welcome_checked, true, false) . ' />';
+                            echo _x('Welcome', 'Welcome panel') . "</label>\n";
+                        }
+                        ?>
+                        <br class="clear"/>
+                    </div>
+                <?php endif;
+                if ($columns) :
+                    if (!empty($columns['_title'])) : ?>
+                        <h5><?php echo $columns['_title']; ?></h5>
+                    <?php endif; ?>
+                    <div class="metabox-prefs">
+                        <?php
+                        $special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');
 
-				foreach ( $columns as $column => $title ) {
-					// Can't hide these for they are special
-					if ( in_array( $column, $special ) )
-						continue;
-					if ( empty( $title ) )
-						continue;
+                        foreach ($columns as $column => $title) {
+                            // Can't hide these for they are special
+                            if (in_array($column, $special))
+                                continue;
+                            if (empty($title))
+                                continue;
 
-					if ( 'comments' == $column )
-						$title = __( 'Comments' );
-					$id = "$column-hide";
-					echo '<label for="' . $id . '">';
-					echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( !in_array($column, $hidden), true, false ) . ' />';
-					echo "$title</label>\n";
-				}
-				?>
-				<br class="clear" />
-			</div>
-		<?php endif;
+                            if ('comments' == $column)
+                                $title = __('Comments');
+                            $id = "$column-hide";
+                            echo '<label for="' . $id . '">';
+                            echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked(!in_array($column, $hidden), true, false) . ' />';
+                            echo "$title</label>\n";
+                        }
+                        ?>
+                        <br class="clear"/>
+                    </div>
+                <?php endif;
 
-		$this->render_screen_layout();
-		$this->render_per_page_options();
-		echo $this->_screen_settings;
+                $this->render_screen_layout();
+                $this->render_per_page_options();
+                echo $this->_screen_settings;
 
-		?>
-		<div><?php //wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
-		</form>
-		</div>
-		<?php
-	}
+                ?>
+                <div><?php //wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
+            </form>
+        </div>
+        <?php
+    }
 
-	/**
-	 * Render the option for number of columns on the page
-	 *
-	 * @since 1.0.0
-	 */
-	function render_screen_layout() {
-		if ( ! $this->get_option('layout_columns') )
-			return;
+    /**
+     * Render the option for number of columns on the page
+     *
+     * @since 1.0.0
+     */
+    function render_screen_layout()
+    {
+        if (!$this->get_option('layout_columns'))
+            return;
 
-		$screen_layout_columns = $this->get_columns();
-		$num = $this->get_option( 'layout_columns', 'max' );
+        $screen_layout_columns = $this->get_columns();
+        $num                   = $this->get_option('layout_columns', 'max');
 
-		?>
-		<h5 class="screen-layout"><?php _e('Screen Layout'); ?></h5>
-		<div class='columns-prefs'><?php
-			_e('Number of Columns:');
-			for ( $i = 1; $i <= $num; ++$i ):
-				?>
-				<label class="columns-prefs-<?php echo $i; ?>">
-					<input type='radio' name='screen_columns' value='<?php echo RC_Format::esc_attr( $i ); ?>'
-						<?php checked( $screen_layout_columns, $i ); ?> />
-					<?php echo RC_Format::esc_html( $i ); ?>
-				</label>
-				<?php
-			endfor; ?>
-		</div>
-		<?php
-	}
+        ?>
+        <h5 class="screen-layout"><?php _e('Screen Layout'); ?></h5>
+        <div class='columns-prefs'><?php
+            _e('Number of Columns:');
+            for ($i = 1; $i <= $num; ++$i):
+                ?>
+                <label class="columns-prefs-<?php echo $i; ?>">
+                    <input type='radio' name='screen_columns' value='<?php echo RC_Format::esc_attr($i); ?>'
+                        <?php checked($screen_layout_columns, $i); ?> />
+                    <?php echo RC_Format::esc_html($i); ?>
+                </label>
+            <?php
+            endfor; ?>
+        </div>
+        <?php
+    }
 
-	/**
-	 * Render the items per page option
-	 *
-	 * @since 1.0.0
-	 */
-	function render_per_page_options() {
-		if ( ! $this->get_option( 'per_page' ) )
-			return;
+    /**
+     * Render the items per page option
+     *
+     * @since 1.0.0
+     */
+    function render_per_page_options()
+    {
+        if (!$this->get_option('per_page'))
+            return;
 
-		$per_page_label = $this->get_option( 'per_page', 'label' );
+        $per_page_label = $this->get_option('per_page', 'label');
 
 // 		$per_page_button
 
-		$option = $this->get_option( 'per_page', 'option' );
-		if ( ! $option )
-			$option = str_replace( '-', '_', "{$this->id}_per_page" );
+        $option = $this->get_option('per_page', 'option');
+        if (!$option)
+            $option = str_replace('-', '_', "{$this->id}_per_page");
 
 // 		$per_page = (int) get_user_option( $option );
 // 		if ( empty( $per_page ) || $per_page < 1 ) {
@@ -1119,233 +1007,241 @@ class EcjiaScreen
 // 		}
 
 
-		$per_page = RC_Hook::apply_filters( $option, $per_page );
+        $per_page = RC_Hook::apply_filters($option, $per_page);
 
 
-		?>
-		<div class="screen-options">
-			<?php if ( $per_page_label ) : ?>
-				<input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
-					id="<?php echo RC_Format::esc_attr( $option ); ?>" maxlength="3"
-					value="<?php echo RC_Format::esc_attr( $per_page ); ?>" />
-				<label for="<?php echo RC_Format::esc_attr( $option ); ?>">
-					<?php echo RC_Format::esc_html( $per_page_label ); ?>
-				</label>
-			<?php endif;
-			echo ecjia_form::get_submit_button( __( '应用', 'ecjia'), 'btn', 'screen-options-apply', false ); ?>
-			<input type='hidden' name='wp_screen_options[option]' value='<?php echo RC_Format::esc_attr($option); ?>' />
-		</div>
-		<?php
-	}
+        ?>
+        <div class="screen-options">
+            <?php if ($per_page_label) : ?>
+                <input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
+                       id="<?php echo RC_Format::esc_attr($option); ?>" maxlength="3"
+                       value="<?php echo RC_Format::esc_attr($per_page); ?>"/>
+                <label for="<?php echo RC_Format::esc_attr($option); ?>">
+                    <?php echo RC_Format::esc_html($per_page_label); ?>
+                </label>
+            <?php endif;
+            echo ecjia_form::get_submit_button(__('应用', 'ecjia'), 'btn', 'screen-options-apply', false); ?>
+            <input type='hidden' name='wp_screen_options[option]' value='<?php echo RC_Format::esc_attr($option); ?>'/>
+        </div>
+        <?php
+    }
 
 
-	/**
-	 * =================================================
-	 * 静态操作方法
-	 * =================================================
-	 */
-	public static $current_screen;
+    /**
+     * =================================================
+     * 静态操作方法
+     * =================================================
+     */
+    public static $current_screen;
 
-	/**
-	 * Get the current screen object
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return self Current screen object
-	 */
-	public static function get_current_screen() {
-	    if ( ! isset( self::$current_screen ) )
-	        return null;
+    /**
+     * Get the current screen object
+     *
+     * @return self Current screen object
+     * @since 1.0.0
+     *
+     */
+    public static function get_current_screen()
+    {
+        if (!isset(self::$current_screen))
+            return null;
 
-	    return self::$current_screen;
-	}
-
-
-	/**
-	 * Set the current screen object
-	 *
-	 * @since 1.0.0
-	 * @uses $current_screen
-	 *
-	 * @param mixed $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
-	 *	or an existing screen object.
-	 */
-	public static function set_current_screen( $hook_name = '' ) {
-	    self::get( $hook_name )->make_current_screen();
-	}
+        return self::$current_screen;
+    }
 
 
-	/**
-	 * Register and configure an admin screen option
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $option An option name.
-	 * @param mixed $args Option-dependent arguments.
-	 */
-	public static function add_screen_option( $option, $args = array() ) {
-	    $current_screen = self::get_current_screen();
-
-	    if ( ! $current_screen )
-	        return;
-
-	    $current_screen->add_option( $option, $args );
-	}
+    /**
+     * Set the current screen object
+     *
+     * @param mixed $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
+     *    or an existing screen object.
+     * @uses $current_screen
+     *
+     * @since 1.0.0
+     */
+    public static function set_current_screen($hook_name = '')
+    {
+        self::get($hook_name)->make_current_screen();
+    }
 
 
-	/**
-	 * Get Hidden Meta Boxes
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string|WP_Screen $screen Screen identifier
-	 * @return array Hidden Meta Boxes
-	 */
-	public static function get_hidden_meta_boxes( $screen ) {
-	    if ( is_string( $screen ) )
-	        $screen = self::convert_to_screen( $screen );
+    /**
+     * Register and configure an admin screen option
+     *
+     * @param string $option An option name.
+     * @param mixed $args Option-dependent arguments.
+     * @since 1.0.0
+     *
+     */
+    public static function add_screen_option($option, $args = array())
+    {
+        $current_screen = self::get_current_screen();
 
-	    $hidden = get_user_option( "metaboxhidden_{$screen->id}" );
+        if (!$current_screen)
+            return;
 
-	    $use_defaults = ! is_array( $hidden );
-
-	    // Hide slug boxes by default
-	    if ( $use_defaults ) {
-	        $hidden = array();
-	        if ( 'post' == $screen->base ) {
-	            if ( 'post' == $screen->post_type || 'page' == $screen->post_type || 'attachment' == $screen->post_type )
-	                $hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
-	            else
-	                $hidden = array( 'slugdiv' );
-	        }
-
-	        /**
-	         * Filter the default list of hidden meta boxes.
-	         *
-	         * @since 3.1.0
-	         *
-	         * @param array     $hidden An array of meta boxes hidden by default.
-	         * @param WP_Screen $screen WP_Screen object of the current screen.
-	         */
-	        $hidden = RC_Hook::apply_filters( 'default_hidden_meta_boxes', $hidden, $screen );
-	    }
-
-	    /**
-	     * Filter the list of hidden meta boxes.
-	     *
-	     * @since 1.0.0
-	     *
-	     * @param array     $hidden       An array of hidden meta boxes.
-	     * @param WP_Screen $screen       WP_Screen object of the current screen.
-	     * @param bool      $use_defaults Whether to show the default meta boxes.
-	     *                                Default true.
-	     */
-	    return RC_Hook::apply_filters( 'hidden_meta_boxes', $hidden, $screen, $use_defaults );
-	}
+        $current_screen->add_option($option, $args);
+    }
 
 
-	/**
-	 * Prints the meta box preferences for screen meta.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string|WP_Screen $screen
-	 */
-	public static function meta_box_prefs( $screen ) {
-	    global $wp_meta_boxes;
+    /**
+     * Get Hidden Meta Boxes
+     *
+     * @param string|WP_Screen $screen Screen identifier
+     * @return array Hidden Meta Boxes
+     * @since 1.0.0
+     *
+     */
+    public static function get_hidden_meta_boxes($screen)
+    {
+        if (is_string($screen))
+            $screen = self::convert_to_screen($screen);
 
-	    if ( is_string( $screen ) )
-	        $screen = self::convert_to_screen( $screen );
+        $hidden = get_user_option("metaboxhidden_{$screen->id}");
 
-	    if ( empty($wp_meta_boxes[$screen->id]) )
-	        return;
+        $use_defaults = !is_array($hidden);
 
-	    $hidden = self::get_hidden_meta_boxes($screen);
+        // Hide slug boxes by default
+        if ($use_defaults) {
+            $hidden = array();
+            if ('post' == $screen->base) {
+                if ('post' == $screen->post_type || 'page' == $screen->post_type || 'attachment' == $screen->post_type)
+                    $hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
+                else
+                    $hidden = array('slugdiv');
+            }
 
-	    foreach ( array_keys($wp_meta_boxes[$screen->id]) as $context ) {
-	        foreach ( array_keys($wp_meta_boxes[$screen->id][$context]) as $priority ) {
-	            foreach ( $wp_meta_boxes[$screen->id][$context][$priority] as $box ) {
-	                if ( false == $box || ! $box['title'] )
-	                    continue;
-	                // Submit box cannot be hidden
-	                if ( 'submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'] )
-	                    continue;
-	                $box_id = $box['id'];
-	                echo '<label for="' . $box_id . '-hide">';
-	                echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
-	                echo "{$box['title']}</label>\n";
-	            }
-	        }
-	    }
-	}
+            /**
+             * Filter the default list of hidden meta boxes.
+             *
+             * @param array $hidden An array of meta boxes hidden by default.
+             * @param WP_Screen $screen WP_Screen object of the current screen.
+             * @since 3.1.0
+             *
+             */
+            $hidden = RC_Hook::apply_filters('default_hidden_meta_boxes', $hidden, $screen);
+        }
+
+        /**
+         * Filter the list of hidden meta boxes.
+         *
+         * @param array $hidden An array of hidden meta boxes.
+         * @param WP_Screen $screen WP_Screen object of the current screen.
+         * @param bool $use_defaults Whether to show the default meta boxes.
+         *                                Default true.
+         * @since 1.0.0
+         *
+         */
+        return RC_Hook::apply_filters('hidden_meta_boxes', $hidden, $screen, $use_defaults);
+    }
 
 
-	/**
-	 * Convert a screen string to a screen object
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
-	 * @return WP_Screen Screen object.
-	 */
-	public static function convert_to_screen( $hook_name ) {
-	    if ( ! class_exists( __CLASS__ ) ) {
-	        _doing_it_wrong( 'convert_to_screen(), add_meta_box()', __( "Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead.", 'ecjia'), '3.3' );
-	        return (object) array( 'id' => '_invalid', 'base' => '_are_belong_to_us' );
-	    }
+    /**
+     * Prints the meta box preferences for screen meta.
+     *
+     * @param string|WP_Screen $screen
+     * @since 1.0.0
+     *
+     */
+    public static function meta_box_prefs($screen)
+    {
+        global $wp_meta_boxes;
 
-	    return self::get( $hook_name );
-	}
+        if (is_string($screen))
+            $screen = self::convert_to_screen($screen);
 
-	/**
-	 * Get a list of hidden columns.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string|WP_Screen $screen The screen you want the hidden columns for
-	 * @return array
-	 */
-	public static function get_hidden_columns( $screen ) {
-	    if ( is_string( $screen ) )
-	        $screen = self::convert_to_screen( $screen );
+        if (empty($wp_meta_boxes[$screen->id]))
+            return;
+
+        $hidden = self::get_hidden_meta_boxes($screen);
+
+        foreach (array_keys($wp_meta_boxes[$screen->id]) as $context) {
+            foreach (array_keys($wp_meta_boxes[$screen->id][$context]) as $priority) {
+                foreach ($wp_meta_boxes[$screen->id][$context][$priority] as $box) {
+                    if (false == $box || !$box['title'])
+                        continue;
+                    // Submit box cannot be hidden
+                    if ('submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'])
+                        continue;
+                    $box_id = $box['id'];
+                    echo '<label for="' . $box_id . '-hide">';
+                    echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (!in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
+                    echo "{$box['title']}</label>\n";
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Convert a screen string to a screen object
+     *
+     * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
+     * @return WP_Screen Screen object.
+     * @since 1.0.0
+     *
+     */
+    public static function convert_to_screen($hook_name)
+    {
+        if (!class_exists(__CLASS__)) {
+            _doing_it_wrong('convert_to_screen(), add_meta_box()', __("Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead.", 'ecjia'), '3.3');
+            return (object)array('id' => '_invalid', 'base' => '_are_belong_to_us');
+        }
+
+        return self::get($hook_name);
+    }
+
+    /**
+     * Get a list of hidden columns.
+     *
+     * @param string|WP_Screen $screen The screen you want the hidden columns for
+     * @return array
+     * @since 1.0.0
+     *
+     */
+    public static function get_hidden_columns($screen)
+    {
+        if (is_string($screen))
+            $screen = self::convert_to_screen($screen);
 
 // 	    return (array) get_user_option( 'manage' . $screen->id . 'columnshidden' );
-	}
+    }
 
 
-	/**
-	 * Get the column headers for a screen
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string|ecjia_screen $screen The screen you want the headers for
-	 * @return array Containing the headers in the format id => UI String
-	 */
-	public static function get_column_headers( $screen ) {
-	    if ( is_string( $screen ) )
-	        $screen = self::convert_to_screen( $screen );
+    /**
+     * Get the column headers for a screen
+     *
+     * @param string|ecjia_screen $screen The screen you want the headers for
+     * @return array Containing the headers in the format id => UI String
+     * @since 1.0.0
+     *
+     */
+    public static function get_column_headers($screen)
+    {
+        if (is_string($screen))
+            $screen = self::convert_to_screen($screen);
 
-	    static $column_headers = array();
+        static $column_headers = array();
 
-	    if ( ! isset( $column_headers[ $screen->id ] ) ) {
+        if (!isset($column_headers[$screen->id])) {
 
-	        /**
-	         * Filter the column headers for a list table on a specific screen.
-	         *
-	         * The dynamic portion of the hook name, $screen->id, refers to the
-	         * ID of a specific screen. For example, the screen ID for the Posts
-	         * list table is edit-post, so the filter for that screen would be
-	         * manage_edit-post_columns.
-	         *
-	         * @since 1.0.0
-	         *
-	         * @param array $columns An array of column headers. Default empty.
-	         */
-	        $column_headers[ $screen->id ] = RC_Hook::apply_filters( 'manage_' . $screen->id . '_columns', array() );
-	    }
+            /**
+             * Filter the column headers for a list table on a specific screen.
+             *
+             * The dynamic portion of the hook name, $screen->id, refers to the
+             * ID of a specific screen. For example, the screen ID for the Posts
+             * list table is edit-post, so the filter for that screen would be
+             * manage_edit-post_columns.
+             *
+             * @param array $columns An array of column headers. Default empty.
+             * @since 1.0.0
+             *
+             */
+            $column_headers[$screen->id] = RC_Hook::apply_filters('manage_' . $screen->id . '_columns', array());
+        }
 
-	    return $column_headers[ $screen->id ];
-	}
+        return $column_headers[$screen->id];
+    }
 }
 
 
