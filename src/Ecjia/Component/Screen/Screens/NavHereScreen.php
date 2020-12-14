@@ -47,6 +47,7 @@ class NavHereScreen
 
     /**
      * 获取所有对象
+     * @return AdminNavHere[]
      */
     public function get_nav_heres()
     {
