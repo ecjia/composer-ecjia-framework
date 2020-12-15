@@ -49,6 +49,7 @@ namespace Ecjia\Component\Config\Manager;
 
 
 use ecjia;
+use Royalcms\Component\Database\QueryException;
 
 class AddonConfigManager extends AbstractManager
 {
@@ -81,7 +82,12 @@ class AddonConfigManager extends AbstractManager
         }
         else
         {
-            $this->getRepository()->add('addon', $code, null, ['type' => 'hidden']);
+            try {
+                $this->getRepository()->add('addon', $code, null, ['type' => 'hidden']);
+            }
+            catch (QueryException $exception) {
+                ecjia_log_error($exception);
+            }
             $value = null;
         }
 
@@ -130,7 +136,12 @@ class AddonConfigManager extends AbstractManager
         }
         else
         {
-            $this->getRepository()->add('addon', $code, $value, ['type' => 'hidden']);
+            try {
+                $this->getRepository()->add('addon', $code, $value, ['type' => 'hidden']);
+            }
+            catch (QueryException $exception) {
+                ecjia_log_error($exception);
+            }
         }
     }
 
