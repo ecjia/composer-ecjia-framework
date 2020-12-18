@@ -67,22 +67,6 @@ class Mailer extends LaravelMailer
 {
 
     /**
-     * @var \Swift_Mailer
-     */
-    protected static $swift_mailer;
-
-    public function __construct(string $name, Factory $views, Swift_Mailer $swift, Dispatcher $events = null)
-    {
-        parent::__construct($name, $views, $swift, $events);
-
-        if (is_null(self::$swift_mailer)) {
-            $driver = config('mail.default');
-            $this->registerSwiftMailer($driver);
-        }
-
-    }
-
-    /**
      * Send a new message using a callback.
      *
      * @param  string  $plain
@@ -127,13 +111,12 @@ class Mailer extends LaravelMailer
      *
      * @return boolean|RC_Error
      */
-    public function send_mail($name, $email, $subject, $content, $type = 0, $notification = false) {
+    public function customSendMail($name, $email, $subject, $content, $type = 0, $notification = false) {
 
         $config = royalcms('config');
 
         try {
-            $recipients = $this->sendMessage(function($message) use ($config, $email, $name, $subject, $content, $type, $notification)
-            {
+            $recipients = $this->sendMessage(function($message) use ($config, $email, $name, $subject, $content, $type, $notification) {
                 /**
                  * @var \Illuminate\Mail\Message $message
                  */
@@ -185,84 +168,6 @@ class Mailer extends LaravelMailer
             RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
             return RC_Error::make('send_mail_error', 'Mailer Error: ' . $exception->getMessage());
         }
-    }
-
-    /**
-     * 重设mail配置项
-     *
-     * @param array $config
-     */
-    public static function ecjia_mail_config($config = [])
-    {
-
-        if (empty($config)) {
-            $config = [
-                'smtp_host'     => ecjia::config('smtp_host'),
-                'smtp_port'     => ecjia::config('smtp_port'),
-                'smtp_mail'     => ecjia::config('smtp_mail'),
-                'shop_name'     => ecjia::config('shop_name'),
-                'smtp_user'     => ecjia::config('smtp_user'),
-                'smtp_pass'     => ecjia::config('smtp_pass'),
-                'smtp_ssl'      => ecjia::config('smtp_ssl'),
-                'mail_charset'  => ecjia::config('mail_charset'),
-                'mail_service'  => ecjia::config('mail_service'),
-            ];
-        }
-
-        if (empty($config['shop_name'])) {
-            $config['shop_name'] = ecjia::config('shop_name');
-        }
-
-        $royalcms_config = royalcms('config');
-
-        $royalcms_config->set('mail.mailers.smtp.host',        array_get($config, 'smtp_host'));
-        $royalcms_config->set('mail.mailers.smtp.port',        array_get($config, 'smtp_port'));
-        $royalcms_config->set('mail.mailers.smtp.username',    array_get($config, 'smtp_user'));
-        $royalcms_config->set('mail.mailers.smtp.password',    array_get($config, 'smtp_pass'));
-
-        if (intval(array_get($config, 'smtp_ssl')) === 1) {
-            $royalcms_config->set('mail.mailers.smtp.encryption', 'ssl');
-        } else {
-            $royalcms_config->set('mail.mailers.smtp.encryption', 'tcp');
-        }
-
-        $royalcms_config->set('mail.from.address', array_get($config, 'smtp_mail'));
-        $royalcms_config->set('mail.from.name',   array_get($config, 'shop_name'));
-        $royalcms_config->set('mail.charset',     array_get($config, 'mail_charset'));
-
-
-        if (intval(array_get($config, 'mail_service')) === 1) {
-            $royalcms_config->set('mail.default', 'smtp');
-        } else {
-            $royalcms_config->set('mail.default', 'sendmail');
-        }
-
-    }
-
-    /**
-     * Register the Swift Transport instance.
-     *
-     * @return void
-     */
-    protected function registerSwiftMailer($driver)
-    {
-        RC_Hook::do_action('reset_mail_config');
-
-        $royalcms = royalcms();
-
-        if ($driver == 'smtp') {
-
-            $royalcms['mail.manager']->resetDriver($driver);
-
-            $royalcms->forgetInstance('mailer');
-            $royalcms->singleton('mailer', function ($royalcms) {
-                return $royalcms['mail.manager']->mailer();
-            });
-
-            $this->setSwiftMailer($royalcms['mail.manager']->mailer()->getSwiftMailer());
-        }
-
-        self::$swift_mailer = $royalcms['mail.manager']->mailer()->getSwiftMailer();
     }
 
 }
