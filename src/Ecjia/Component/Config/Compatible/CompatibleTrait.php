@@ -71,6 +71,7 @@ trait CompatibleTrait
 	
 	/**
 	 * 强制重新加载config
+     * @deprecated 6.0
 	 */
 	public function reload_config() 
 	{
@@ -81,7 +82,7 @@ trait CompatibleTrait
 	/**
 	 * 载入全部配置信息
 	 *
-	 * @access  public
+	 * @deprecated 6.0
 	 * @return  array
 	 */
 	public function load_config() 
@@ -92,6 +93,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 清除配置文件缓存
+     *
+     * @deprecated 6.0
      * @return void
 	 */
 	public function clear_cache() {
@@ -100,6 +103,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 检查配置项是否存在
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 * @return boolean
 	 */
@@ -110,6 +115,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 判断配置项值是否空, 为空是
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 */
 	public function check_exists($code)
@@ -120,6 +127,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 读取某项配置
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 * @return string
 	 */
@@ -131,6 +140,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 写入某项配置
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 * @param string $value
 	 */
@@ -143,7 +154,7 @@ trait CompatibleTrait
 	/**
 	 * 插入一个配置信息
 	 *
-	 * @access  public
+	 * @deprecated 6.0
 	 * @param   string      $parent     分组的code
 	 * @param   string      $code       该配置信息的唯一标识
 	 * @param   string      $value      该配置信息值
@@ -157,14 +168,21 @@ trait CompatibleTrait
 	
 	/**
 	 * 删除配置项
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 */
 	public function delete_config($code)
 	{
 	    return $this->item()->delete($code);
 	}
-	
-	
+
+    /**
+     * @deprecated 6.0
+     * @param $code
+     * @param null $id
+     * @return mixed
+     */
 	public function add_group($code, $id = null)
 	{
 	    return $this->group()->add($code, $id);
@@ -173,6 +191,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 检查配置项是否存在
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 * @return boolean
 	 */
@@ -180,8 +200,11 @@ trait CompatibleTrait
 	{
 	    return $this->group()->has($code);
 	}
-	
-	
+
+    /**
+     * @deprecated 6.0
+     * @return array
+     */
 	public function load_group()
 	{
 	    return $this->group()->all()->toArray();
@@ -189,6 +212,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 读取某项配置
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 * @return string|boolean
 	 */
@@ -200,6 +225,8 @@ trait CompatibleTrait
 	
 	/**
 	 * 删除配置项
+     *
+     * @deprecated 6.0
 	 * @param string $code
 	 */
 	public function delete_group($code)
@@ -210,9 +237,12 @@ trait CompatibleTrait
 	
 	/**
 	 * 获取插件的配置项
+     *
 	 * addon_app_actives
 	 * addon_plugin_actives
 	 * addon_widget_actives
+     *
+     * @deprecated 6.0
 	 * @param string $type
 	 * @param string $code
 	 * @param string|array $value
@@ -225,9 +255,12 @@ trait CompatibleTrait
 	
 	/**
 	 * 更新插件的配置项
+     *
 	 * addon_app_actives
 	 * addon_plugin_actives
 	 * addon_widget_actives
+     *
+     * @deprecated 6.0
 	 * @param string $type
 	 * @param string $code
 	 * @param string|array $value
@@ -239,9 +272,12 @@ trait CompatibleTrait
 
     /**
      * 获取插件的配置项
+     *
      * addon_app_actives
      * addon_plugin_actives
      * addon_widget_actives
+     *
+     * @deprecated 6.0
      * @param string $type
      * @param string $code
      * @param string|array $value
@@ -253,9 +289,12 @@ trait CompatibleTrait
 
     /**
      * 更新插件的配置项
+     *
      * addon_app_actives
      * addon_plugin_actives
      * addon_widget_actives
+     *
+     * @deprecated 6.0
      * @param string $type
      * @param string $code
      * @param string|array $value
