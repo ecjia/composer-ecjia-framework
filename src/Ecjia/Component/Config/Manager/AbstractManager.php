@@ -48,7 +48,7 @@
 namespace Ecjia\Component\Config\Manager;
 
 
-use Ecjia\Component\Config\Contracts\ConfigRepositoryInterface;
+use Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface;
 
 abstract class AbstractManager
 {
@@ -56,17 +56,17 @@ abstract class AbstractManager
     /**
      * The config repository implementation.
      *
-     * @var \Ecjia\Component\Config\Contracts\ConfigRepositoryInterface
+     * @var \Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface
      */
     protected $repository;
 
     /**
      * Create a new config instance.
      *
-     * @param  \Ecjia\Component\Config\Contracts\ConfigRepositoryInterface  $repository
+     * @param  \Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface  $repository
      * @return void
      */
-    public function __construct(ConfigRepositoryInterface $repository)
+    public function __construct(ConfigItemRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -74,7 +74,7 @@ abstract class AbstractManager
     /**
      * Get the config repository instance.
      *
-     * @return \Ecjia\Component\Config\Contracts\ConfigRepositoryInterface
+     * @return \Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface
      */
     public function getRepository()
     {

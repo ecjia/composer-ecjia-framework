@@ -48,8 +48,37 @@
 namespace Ecjia\Component\Config\Manager;
 
 
-class GroupManager extends AbstractManager
+use Ecjia\Component\Config\Contracts\ConfigGroupRepositoryInterface;
+
+class GroupManager
 {
+    /**
+     * The config repository implementation.
+     *
+     * @var \Ecjia\Component\Config\Contracts\ConfigGroupRepositoryInterface
+     */
+    protected $repository;
+
+    /**
+     * Create a new config instance.
+     *
+     * @param  \Ecjia\Component\Config\Contracts\ConfigGroupRepositoryInterface  $repository
+     * @return void
+     */
+    public function __construct(ConfigGroupRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * Get the config repository instance.
+     *
+     * @return \Ecjia\Component\Config\Contracts\ConfigGroupRepositoryInterface
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
 
     /**
      * Get all groups.
@@ -70,7 +99,6 @@ class GroupManager extends AbstractManager
     {
         return $this->getRepository()->hasGroup($group);
     }
-
 
     /**
      * Get the specified configuration value.
@@ -95,10 +123,6 @@ class GroupManager extends AbstractManager
     {
         return $this->getRepository()->addGroup($group, $id);
     }
-
-
-
-
 
 
 }

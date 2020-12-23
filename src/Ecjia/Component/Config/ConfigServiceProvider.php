@@ -99,7 +99,7 @@ class ConfigServiceProvider extends ServiceProvider implements DeferrableProvide
         {
             $repository = $royalcms['ecjia.config.repository'];
 
-            return new Config($repository);
+            return new Config($repository, $repository);
         });
     }
 

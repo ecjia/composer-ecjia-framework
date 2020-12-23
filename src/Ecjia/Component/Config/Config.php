@@ -48,11 +48,12 @@
 namespace Ecjia\Component\Config;
 
 use Ecjia\Component\Config\Compatible\CompatibleTrait;
-use Ecjia\Component\Config\Contracts\ConfigRepositoryInterface;
 use Ecjia\Component\Config\Manager\AddonConfigManager;
 use Ecjia\Component\Config\Manager\GroupManager;
 use Ecjia\Component\Config\Manager\ItemManager;
 use Royalcms\Component\Support\Traits\Macroable;
+use Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface;
+use Ecjia\Component\Config\Contracts\ConfigGroupRepositoryInterface;
 
 class Config
 {
@@ -80,25 +81,33 @@ class Config
     /**
      * The config repository implementation.
      *
-     * @var \Ecjia\Component\Config\Contracts\ConfigRepositoryInterface
+     * @var \Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface
      */
     protected $repository;
 
     /**
+     * The config repository implementation.
+     *
+     * @var \Ecjia\Component\Config\Contracts\ConfigGroupRepositoryInterface
+     */
+    protected $groupRepository;
+
+    /**
      * Create a new config instance.
      *
-     * @param  \Ecjia\Component\Config\Contracts\ConfigRepositoryInterface $repository
+     * @param  \Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface $repository
      * @return void
      */
-    public function __construct(ConfigRepositoryInterface $repository)
+    public function __construct(ConfigItemRepositoryInterface $repository, ConfigGroupRepositoryInterface $groupRepository)
     {
         $this->repository = $repository;
+        $this->groupRepository = $groupRepository;
     }
 
     /**
      * Get the config repository instance.
      *
-     * @return \Ecjia\Component\Config\Contracts\ConfigRepositoryInterface
+     * @return \Ecjia\Component\Config\Contracts\ConfigItemRepositoryInterface
      */
     public function getRepository()
     {
@@ -123,7 +132,7 @@ class Config
     public function group()
     {
         if (is_null($this->groupManager)) {
-            $this->groupManager = new GroupManager($this->repository);
+            $this->groupManager = new GroupManager($this->groupRepository);
         }
 
         return $this->groupManager;
