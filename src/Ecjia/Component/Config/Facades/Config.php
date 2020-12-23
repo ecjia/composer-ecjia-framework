@@ -1,4 +1,4 @@
-<?php 
+<?php
 //  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -48,11 +48,12 @@ namespace Ecjia\Component\Config\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
-class Config extends Facade {
+class Config extends Facade
+{
 
     protected static function getFacadeAccessor()
     {
         return 'ecjia.config';
     }
-    
+
 }
