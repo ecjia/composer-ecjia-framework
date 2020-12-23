@@ -50,6 +50,7 @@ namespace Ecjia\Component\Config\Manager;
 
 use ecjia;
 use Royalcms\Component\Database\QueryException;
+use RC_Hook;
 
 class AddonConfigManager extends AbstractManager
 {
@@ -67,33 +68,24 @@ class AddonConfigManager extends AbstractManager
      */
     public function get($code, $unserialize = false, $use_platform = false)
     {
-        if ($use_platform)
-        {
+        if ($use_platform) {
             $code = 'addon_' . ecjia::current_platform() . '_' . $code;
-        }
-        else
-        {
+        } else {
             $code = 'addon_' . $code;
         }
 
-        if ($this->getRepository()->has($code))
-        {
+        if ($this->getRepository()->has($code)) {
             $value = $this->getRepository()->get($code);
-        }
-        else
-        {
-            try {
-                $this->getRepository()->add('addon', $code, null, ['type' => 'hidden']);
-            }
-            catch (QueryException $exception) {
-                ecjia_log_error($exception);
-            }
+        } else {
             $value = null;
+            RC_Hook::add_action('ecjia_config_addon_code_not_exists', $code);
         }
 
-        if ($unserialize)
-        {
-            $value or $value = serialize(array());
+        if (is_null($value)) {
+            $value = serialize(array());
+        }
+
+        if ($unserialize) {
             $value = unserialize($value);
         }
 
@@ -115,33 +107,25 @@ class AddonConfigManager extends AbstractManager
     public function write($code, $value, $serialize = false, $use_platform = false)
     {
 
-        if ($use_platform)
-        {
+        if ($use_platform) {
             $code = 'addon_' . ecjia::current_platform() . '_' . $code;
-        }
-        else
-        {
+        } else {
             $code = 'addon_' . $code;
         }
 
-        if ($serialize)
-        {
-            $value or $value = array();
+        if (is_null($value)) {
+            $value = [];
+        }
+
+        if ($serialize) {
             $value = serialize($value);
         }
 
-        if ($this->getRepository()->has($code))
-        {
+        if ($this->getRepository()->has($code)) {
             $this->getRepository()->write($code, $value);
-        }
-        else
-        {
-            try {
-                $this->getRepository()->add('addon', $code, $value, ['type' => 'hidden']);
-            }
-            catch (QueryException $exception) {
-                ecjia_log_error($exception);
-            }
+        } else {
+            RC_Hook::add_action('ecjia_config_addon_code_not_exists', $code);
+
         }
     }
 
