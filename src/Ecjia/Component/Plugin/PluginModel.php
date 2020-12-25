@@ -53,92 +53,45 @@ use RC_Plugin;
 
 abstract class PluginModel extends Model
 {
-    /**
-     * 存储安装插件的列表
-     * @var string
-     */
-    protected $addon_plugin_name;
-    
+    use AddonPluginTrait;
+
     /**
      * 当前插件种类的唯一标识字段名
      */
     abstract public function codeFieldName();
-    
+
     /**
      * 获取数据库中启用的插件列表
      */
     abstract public function getEnableList();
-    
+
     /**
      * 获取数据库中插件数据
      */
     abstract public function getPluginDataById($id);
-    
+
     abstract public function getPluginDataByCode($code);
-    
+
     abstract public function getPluginDataByName($name);
-    
-    /**
-     * 获取数据中的Config配置数据，并处理
-     */
-    abstract public function configData($code);
 
-    /**
-     * 获取当前类型的已经安装激活插件
-     */
-    public function getInstalledPlugins()
-    {
-        return ecjia_config::getAddonConfig($this->addon_plugin_name, true, false);
-    }
-
-    /**
-     * 添加安装插件
-     * @param $plugin_file
-     */
-    public function addInstallPlugin($plugin_file)
-    {
-        $plugin_file = RC_Plugin::plugin_basename( $plugin_file );
-        $plugin_dir = dirname($plugin_file);
-
-        $plugins = $this->getInstalledPlugins();
-        $plugins[$plugin_dir] = $plugin_file;
-
-        ecjia_config::writeAddonConfig($this->addon_plugin_name, $plugins, true, true);
-    }
-
-    /**
-     * 移除安装插件
-     * @param $plugin_file
-     */
-    public function removeInstallPlugin($plugin_file)
-    {
-        $plugin_file = RC_Plugin::plugin_basename( $plugin_file );
-        $plugin_dir = dirname($plugin_file);
-
-        $plugins = $this->getInstalledPlugins();
-        unset($plugins[$plugin_dir]);
-
-        ecjia_config::writeAddonConfig($this->addon_plugin_name, $plugins, true, true);
-    }
-    
     /**
      * 获取数据库中插件数据
      */
     public function getPluginData($id)
     {
-        $this->pluginDataById($id);
+        return $this->getPluginDataById($id);
     }
-    
+
     /**
-     * 取得可用的支付方式列表
-     */ 
+     * 取得可用的插件列表
+     */
     public function availablePluginList()
     {
         $plugins = $this->getInstalledPlugins();
-        $data = $this->getEnableList();
-        
+        $data    = $this->getEnableList();
+
         $list = array();
-         
+
         if (!empty($data)) {
             foreach ($data as $row) {
                 if (isset($plugins[$row[$this->codeFieldName()]])) {
@@ -146,55 +99,28 @@ abstract class PluginModel extends Model
                 }
             }
         }
-        
+
         return $list;
     }
-    
-    /**
-     * 获取指定插件的实例
-     * @param string $code
-     * @param array $config
-     * @return \Ecjia\System\Plugin\AbstractPlugin
-     */
-    public function pluginInstance($code, array $config = array()) 
-    {
-        if (empty($config))
-        {
-            $config = $this->configData($code);
-        }
-        
-        $plugins = $this->getInstalledPlugins();
-        Ecjia_PluginManager::addPlugins($plugins);
-        
-        $handler = Ecjia_PluginManager::driver($code);
-        $handler->setConfig($config);
 
-        return $handler;
-    }
-    
-    
     /**
      * 处理序列化的支付、配送的配置参数
      * 返回一个以name为索引的数组
      *
      * @access  public
-     * @param   string       $cfg
+     * @param string $cfg
      * @return  array
      */
     public function unserializeConfig($cfg)
     {
         $config = array();
-        
-        if (is_string($cfg) && ($arr = unserialize($cfg)) !== false) 
-        {
-            foreach ($arr as $key => $val)
-            {
+
+        if (is_string($cfg) && ($arr = unserialize($cfg)) !== false) {
+            foreach ($arr as $key => $val) {
                 $config[$val['name']] = $val['value'];
             }
             return $config;
-        } 
-        else 
-        {
+        } else {
             return $config;
         }
     }
