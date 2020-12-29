@@ -46,8 +46,20 @@
 //
 namespace Ecjia\Component\Facades;
 
+use Ecjia\Component\Version\Version;
 use Royalcms\Component\Support\Facades\Facade;
 
+/**
+ * Class VersionManager
+ * @package Ecjia\Component\Facades
+ *
+ * @method static Version version($version)
+ * @method static Version driver($version);
+ * @method static bool hasDriver($driver)
+ * @method static string upgradeDir()
+ * @method static array getAvailableVersions()
+ * @method static array getDefaultDriver()
+ */
 class VersionManager extends Facade
 {
 
