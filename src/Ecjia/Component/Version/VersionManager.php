@@ -47,6 +47,7 @@
 namespace Ecjia\Component\Version;
 
 use RC_File;
+use RC_Hook;
 use Royalcms\Component\Support\Manager;
 
 class VersionManager extends Manager
@@ -100,7 +101,8 @@ class VersionManager extends Manager
      */
     public function upgradeDir()
     {
-        return RC_CONTENT_PATH . str_replace('/', DIRECTORY_SEPARATOR, 'database/patchs');
+        $dir = $this->royalcms->siteContentPath() . str_replace('/', DIRECTORY_SEPARATOR, '/patchs');
+        return RC_Hook::apply_filters('set_upgrade_patch_dir', $dir);
     }
     
     /**

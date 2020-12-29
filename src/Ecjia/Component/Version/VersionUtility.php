@@ -72,6 +72,18 @@ class VersionUtility
     
         return $version_id;
     }
+
+    /**
+     * 转换版本数字ID为字符串
+     * @param $version_id
+     */
+    public static function convertVersionString($version_id)
+    {
+        $major_version = $version_id / 10000;
+        $minor_version = ($version_id % 10000) / 100;
+        $release_version = ($version_id % 10000) % 100;
+        return sprintf("%d.%d.%d", $major_version, $minor_version, $release_version);
+    }
     
     /**
      * 获得最新的版本号。

@@ -46,6 +46,8 @@
 //
 namespace Ecjia\Component\Version;
 
+use Ecjia\Component\Version\Events\UpgradeAfterEvent;
+use Ecjia\Component\Version\Events\UpgradeBeforeEvent;
 use RC_File;
 use RC_Event;
 
@@ -91,6 +93,16 @@ abstract class Version implements UpgradeInterface
             $this->readme = RC_File::get($filepath);
         }
     }
+
+    public function getVersionId()
+    {
+        return $this->versionId;
+    }
+
+    public function getVersionString()
+    {
+        return VersionUtility::convertVersionString($this->versionId);
+    }
     
     /**
      * 获取变动文件列表
@@ -114,13 +126,14 @@ abstract class Version implements UpgradeInterface
     public function upgrade()
     {
         // 升级前
-        RC_Event::fire('upgrade.before', $this);
-        
+        event(new UpgradeBeforeEvent($this));
+
+        //执行升级
         $result = $this->fire();
         
         // 升级后
-        RC_Event::fire('upgrade.after', array($this, $result));
-        
+        event(new UpgradeAfterEvent($this, $result));
+
         return $result;
     }
     
