@@ -44,12 +44,10 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\Component\CleanCache\CacheManger;
 
 /**
  * Class ecjia_update_cache
- *
- * @method bool clean($handle)
- * @method $this make()
  */
 class ecjia_update_cache extends Ecjia\Component\CleanCache\Facades\CleanCache
 {

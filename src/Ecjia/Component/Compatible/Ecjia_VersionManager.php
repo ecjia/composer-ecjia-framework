@@ -48,7 +48,7 @@
 /**
  * ECJIA 控制器基础类
  */
-class Ecjia_VersionManager extends Ecjia\System\Facades\VersionManager
+class Ecjia_VersionManager extends Ecjia\Component\Facades\VersionManager
 {
 
 
