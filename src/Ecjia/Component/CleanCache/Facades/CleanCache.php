@@ -1,4 +1,4 @@
-<?php 
+<?php
 //  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -48,11 +48,18 @@ namespace Ecjia\Component\CleanCache\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
-class CleanCache extends Facade {
+/**
+ * Class CleanCache
+ *
+ * @method static bool clean($handle)
+ * @method static CacheManger make()
+ */
+class CleanCache extends Facade
+{
 
     protected static function getFacadeAccessor()
     {
         return 'ecjia.clean-cache';
     }
-    
+
 }
