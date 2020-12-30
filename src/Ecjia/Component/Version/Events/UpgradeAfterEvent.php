@@ -20,9 +20,9 @@ class UpgradeAfterEvent
     /**
      * UpgradeAfterEvent constructor.
      * @param Version $version
-     * @param array $result
+     * @param array|bool|\ecjia_error $result
      */
-    public function __construct(Version $version, array $result)
+    public function __construct(Version $version, $result)
     {
         $this->version = $version;
         $this->result  = $result;
