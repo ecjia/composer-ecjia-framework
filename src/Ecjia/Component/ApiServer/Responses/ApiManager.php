@@ -100,15 +100,23 @@ class ApiManager
         try {
             $handle = $this->handler();
             if (is_ecjia_error($handle)) {
-                $data = $handle;
-            } else {
-                $data = $handle->handleRequest($this->request);
+                return new ApiResponse($handle);
             }
 
-            return new ApiResponse($data);
+            $method = 'handleRequest';
+
+            $response = royalcms('default-router')->runControllerAction(get_class($handle), $method);
+            if (is_null($response)) {
+                return royalcms('response');
+            }
+            elseif ($response instanceof ApiResponse) {
+                return $response;
+            }
+
+            return new ApiResponse($response);
         }
-        catch (\Exception $e) {
-            return new ApiResponse(new ecjia_error('ecjia_api_handle_request_error', $e->getMessage(), $e));
+        catch (\Exception $exception) {
+            return new ApiResponse(new ecjia_error('ecjia_api_handle_request_error', $exception->getMessage(), $exception));
         }
     }
 
