@@ -79,6 +79,31 @@ class CaptchaScreenManager
     }
 
     /**
+     * 获取选中的场景
+     * @param $value
+     * @return \Illuminate\Support\Collection|\Royalcms\Component\Support\Collection
+     */
+    public function getSelectedScreens($value)
+    {
+        return collect($this->manager->getScreens())->filter(function (CaptchaScreen $item) use ($value) {
+            return $item->checkSelected($value);
+        });
+    }
+
+    /**
+     * 判断指定场景是否被选中
+     * @param $name
+     * @param $value
+     * @return bool
+     */
+    public function hasSelectedScreen($name, $value)
+    {
+        return $this->getSelectedScreens($value)->contains(function ($item) use ($name) {
+            return $item->getName() === $name;
+        });
+    }
+
+    /**
      * @param null $value
      * @param CaptchaScreenRenderInterface $render
      * @return string

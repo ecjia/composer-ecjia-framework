@@ -15,7 +15,9 @@ use Royalcms\Component\Support\Facades\Facade;
  * @method static CaptchaScreenManager removeScreenWithName($name)
  * @method static CaptchaScreenManager setScreens(array $screens)
  * @method static array getScreens()
- * @method static string render($value = null)
+ * @method static string render($value = null, ?CaptchaScreenRenderInterface $render = null)
+ * @method static \Illuminate\Support\Collection|\Royalcms\Component\Support\Collection getSelectedScreens($value)
+ * @method static bool hasSelectedScreen($name, $value)
  */
 class CaptchaManager extends Facade
 {
