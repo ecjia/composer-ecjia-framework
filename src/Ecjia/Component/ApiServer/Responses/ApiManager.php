@@ -55,6 +55,7 @@ namespace Ecjia\Component\ApiServer\Responses;
 
 use Ecjia\Component\ApiServer\Route\ApiRouter;
 use ecjia_error;
+use Illuminate\Http\JsonResponse;
 use RC_Loader;
 
 class ApiManager
@@ -111,6 +112,9 @@ class ApiManager
             }
             elseif ($response instanceof ApiResponse) {
                 return $response;
+            }
+            elseif ($response instanceof JsonResponse) {
+                return new ApiResponse($response->getOriginalContent());
             }
 
             return new ApiResponse($response);
