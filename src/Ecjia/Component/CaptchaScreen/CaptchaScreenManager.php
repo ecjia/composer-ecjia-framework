@@ -78,34 +78,18 @@ class CaptchaScreenManager
         return RC_Hook::apply_filters('captcha_screens_filter', $this->screens);
     }
 
-    public function render($value = null)
-    {
-        return collect($this->getScreens())->map(function (CaptchaScreen $item) use ($value) {
-            $item->checkSelected($value);
-            return $this->renderTemplate($item);
-        })->implode("\n");
-    }
-
     /**
-     * @param CaptchaScreen $screen
+     * @param null $value
+     * @param CaptchaScreenRenderInterface $render
      * @return string
      */
-    protected function renderTemplate(CaptchaScreen $screen)
+    public function render($value = null, ?CaptchaScreenRenderInterface $render = null)
     {
-        $name = $screen->getName();
-        $value = $screen->getValue();
-        $label = $screen->getLabel();
-        if ($screen->isSelected()) {
-            $selected = 'checked="checked"';
-        } else {
-            $selected = '';
+        if (is_null($render)) {
+            $render = new CaptchaScreenRenderTemplate($this);
         }
 
-        return <<<TEMPLATE
-<input type="checkbox" name="{$name}" value="{$value}" {$selected} /><span>{$label}</span>
-TEMPLATE;
-
+        return $render->render($value);
     }
-
 
 }
