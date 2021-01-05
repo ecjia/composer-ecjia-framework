@@ -85,7 +85,7 @@ class CaptchaScreenManager
      */
     public function getSelectedScreens($value)
     {
-        return collect($this->manager->getScreens())->filter(function (CaptchaScreen $item) use ($value) {
+        return collect($this->getScreens())->filter(function (CaptchaScreen $item) use ($value) {
             return $item->checkSelected($value);
         });
     }
