@@ -39,7 +39,7 @@ class CaptchaScreenManager
                 return null;
             }
             return $item;
-        })->filter->toArray();
+        })->filter()->toArray();
 
         return $this;
     }
