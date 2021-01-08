@@ -50,8 +50,8 @@ namespace Ecjia\Component\Framework;
 
 use ArrayObject;
 use Ecjia\Component\CharCode\CharCode;
-use ecjia_admin;
-use ecjia_config;
+use Ecjia\Component\Menu\AdminMenu;
+use Ecjia\Component\Plugin\GlobalPluginStorage;
 use Illuminate\Support\Traits\Macroable;
 use RC_Hook;
 use RC_Plugin;
@@ -64,25 +64,23 @@ class Ecjia extends Container
     const VERSION = '2.16.0';
 
     const RELEASE = '20201231';
-
-    protected $config;
-
+    
     /**
      * Config read or wirte
      * @var int
      */
-    const CONFIG_READ = 1;
-    const CONFIG_CHECK = 2;
+    const CONFIG_READ   = 1;
+    const CONFIG_CHECK  = 2;
     const CONFIG_EXISTS = 3;
 
 
     /**
      * MSG types
      */
-    const MSGTYPE_HTML = 0x00;
+    const MSGTYPE_HTML  = 0x00;
     const MSGTYPE_ALERT = 0x10;
-    const MSGTYPE_JSON = 0x20;
-    const MSGTYPE_XML = 0x30;
+    const MSGTYPE_JSON  = 0x20;
+    const MSGTYPE_XML   = 0x30;
 
     /**
      * DATA types
@@ -90,67 +88,47 @@ class Ecjia extends Container
     const DATATYPE_HTML = 1;
     const DATATYPE_TEXT = 2;
     const DATATYPE_JSON = 3;
-    const DATATYPE_XML = 4;
+    const DATATYPE_XML  = 4;
 
 
     /**
      * MSG stats
      */
-    const MSGSTAT_ERROR = 0x00;
+    const MSGSTAT_ERROR   = 0x00;
     const MSGSTAT_SUCCESS = 0x01;
-    const MSGSTAT_INFO = 0x02;
+    const MSGSTAT_INFO    = 0x02;
     const MSGSTAT_CONFIRM = 0x03;
 
 
     /**
      * Addon types
      */
-    const TYPE_APP = 'app';
+    const TYPE_APP    = 'app';
     const TYPE_PLUGIN = 'plugin';
     const TYPE_WIDGET = 'widget';
-    const TYPE_THEME = 'theme';
+    const TYPE_THEME  = 'theme';
 
 
     /**
      * Platform types
      */
-    const PLATFORM_WEB = 'web';
+    const PLATFORM_WEB    = 'web';
     const PLATFORM_MOBILE = 'mobile';
-    const PLATFORM_WAP = 'wap';
+    const PLATFORM_WAP    = 'wap';
     const PLATFORM_WEIXIN = 'weixin';
-    const PLATFORM_WEIBO = 'weibo';
+    const PLATFORM_WEIBO  = 'weibo';
 
     /**
      * Debug modes
      * @var int
      */
-    const DM_DISABLED = 0x0;
-    const DM_OUTPUT_ERROR = 0x1;
+    const DM_DISABLED       = 0x0;
+    const DM_OUTPUT_ERROR   = 0x1;
     const DM_DISABLED_CACHE = 0x10;
-    const DM_SHOW_DEBUG = 0x100;
-    const DM_LOGGING_SQL = 0x1000;
-    const DM_DISPLAY_SQL = 0x10000;
+    const DM_SHOW_DEBUG     = 0x100;
+    const DM_LOGGING_SQL    = 0x1000;
+    const DM_DISPLAY_SQL    = 0x10000;
 
-
-//    /**
-//     * 调用站点配置文件
-//     * @param string $name
-//     * @return ArrayObject|string
-//     */
-//    public static function config($name = null, $what = self::CONFIG_READ)
-//    {
-//        if (is_null($name)) {
-//            return ecjia_config::instance()->load_config();
-//        }
-//
-//        if ($what === \ecjia::CONFIG_READ) {
-//            return ecjia_config::instance()->read_config($name);
-//        } elseif ($what === ecjia::CONFIG_CHECK) {
-//            return ecjia_config::instance()->check_config($name);
-//        } elseif ($what === ecjia::CONFIG_EXISTS) {
-//            return ecjia_config::instance()->check_exists($name);
-//        }
-//    }
 
     public static function current_platform()
     {
@@ -171,29 +149,11 @@ class Ecjia extends Container
     }
 
     /**
-     * Registers plugin to be used in templates
-     * @param string $type plugin type
-     * @param string $tag name of template tag
-     * @param callback $callback PHP callback to register
-     * @param boolean $cacheable if true (default) this fuction is cachable
-     * @param array $cache_attr caching attributes if any
-     * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
-     * @throws SmartyException              when the plugin tag is invalid
+     * 生成admin_menu对象
      */
-    public static function register_view_plugin($type, $tag, $callback, $cacheable = true, $cache_attr = null)
+    public static function make_admin_menu($action, $name, $link, $sort = 99, $target = '_self')
     {
-        return ecjia_admin::$view_object->registerPlugin($type, $tag, $callback, $cacheable, $cache_attr);
-    }
-
-    /**
-     * Unregister Plugin
-     * @param string $type of plugin
-     * @param string $tag name of plugin
-     * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
-     */
-    public static function unregister_view_plugin($type, $tag)
-    {
-        return ecjia_admin::$view_object->unregisterPlugin($type, $tag);
+        return new AdminMenu($action, $name, $link, $sort, $target);
     }
 
     /**
@@ -227,7 +187,7 @@ class Ecjia extends Container
 
     public static function loadGlobalPlugins()
     {
-        $global_plugins = ecjia_config::instance()->get_addon_config('global_plugins', true);
+        $global_plugins = (new GlobalPluginStorage())->getPlugins();
         if (is_array($global_plugins)) {
             foreach ($global_plugins as $plugin_file) {
                 RC_Plugin::load_files($plugin_file);
@@ -242,5 +202,5 @@ class Ecjia extends Container
     {
         return (config('system.debug') === true && config('system.debug_display') === true);
     }
-    
+
 }
