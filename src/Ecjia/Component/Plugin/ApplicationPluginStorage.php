@@ -28,7 +28,7 @@ class ApplicationPluginStorage implements PluginStorageInterface
      */
     public function getPlugins()
     {
-        return $this->active_plugins;
+        return $this->active_plugins ?: [];
     }
 
     /**
