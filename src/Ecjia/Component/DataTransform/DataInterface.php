@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ecjia\App\Notification;
+namespace Ecjia\Component\DataTransform;
 
 
 interface DataInterface
