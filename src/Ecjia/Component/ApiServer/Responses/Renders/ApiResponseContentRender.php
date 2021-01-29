@@ -6,7 +6,7 @@ namespace Ecjia\Component\ApiServer\Responses\Renders;
 
 use Ecjia\Component\ApiServer\Responses\ApiResponseContent;
 
-class ApiResponseContentRender
+class ApiResponseContentRender implements \Illuminate\Contracts\Support\Renderable
 {
     /**
      * @var ApiResponseContent

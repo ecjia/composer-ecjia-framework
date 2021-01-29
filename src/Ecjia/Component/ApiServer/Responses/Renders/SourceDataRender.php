@@ -1,7 +1,7 @@
 <?php
 namespace Ecjia\Component\ApiServer\Responses\Renders;
 
-class SourceDataRender
+class SourceDataRender implements \Illuminate\Contracts\Support\Renderable
 {
     protected $sourceData = array();
 
