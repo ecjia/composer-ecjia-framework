@@ -54,6 +54,7 @@
 namespace Ecjia\Component\ApiServer\Responses;
 
 use ecjia_error;
+use RC_Hook;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -62,62 +63,23 @@ use Illuminate\Contracts\Support\Jsonable;
  * @package ecjia-api
  * @since 1.5
  */
-
 class ApiError extends ecjia_error implements Arrayable, Jsonable
 {
-
-    private static $errorCodes = [
-        6       => '密码错误',
-        8       => '处理失败',
-        11      => '用户名或email已使用',
-        13      => '不存在的信息',
-        14      => '购买失败',
-        100     => 'Invalid session',
-        101     => '错误的参数提交',
-        200     => '用户名不能为空',
-        201     => '用户名含有敏感字符',
-        202     => '用户名 已经存在',
-        203     => 'email不能为空',
-        204     => '不是合法的email地址',
-        300     => '对不起，指定的商品不存在',
-        301     => '对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。',
-        302     => '对不起，该商品已经下架。',
-        303     => '对不起，该商品不能单独销售。',
-        501     => '没有pagination结构',
-        502     => 'code错误',
-        503     => '合同期终止',
-        10001   => '您必须选定一个配送方式',
-        10002   => '购物车中没有商品',
-        10003   => '您的余额不足以支付整个订单，请选择其他支付方式。',
-        10005   => '您选择的超值礼包数量已经超出库存。请您减少购买量或联系商家。',
-        10006   => '如果是团购，且保证金大于0，不能使用货到付款',
-        10007   => '您已收藏过此商品',
-        10008   => '库存不足',
-        10009   => '订单无发货信息',
-        10010   => '该订单已经支付，请勿重复支付。',
-        99999   => '该网店暂停注册'
-    ];
 
     public function __construct($code, $message = null)
     {
         if (is_ecjia_error($code)) {
             parent::__construct($code->get_error_code(), $code->get_error_message(), $code->get_error_data());
-        }
-        else {
+        } else {
             parent::__construct($code, $message);
         }
+
+        ApiErrorCodes::$errorCodes = RC_Hook::apply_filters('api_error_code_filter', ApiErrorCodes::$errorCodes);
     }
 
     public function toArray()
     {
-        $data = array(
-            'status' => array(
-                'succeed' => 0,
-                'error_code' => $this->getCode(),
-                'error_desc' => $this->getMessage(),
-            )
-        );
-        return $data;
+        return (new ApiStatusError($this->getCode(), $this->getMessage()))->toArray();
     }
 
     public function toJson($options = 0)
@@ -135,7 +97,7 @@ class ApiError extends ecjia_error implements Arrayable, Jsonable
     public function getMessage()
     {
         if (empty($this->get_error_message())) {
-            return array_get(self::$errorCodes, $this->get_error_code(), $this->get_error_code());
+            return array_get(ApiErrorCodes::$errorCodes, $this->get_error_code(), $this->get_error_code());
         }
 
         return $this->get_error_message();
