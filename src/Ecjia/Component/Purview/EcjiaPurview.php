@@ -46,6 +46,7 @@
 //
 namespace Ecjia\Component\Purview;
 
+use Ecjia\Component\Purview\Contracts\PurviewLoaderInterface;
 use ecjia_app;
 use InvalidArgumentException;
 use RC_Api;
@@ -58,120 +59,130 @@ use RC_Object;
  */
 class EcjiaPurview extends RC_Object
 {
+    use EcjiaPurviewTrait;
+
     /**
      * 所有权限的数组
-     * 
+     *
      * @var array
      */
     protected $purviews = array();
-    
+
     /**
      * 获取安装的应用目录
-     * 
+     *
+     * @var array
+     */
+    protected $apps = [];
+
+    /**
+     * Purview Loader
+     * @var PurviewLoaderInterface[]
+     */
+    protected $loaders = [];
+
+    /**
+     * EcjiaPurview constructor.
+     * @param array $apps
+     */
+    public function __construct(array $apps = [])
+    {
+        if (empty($apps)) {
+            $this->apps = $this->installedAppFolders();
+        }
+        else {
+            $this->apps = $apps;
+        }
+
+        $this->handleLoader();
+    }
+
+    /**
+     * 加载权限
+     */
+    protected function handleLoader()
+    {
+        $this->addPurviewLoader(new SystemPurivewLoader($this));
+        $this->addPurviewLoader(new AppPurviewLoader($this));
+    }
+
+    /**
+     * @param PurviewLoaderInterface $loader
+     * @return $this
+     */
+    public function addPurviewLoader(PurviewLoaderInterface $loader)
+    {
+        $this->loaders[] = $loader;
+        return $this;
+    }
+
+    /**
+     * @return PurviewLoaderInterface[]
+     */
+    public function getPurivewLoaders()
+    {
+        return $this->loaders;
+    }
+
+    /**
      * @return array
      */
-    protected function installedAppFloders() {
+    public function getApps(): array
+    {
+        return $this->apps;
+    }
+
+
+    /**
+     * 获取安装的应用目录
+     *
+     * @return array
+     */
+    protected function installedAppFolders()
+    {
         $apps = ecjia_app::installed_app_floders();
         return $apps;
-    }
-    
-    /**
-     * 载入系统权限
-     * 
-     * @param string $priv_str
-     */
-    protected function loadSystemPurivew($priv_str)
-    {
-        $this->purviews[] = $this->requestSystemPurivewApi($priv_str);
-    }
-    
-    /**
-     * 请求系统权限API，获取配置数据
-     * 
-     * @param string $priv_str
-     * @return array
-     */
-    private function requestSystemPurivewApi($priv_str = '') {
-        $res = RC_Api::api('system', 'system_purview');
-        if (!empty($priv_str)) {
-            foreach ($res as $priv_key => $purview) {
-                $res[$priv_key]['cando'] = ($this->checkPurivew($priv_str, $purview['action_code']) || $priv_str == 'all') ? 1 : 0;
-            }
-        }
-    
-        $app_priv_group = array(
-            'group_name' => __('系统', 'ecjia'),
-            'group_code' => 'system',
-            'group_purview' => $res
-        );
-    
-        return $app_priv_group;
     }
 
     /**
      * 加载各应用权限
      * @return array
      */
-    public function loadPurview($priv_str = '') {
-        $this->loadSystemPurivew($priv_str);
-        
-        $apps = $this->installedAppFloders();
-        foreach ($apps as $app) {
-            $res = $this->loadAppPurview($app);
-            if ($res) {
-                if (!empty($priv_str)) {
-                    foreach ($res['group_purview'] as $priv_key => $purview) {
-                        $res['group_purview'][$priv_key]['cando'] = ($this->checkPurivew($priv_str, $purview['action_code']) || $priv_str == 'all') ? 1 : 0;
-                    }
-                }
-                $this->purviews[] = $res;
-            }
-        }
+    public function loadPurview($priv_str = '')
+    {
+        $purviews = collect($this->loaders)->map(function ($loader) {
+            return $loader->getPurviews();
+        })->collapse()->map(function ($item) use ($priv_str) {
+            return $this->render($item, $priv_str);
+        })->toArray();
+
+        $this->purviews = $purviews;
+
         return $this->purviews;
     }
-    
-    /**
-     * 加载应用权限具体操作
-     * @param string $app_dir
-     */
-    protected function loadAppPurview($app_dir) {
-        try {
-            if (! RC_App::hasAlias($app_dir)) return false;
-            
-            $res = $this->requestPurviewApi($app_dir);
-    
-            if ($res) {
-                $appinfo = RC_App::driver($app_dir);
-                $app_name = $appinfo->getPackage('format_name') ?: $appinfo->getPackage('name');
-                $app_priv_group = array(
-                    'group_name' => $app_name,
-                    'group_code' => $app_dir,
-                    'group_purview' => $res
-                );
-                return $app_priv_group;
-            }
-            return false;
-        } catch (InvalidArgumentException $e) {
-            ecjia_log_notice($e);
-        }
-    }
-    
-    /**
-     * 请求权限API，获取配置数据
-     * @param string $app_dir
-     */
-    protected function requestPurviewApi($app_dir)
+
+    public function render($group, $priv_str)
     {
-        $res = RC_Api::api($app_dir, 'admin_purview');
-        return $res;
+        $group['group_purview'] = collect($group['group_purview'])->map(function ($item) use ($priv_str) {
+            if (!empty($priv_str)) {
+                $item['cando'] = ($this->checkPurivew($priv_str, $item['action_code']) || $priv_str == 'all') ? 1 : 0;
+            }
+            else {
+                $item['cando'] = 0;
+            }
+            return $item;
+        })->toArray();
+
+        return $group;
     }
-    
+
     /**
      * 检测动作是否在权限字符串内
      * @param string $priv_str
      * @param string $action_code
      */
-    public function checkPurivew($priv_str, $action_code) {
+    public function checkPurivew($priv_str, $action_code)
+    {
         $priv_arr = explode(',', $priv_str);
         if (in_array($action_code, $priv_arr)) {
             return true;
@@ -179,32 +190,17 @@ class EcjiaPurview extends RC_Object
             return false;
         }
     }
-    
+
     /**
      * 获取应用权限数组
-     * @return array:
-     */
-    public function getPurviews() {
-        return $this->purviews;
-    }
-    
-    /**
-     * 加载各应用权限
-     *
      * @return array
      */
-    public static function load_purview($priv_str = '') {
-        return static::singleton()->loadPurview($priv_str);
+    public function getPurviews()
+    {
+        return $this->purviews;
     }
-    
-    /**
-     * 检测动作是否在权限字符串内
-     * @param string $priv_str
-     * @param string $action_code
-     */
-    public static function check_purivew($priv_str, $action_code) {
-        return static::singleton()->checkPurivew($priv_str, $action_code);
-    }
+
+
 }
 
 
