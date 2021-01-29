@@ -19,18 +19,18 @@ class SourceDataRender implements \Illuminate\Contracts\Support\Renderable
     {
         $responseData = $this->makeSucceedStatus();
 
-        if (isset($data['data'])) {
-            $responseData['data'] = $data['data'];
+        if (isset($this->sourceData['data'])) {
+            $responseData['data'] = $this->sourceData['data'];
         } else {
-            $responseData['data'] = $data;
+            $responseData['data'] = $this->sourceData;
         }
 
-        if (isset($data['pager'])) {
-            $responseData['paginated'] = $data['pager'];
+        if (isset($this->sourceData['pager'])) {
+            $responseData['paginated'] = $this->sourceData['pager'];
         }
 
-        if (isset($data['privilege'])) {
-            $responseData['privilege'] = $data['privilege'];
+        if (isset($this->sourceData['privilege'])) {
+            $responseData['privilege'] = $this->sourceData['privilege'];
         }
 
         return json_encode($responseData);
