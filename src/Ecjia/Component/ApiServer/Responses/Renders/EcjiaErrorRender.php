@@ -2,6 +2,7 @@
 namespace Ecjia\Component\ApiServer\Responses\Renders;
 
 use Ecjia\Component\ApiServer\Responses\ApiError;
+use ecjia_error;
 
 class EcjiaErrorRender implements \Illuminate\Contracts\Support\Renderable
 {
