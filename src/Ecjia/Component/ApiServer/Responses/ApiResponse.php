@@ -68,6 +68,8 @@ class ApiResponse extends Response
      */
     public function setContent($data)
     {
+        $this->header('Content-Type', 'application/json');
+        
         if (is_ecjia_error($data)) {
             $content = new EcjiaErrorRender($data);
         }
@@ -77,6 +79,9 @@ class ApiResponse extends Response
         }
         elseif (is_array($data)) {
             $content = new SourceDataRender($data);
+        }
+        else {
+            $content = $data;
         }
 
         return parent::setContent($content);
