@@ -53,14 +53,14 @@
 
 namespace Ecjia\Component\ApiServer\Responses;
 
+use Ecjia\Component\ApiServer\Responses\Renders\ApiResponseContentRender;
+use Ecjia\Component\ApiServer\Responses\Renders\EcjiaErrorRender;
+use Ecjia\Component\ApiServer\Responses\Renders\SourceDataRender;
 use Royalcms\Component\Http\Response;
 
 class ApiResponse extends Response
 {
-
     protected $sourceData = array();
-
-    protected $responseData = array();
 
     /**
      * Set the content on the response.
@@ -73,36 +73,17 @@ class ApiResponse extends Response
         $this->sourceData = $data;
 
         if (is_ecjia_error($this->sourceData)) {
-            $this->responseData = new ApiError($this->sourceData);
-        } else {
-            $this->responseData = $this->makeSucceedStatus();
-
-            if (isset($data['data'])) {
-                $this->responseData['data'] = $data['data'];
-            } else {
-                $this->responseData['data'] = $data;
-            }
-
-            if (isset($data['pager'])) {
-                $this->responseData['paginated'] = $data['pager'];
-            }
-
-            if (isset($data['privilege'])) {
-                $this->responseData['privilege'] = $data['privilege'];
-            }
+            $content = new EcjiaErrorRender($this->sourceData);
+        }
+        elseif ($this->sourceData instanceof ApiResponseContent)
+        {
+            $content = new ApiResponseContentRender($this->sourceData);
+        }
+        elseif (is_array($this->sourceData)) {
+            $content = new SourceDataRender($this->sourceData);
         }
 
         return parent::setContent($this->responseData);
-    }
-
-    public function setOriginalContent($content)
-    {
-        return parent::setContent($content);
-    }
-
-    protected function makeSucceedStatus()
-    {
-        return array('data' => array(), 'status' => array('succeed' => 1));
     }
 
 }
