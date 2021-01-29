@@ -83,7 +83,7 @@ class ApiResponse extends Response
             $content = new SourceDataRender($this->sourceData);
         }
 
-        return parent::setContent($this->responseData);
+        return parent::setContent($content);
     }
 
 }
