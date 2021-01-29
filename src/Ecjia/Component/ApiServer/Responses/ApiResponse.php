@@ -60,8 +60,6 @@ use Royalcms\Component\Http\Response;
 
 class ApiResponse extends Response
 {
-    protected $sourceData = array();
-
     /**
      * Set the content on the response.
      *
@@ -70,17 +68,15 @@ class ApiResponse extends Response
      */
     public function setContent($data)
     {
-        $this->sourceData = $data;
-
-        if (is_ecjia_error($this->sourceData)) {
-            $content = new EcjiaErrorRender($this->sourceData);
+        if (is_ecjia_error($data)) {
+            $content = new EcjiaErrorRender($data);
         }
-        elseif ($this->sourceData instanceof ApiResponseContent)
+        elseif ($data instanceof ApiResponseContent)
         {
-            $content = new ApiResponseContentRender($this->sourceData);
+            $content = new ApiResponseContentRender($data);
         }
-        elseif (is_array($this->sourceData)) {
-            $content = new SourceDataRender($this->sourceData);
+        elseif (is_array($data)) {
+            $content = new SourceDataRender($data);
         }
 
         return parent::setContent($content);
